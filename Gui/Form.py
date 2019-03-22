@@ -75,7 +75,7 @@ def onDrawClicked():
     signal = SignalTypeSelector.SignalTypeSelector(config).getSignal()
     plt.subplot(2, 1, 1)
     x = signal.getTime()
-    y = signal.getSignal(x)
+    y = signal.getSignal()
     plt.plot(x, y, '-', markersize=0.9)
     plt.subplot(2, 1, 2)
     plt.hist(y, bins=100)

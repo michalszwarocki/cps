@@ -16,7 +16,9 @@ class Signal:
         self.timeline = np.linspace(time0, time0 + time, time * sample + 1)
         self.signal = lambda t: t * 0
 
-    def getSignal(self, time):
+    def getSignal(self, time=None):
+        if time is None:
+            time = self.timeline
         return self.signal(time)
 
     def getTime(self):
