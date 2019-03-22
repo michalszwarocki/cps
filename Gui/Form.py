@@ -57,7 +57,9 @@ def readConfiguration():
     ampli = float(Form_support.entry4.get())
     samples = float(Form_support.entry5.get())
     type = Form_support.var1.get()
-    return [t0, time, freq, ampli, samples, type]
+    infil = float(Form_support.entry6.get())
+    noise = Form_support.var2.get()
+    return [t0, time, freq, ampli, samples, type, infil, noise]
 
 def onDrawClicked():
     config = readConfiguration()
@@ -183,6 +185,15 @@ class Toplevel1:
         self.Entry5.configure(insertbackground="black")
         self.Entry5.configure(textvariable=Form_support.entry5)
 
+        self.Entry6 = tk.Entry(self.Frame1)
+        self.Entry6.place(relx=0.528, rely=0.754, height=20, relwidth=0.262)
+        self.Entry6.configure(background="white")
+        self.Entry6.configure(disabledforeground="#a3a3a3")
+        self.Entry6.configure(font="TkFixedFont")
+        self.Entry6.configure(foreground="#000000")
+        self.Entry6.configure(insertbackground="black")
+        self.Entry6.configure(textvariable=Form_support.entry6)
+
         self.Label7 = tk.Label(self.Frame1)
         self.Label7.place(relx=0.816, rely=0.302, height=21, width=20)
         self.Label7.configure(background="#d9d9d9")
@@ -219,14 +230,39 @@ class Toplevel1:
         self.Label12.configure(foreground="#000000")
         self.Label12.configure(text='''TYP''')
 
+        self.Label20 = tk.Label(self.Frame1)
+        self.Label20.place(relx=0.16, rely=0.755, height=21, width=187)
+        self.Label20.configure(background="#d9d9d9")
+        self.Label20.configure(disabledforeground="#a3a3a3")
+        self.Label20.configure(foreground="#000000")
+        self.Label20.configure(text='''WSPÓŁCZYNNIK WYPEŁNIENIA''')
+
         self.TCombobox1 = ttk.Combobox(self.Frame1)
         self.TCombobox1.place(relx=0.528, rely=0.642, relheight=0.079
                 , relwidth=0.261)
         self.TCombobox1.configure(width=163)
         self.TCombobox1.configure(takefocus="")
         self.TCombobox1.configure(textvariable=Form_support.var1)
-        self.TCombobox1.configure(values=["sinus", "sinus wyprostowany jednopołówkowo", "sinus wyprostowany dwupołówkowo"])
+        self.TCombobox1.configure(values=["sinus", "sinus wyprostowany jednopołówkowo", "sinus wyprostowany dwupołówkowo",
+                                          "prostokątny", "prostokatny symetryczny"])
         self.TCombobox1.current(0)
+
+        self.Label21 = tk.Label(self.Frame1)
+        self.Label21.place(relx=0.288, rely=0.867, height=21, width=30)
+        self.Label21.configure(background="#d9d9d9")
+        self.Label21.configure(disabledforeground="#a3a3a3")
+        self.Label21.configure(foreground="#000000")
+        self.Label21.configure(text='''SZUM''')
+
+        self.TCombobox2 = ttk.Combobox(self.Frame1)
+        self.TCombobox2.place(relx=0.528, rely=0.867, relheight=0.079
+                              , relwidth=0.261)
+        self.TCombobox2.configure(width=163)
+        self.TCombobox2.configure(takefocus="")
+        self.TCombobox2.configure(textvariable=Form_support.var2)
+        self.TCombobox2.configure(
+            values=["brak", "gaussowski", "o rozkładzie jednostajnym", "impulsowy"])
+        self.TCombobox2.current(0)
 
         self.Frame2 = tk.Frame(top)
         self.Frame2.place(relx=0.03, rely=0.447, relheight=0.485, relwidth=0.946)

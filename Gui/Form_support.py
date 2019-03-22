@@ -20,19 +20,22 @@ except ImportError:
     py3 = True
 
 def set_Tk_var():
-    global entry1, entry2, entry3, entry4, entry5
-    global var1
+    global entry1, entry2, entry3, entry4, entry5, entry6
+    global var1, var2
     entry1 = tk.StringVar()
     entry2 = tk.StringVar()
     entry3 = tk.StringVar()
     entry4 = tk.StringVar()
     entry5 = tk.StringVar()
+    entry6 = tk.StringVar()
     var1 = tk.StringVar()
+    var2 = tk.StringVar()
     entry1.set('0')
-    entry2.set('1')
+    entry2.set('3')
     entry3.set('2')
     entry4.set('1')
     entry5.set('200')
+    entry6.set('0.5')
 
 def init(top, gui, *args, **kwargs):
     global w, top_level, root
