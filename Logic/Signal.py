@@ -34,7 +34,7 @@ class Signal:
 
     def setHalfStraight(self):
         self.signal = lambda t: 0.5 * self.amp * (
-                    np.sin(2 * np.pi * self.freq * t) + np.abs(np.sin(2 * np.pi * self.freq * t)))
+                np.sin(2 * np.pi * self.freq * t) + np.abs(np.sin(2 * np.pi * self.freq * t)))
         return self
 
     def setFullStraight(self):
@@ -63,3 +63,6 @@ class Signal:
         # self.signal -= self.amp
         return self
 
+    def setSingleJump(self, ts=0):
+        self.signal = lambda t: (t > ts) * np.ones(t.shape) * self.amp
+        return self
