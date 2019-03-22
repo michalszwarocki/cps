@@ -57,7 +57,7 @@ class Signal:
         return self
 
     def setAsSyncRectangle(self, infil=0.5):
-        self.signal = lambda t: (t % self.freq < self.freq * infil) * np.ones(t.shape) * self.amp
+        self.signal = lambda t: (t % self.freq < self.freq * infil) * np.ones(t.shape) * self.amp * 2 - self.amp
         # self.signal = np.ones(self.signal.shape) * self.amp * 2
         # x = np.where(self.timeline % self.freq > self.freq * infil)
         # self.signal[x] = 0
