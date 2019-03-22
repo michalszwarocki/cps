@@ -16,7 +16,7 @@ class SignalTypeSelector:
             self.signal.setFullStraight()
         elif config == 'prostokątny':
             self.signal.setAsRectangle(infil)
-        elif config == 'prostokątny symetryczny':
+        elif config == 'prostokatny symetryczny':
             self.signal.setAsSyncRectangle(infil)
 
     def setNoise(self, noise):
