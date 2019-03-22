@@ -13,7 +13,7 @@ class Signal:
         self.time = time
         self.freq = freq
         self.amp = alt
-        self.timeline = np.linspace(time0, time0 + time, time * sample)
+        self.timeline = np.linspace(time0, time0 + time, time * sample + 1)
         self.signal = lambda t: t * 0
 
     def getSignal(self, time):
@@ -57,12 +57,18 @@ class Signal:
 
     def setAsSyncRectangle(self, infil=0.5):
         self.signal = lambda t: (t % self.freq < self.freq * infil) * np.ones(t.shape) * self.amp * 2 - self.amp
-        # self.signal = np.ones(self.signal.shape) * self.amp * 2
-        # x = np.where(self.timeline % self.freq > self.freq * infil)
-        # self.signal[x] = 0
-        # self.signal -= self.amp
         return self
 
     def setSingleJump(self, ts=0):
         self.signal = lambda t: (t > ts) * np.ones(t.shape) * self.amp
         return self
+
+    def setImpulse(self, possibility=0.5):
+        self.signal = lambda t: np.random.choice([0, 1], size=t.shape, p=[1 - possibility, possibility])
+        return self
+
+    def setTriangle(self):
+        return self
+
+
+
