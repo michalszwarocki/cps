@@ -46,7 +46,6 @@ class Signal:
         return self
 
     def setUniformNoise(self):
-        '''not working so far :('''
         self.signal = lambda t: np.random.uniform(-self.amp, self.amp, t.shape)
         return self
 
