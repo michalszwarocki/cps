@@ -254,7 +254,7 @@ class Toplevel1:
         self.TCombobox1.configure(takefocus="")
         self.TCombobox1.configure(textvariable=Form_support.var1)
         self.TCombobox1.configure(
-            values=["sinus", "sinus wyprostowany jednopołówkowo", "sinus wyprostowany dwupołówkowo",
+            values=["brak", "sinus", "sinus wyprostowany jednopołówkowo", "sinus wyprostowany dwupołówkowo",
                     "prostokątny", "prostokatny symetryczny", "skok jednostkowy"])
         self.TCombobox1.current(0)
 
