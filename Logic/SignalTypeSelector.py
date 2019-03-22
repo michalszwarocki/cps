@@ -4,10 +4,10 @@ import Logic.Signal as Signal
 class SignalTypeSelector:
     def __init__(self, configuration):
         self.signal = Signal.Signal(configuration[0], configuration[1], configuration[2], configuration[3], configuration[4])
-        self.setType(configuration[5], configuration[6])
+        self.setType(configuration[5], configuration[6], configuration[8])
         self.setNoise(configuration[7])
 
-    def setType(self, config, infil):
+    def setType(self, config, infil, jumpMoment):
         if (config == 'sinus'):
             self.signal.setAsSin()
         elif (config == 'sinus wyprostowany jednopołówkowo'):
@@ -18,6 +18,8 @@ class SignalTypeSelector:
             self.signal.setAsRectangle(infil)
         elif config == 'prostokatny symetryczny':
             self.signal.setAsSyncRectangle(infil)
+        elif config == 'skok jednostkowy':
+            self.signal.setSingleJump(jumpMoment)
 
     def setNoise(self, noise):
         if(noise == 'gaussowski'):

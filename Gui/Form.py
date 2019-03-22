@@ -14,41 +14,48 @@ except ImportError:
 
 try:
     import ttk
+
     py3 = False
 except ImportError:
     import tkinter.ttk as ttk
+
     py3 = True
 
 import Gui.Form_support as Form_support
 import Logic.SignalTypeSelector as SignalTypeSelector
 import matplotlib.pyplot as plt
 
+
 def start_Gui():
     '''Starting point when module is the main routine.'''
     global val, w, root, draw
     root = tk.Tk()
     Form_support.set_Tk_var()
-    top = Toplevel1 (root)
+    top = Toplevel1(root)
     Form_support.init(root, top)
     root.mainloop()
+
 
 def create_Toplevel1(root, *args, **kwargs):
     '''Starting point when module is imported by another program.'''
     global w, w_win, rt
     rt = root
-    w = tk.Toplevel (root)
+    w = tk.Toplevel(root)
     Form_support.set_Tk_var()
-    top = Toplevel1 (w)
+    top = Toplevel1(w)
     Form_support.init(w, top, *args, **kwargs)
     return (w, top)
+
 
 def destroy_Toplevel1():
     global w
     w.destroy()
     w = None
 
+
 def destroy_Window():
     root.destroy()
+
 
 def readConfiguration():
     t0 = float(Form_support.entry1.get())
@@ -59,7 +66,9 @@ def readConfiguration():
     type = Form_support.var1.get()
     infil = float(Form_support.entry6.get())
     noise = Form_support.var2.get()
-    return [t0, time, freq, ampli, samples, type, infil, noise]
+    jumpMoment = float(Form_support.entry7.get())
+    return [t0, time, freq, ampli, samples, type, infil, noise, jumpMoment]
+
 
 def onDrawClicked():
     config = readConfiguration()
@@ -72,30 +81,31 @@ def onDrawClicked():
     plt.hist(y, bins=100)
     plt.show()
 
+
 class Toplevel1:
     def __init__(self, top=None):
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
         _bgcolor = '#d9d9d9'  # X11 color: 'gray85'
         _fgcolor = '#000000'  # X11 color: 'black'
-        _compcolor = '#d9d9d9' # X11 color: 'gray85'
-        _ana1color = '#d9d9d9' # X11 color: 'gray85'
-        _ana2color = '#ececec' # Closest X11 color: 'gray92'
+        _compcolor = '#d9d9d9'  # X11 color: 'gray85'
+        _ana1color = '#d9d9d9'  # X11 color: 'gray85'
+        _ana2color = '#ececec'  # Closest X11 color: 'gray92'
         self.style = ttk.Style()
         if sys.platform == "win32":
             self.style.theme_use('winnative')
-        self.style.configure('.',background=_bgcolor)
-        self.style.configure('.',foreground=_fgcolor)
-        self.style.configure('.',font="TkDefaultFont")
-        self.style.map('.',background=
-            [('selected', _compcolor), ('active',_ana2color)])
+        self.style.configure('.', background=_bgcolor)
+        self.style.configure('.', foreground=_fgcolor)
+        self.style.configure('.', font="TkDefaultFont")
+        self.style.map('.', background=
+        [('selected', _compcolor), ('active', _ana2color)])
 
         top.geometry("661x649+411+24")
         top.title("Generowanie sygnałów")
         top.configure(background="#d9d9d9")
 
         self.Frame1 = tk.Frame(top)
-        self.Frame1.place(relx=0.03, rely=0.031, relheight=0.408, relwidth=0.946)
+        self.Frame1.place(relx=0.03, rely=0.031, relheight=0.558, relwidth=0.946)
 
         self.Frame1.configure(relief='groove')
         self.Frame1.configure(borderwidth="2")
@@ -112,7 +122,7 @@ class Toplevel1:
         self.Label1.configure(width=144)
 
         self.Label3 = tk.Label(self.Frame1)
-        self.Label3.place(relx=0.224, rely=0.189, height=21, width=114)
+        self.Label3.place(relx=0.224, rely=0.169, height=21, width=114)
         self.Label3.configure(background="#d9d9d9")
         self.Label3.configure(disabledforeground="#a3a3a3")
         self.Label3.configure(foreground="#000000")
@@ -120,14 +130,14 @@ class Toplevel1:
         self.Label3.configure(width=114)
 
         self.Label4 = tk.Label(self.Frame1)
-        self.Label4.place(relx=0.192, rely=0.302, height=21, width=154)
+        self.Label4.place(relx=0.192, rely=0.282, height=21, width=154)
         self.Label4.configure(background="#d9d9d9")
         self.Label4.configure(disabledforeground="#a3a3a3")
         self.Label4.configure(foreground="#000000")
         self.Label4.configure(text='''CZĘSTOTLIWOŚĆ SYGNAŁU''')
 
         self.Entry1 = tk.Entry(self.Frame1)
-        self.Entry1.place(relx=0.528, rely=0.075,height=20, relwidth=0.262)
+        self.Entry1.place(relx=0.528, rely=0.075, height=20, relwidth=0.262)
         self.Entry1.configure(background="#ffffff")
         self.Entry1.configure(disabledforeground="#a3a3a3")
         self.Entry1.configure(font="TkFixedFont")
@@ -136,7 +146,7 @@ class Toplevel1:
         self.Entry1.configure(textvariable=Form_support.entry1)
 
         self.Entry2 = tk.Entry(self.Frame1)
-        self.Entry2.place(relx=0.528, rely=0.189,height=20, relwidth=0.262)
+        self.Entry2.place(relx=0.528, rely=0.169, height=20, relwidth=0.262)
         self.Entry2.configure(background="white")
         self.Entry2.configure(disabledforeground="#a3a3a3")
         self.Entry2.configure(font="TkFixedFont")
@@ -145,7 +155,7 @@ class Toplevel1:
         self.Entry2.configure(textvariable=Form_support.entry2)
 
         self.Entry3 = tk.Entry(self.Frame1)
-        self.Entry3.place(relx=0.528, rely=0.302,height=20, relwidth=0.262)
+        self.Entry3.place(relx=0.528, rely=0.282, height=20, relwidth=0.262)
         self.Entry3.configure(background="white")
         self.Entry3.configure(disabledforeground="#a3a3a3")
         self.Entry3.configure(font="TkFixedFont")
@@ -154,21 +164,21 @@ class Toplevel1:
         self.Entry3.configure(textvariable=Form_support.entry3)
 
         self.Label5 = tk.Label(self.Frame1)
-        self.Label5.place(relx=0.256, rely=0.415, height=21, width=72)
+        self.Label5.place(relx=0.256, rely=0.395, height=21, width=72)
         self.Label5.configure(background="#d9d9d9")
         self.Label5.configure(disabledforeground="#a3a3a3")
         self.Label5.configure(foreground="#000000")
         self.Label5.configure(text='''AMPLITUDA''')
 
         self.Label6 = tk.Label(self.Frame1)
-        self.Label6.place(relx=0.16, rely=0.528, height=21, width=187)
+        self.Label6.place(relx=0.16, rely=0.508, height=21, width=187)
         self.Label6.configure(background="#d9d9d9")
         self.Label6.configure(disabledforeground="#a3a3a3")
         self.Label6.configure(foreground="#000000")
         self.Label6.configure(text='''CZĘSTOTLIWOŚĆ PRÓBKOWANIA''')
 
         self.Entry4 = tk.Entry(self.Frame1)
-        self.Entry4.place(relx=0.528, rely=0.415,height=20, relwidth=0.262)
+        self.Entry4.place(relx=0.528, rely=0.395, height=20, relwidth=0.262)
         self.Entry4.configure(background="white")
         self.Entry4.configure(disabledforeground="#a3a3a3")
         self.Entry4.configure(font="TkFixedFont")
@@ -177,7 +187,7 @@ class Toplevel1:
         self.Entry4.configure(textvariable=Form_support.entry4)
 
         self.Entry5 = tk.Entry(self.Frame1)
-        self.Entry5.place(relx=0.528, rely=0.528,height=20, relwidth=0.262)
+        self.Entry5.place(relx=0.528, rely=0.508, height=20, relwidth=0.262)
         self.Entry5.configure(background="white")
         self.Entry5.configure(disabledforeground="#a3a3a3")
         self.Entry5.configure(font="TkFixedFont")
@@ -186,7 +196,7 @@ class Toplevel1:
         self.Entry5.configure(textvariable=Form_support.entry5)
 
         self.Entry6 = tk.Entry(self.Frame1)
-        self.Entry6.place(relx=0.528, rely=0.754, height=20, relwidth=0.262)
+        self.Entry6.place(relx=0.528, rely=0.734, height=20, relwidth=0.262)
         self.Entry6.configure(background="white")
         self.Entry6.configure(disabledforeground="#a3a3a3")
         self.Entry6.configure(font="TkFixedFont")
@@ -195,21 +205,21 @@ class Toplevel1:
         self.Entry6.configure(textvariable=Form_support.entry6)
 
         self.Label7 = tk.Label(self.Frame1)
-        self.Label7.place(relx=0.816, rely=0.302, height=21, width=20)
+        self.Label7.place(relx=0.816, rely=0.282, height=21, width=20)
         self.Label7.configure(background="#d9d9d9")
         self.Label7.configure(disabledforeground="#a3a3a3")
         self.Label7.configure(foreground="#000000")
         self.Label7.configure(text='''Hz''')
 
         self.Label9 = tk.Label(self.Frame1)
-        self.Label9.place(relx=0.816, rely=0.528, height=21, width=20)
+        self.Label9.place(relx=0.816, rely=0.508, height=21, width=20)
         self.Label9.configure(background="#d9d9d9")
         self.Label9.configure(disabledforeground="#a3a3a3")
         self.Label9.configure(foreground="#000000")
         self.Label9.configure(text='''Hz''')
 
         self.Label10 = tk.Label(self.Frame1)
-        self.Label10.place(relx=0.816, rely=0.189, height=21, width=11)
+        self.Label10.place(relx=0.816, rely=0.169, height=21, width=11)
         self.Label10.configure(background="#d9d9d9")
         self.Label10.configure(disabledforeground="#a3a3a3")
         self.Label10.configure(foreground="#000000")
@@ -224,38 +234,39 @@ class Toplevel1:
         self.Label11.configure(text='''s''')
 
         self.Label12 = tk.Label(self.Frame1)
-        self.Label12.place(relx=0.288, rely=0.642, height=21, width=27)
+        self.Label12.place(relx=0.288, rely=0.622, height=21, width=27)
         self.Label12.configure(background="#d9d9d9")
         self.Label12.configure(disabledforeground="#a3a3a3")
         self.Label12.configure(foreground="#000000")
         self.Label12.configure(text='''TYP''')
 
         self.Label20 = tk.Label(self.Frame1)
-        self.Label20.place(relx=0.16, rely=0.755, height=21, width=187)
+        self.Label20.place(relx=0.16, rely=0.735, height=21, width=187)
         self.Label20.configure(background="#d9d9d9")
         self.Label20.configure(disabledforeground="#a3a3a3")
         self.Label20.configure(foreground="#000000")
         self.Label20.configure(text='''WSPÓŁCZYNNIK WYPEŁNIENIA''')
 
         self.TCombobox1 = ttk.Combobox(self.Frame1)
-        self.TCombobox1.place(relx=0.528, rely=0.642, relheight=0.079
-                , relwidth=0.261)
+        self.TCombobox1.place(relx=0.528, rely=0.622, relheight=0.079
+                              , relwidth=0.261)
         self.TCombobox1.configure(width=163)
         self.TCombobox1.configure(takefocus="")
         self.TCombobox1.configure(textvariable=Form_support.var1)
-        self.TCombobox1.configure(values=["sinus", "sinus wyprostowany jednopołówkowo", "sinus wyprostowany dwupołówkowo",
-                                          "prostokątny", "prostokatny symetryczny"])
+        self.TCombobox1.configure(
+            values=["sinus", "sinus wyprostowany jednopołówkowo", "sinus wyprostowany dwupołówkowo",
+                    "prostokątny", "prostokatny symetryczny", "skok jednostkowy"])
         self.TCombobox1.current(0)
 
         self.Label21 = tk.Label(self.Frame1)
-        self.Label21.place(relx=0.288, rely=0.867, height=21, width=30)
+        self.Label21.place(relx=0.288, rely=0.817, height=21, width=30)
         self.Label21.configure(background="#d9d9d9")
         self.Label21.configure(disabledforeground="#a3a3a3")
         self.Label21.configure(foreground="#000000")
         self.Label21.configure(text='''SZUM''')
 
         self.TCombobox2 = ttk.Combobox(self.Frame1)
-        self.TCombobox2.place(relx=0.528, rely=0.867, relheight=0.079
+        self.TCombobox2.place(relx=0.528, rely=0.817, relheight=0.079
                               , relwidth=0.261)
         self.TCombobox2.configure(width=163)
         self.TCombobox2.configure(takefocus="")
@@ -264,8 +275,24 @@ class Toplevel1:
             values=["brak", "gaussowski", "o rozkładzie jednostajnym", "impulsowy"])
         self.TCombobox2.current(0)
 
+        self.Label22 = tk.Label(self.Frame1)
+        self.Label22.place(relx=0.16, rely=0.930, height=21, width=187)
+        self.Label22.configure(background="#d9d9d9")
+        self.Label22.configure(disabledforeground="#a3a3a3")
+        self.Label22.configure(foreground="#000000")
+        self.Label22.configure(text='''MOMENT SKOKU''')
+
+        self.Entry7 = tk.Entry(self.Frame1)
+        self.Entry7.place(relx=0.528, rely=0.930, height=20, relwidth=0.262)
+        self.Entry7.configure(background="white")
+        self.Entry7.configure(disabledforeground="#a3a3a3")
+        self.Entry7.configure(font="TkFixedFont")
+        self.Entry7.configure(foreground="#000000")
+        self.Entry7.configure(insertbackground="black")
+        self.Entry7.configure(textvariable=Form_support.entry7)
+
         self.Frame2 = tk.Frame(top)
-        self.Frame2.place(relx=0.03, rely=0.447, relheight=0.485, relwidth=0.946)
+        self.Frame2.place(relx=0.03, rely=0.6, relheight=0.405, relwidth=0.946)
 
         self.Frame2.configure(relief='groove')
         self.Frame2.configure(borderwidth="2")
@@ -306,7 +333,7 @@ class Toplevel1:
         self.Button2.configure(pady="0")
         self.Button2.configure(text='''Rysuj''')
         self.Button2.configure(width=77)
-        self.Button2.configure(command=lambda : onDrawClicked())
+        self.Button2.configure(command=lambda: onDrawClicked())
 
         self.Label2 = tk.Label(top)
         self.Label2.place(relx=0.454, rely=0.0, height=21, width=50)
@@ -314,9 +341,3 @@ class Toplevel1:
         self.Label2.configure(disabledforeground="#a3a3a3")
         self.Label2.configure(foreground="#000000")
         self.Label2.configure(text='''SYGNAŁ''')
-
-
-
-
-
-
