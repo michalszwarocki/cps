@@ -52,7 +52,8 @@ class Signal:
         return self
 
     def setAsRectangle(self, infil=0.5):
-        self.signal = lambda t: (t % self.freq < self.freq * infil) * np.ones(t.shape) * self.amp
+        print(self.freq, 1 / self.freq)
+        self.signal = lambda t: (t % (1 / self.freq) < (1 / self.freq) * infil) * np.ones(t.shape) * self.amp
         # x = np.where(self.timeline % self.freq > self.freq * infil)
         # self.signal[x] = 0
         return self
@@ -69,8 +70,10 @@ class Signal:
         self.signal = lambda t: np.random.choice([0, 1], size=t.shape, p=[1 - possibility, possibility])
         return self
 
-    def setTriangle(self):
+    def setTriangle(self, infil=0.5):
+        okres = 1 / self.freq
+        self.signal = lambda t: (t % okres <= (okres * infil)) * (
+                ((t % okres) / (okres * infil)) * self.amp) + (
+                                        t % okres > (okres * infil)) * (
+                                        self.amp - (((t % okres) - infil * okres) / (okres * (1 - infil))) * self.amp)
         return self
-
-
-
