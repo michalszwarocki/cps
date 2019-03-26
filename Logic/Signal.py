@@ -77,3 +77,15 @@ class Signal:
                                         t % okres > (okres * infil)) * (
                                         self.amp - (((t % okres) - infil * okres) / (okres * (1 - infil))) * self.amp)
         return self
+
+    def add(self, signal):
+        return self.getSignal() + signal.getSignal()
+
+    def sub(self, signal):
+        return self.getSignal() - signal.getSignal()
+
+    def mul(self, signal):
+        return self.getSignal() * signal.getSignal()
+
+    def div(self, signal):
+        return self.getSignal() / signal.getSignal()
