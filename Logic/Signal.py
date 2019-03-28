@@ -14,14 +14,20 @@ class Signal:
         self.freq = freq
         self.amp = alt
         self.timeline = np.linspace(time0, time0 + time, time * sample + 1)
+        self.one_period = np.linspace(time0, time0 + 1 / freq, 1 / freq * sample + 1)
         self.signal = lambda t: t * 0
 
-    def getSignal(self, time=None):
+    def getSignal(self, time=None, one_period=False):
         if time is None:
-            time = self.timeline
+            if one_period:
+                time = self.one_period
+            else:
+                time = self.timeline
         return self.signal(time)
 
-    def getTime(self):
+    def getTime(self, one_period=False):
+        if one_period:
+            return self.one_period
         return self.timeline
 
     def samplingTime(self, period):

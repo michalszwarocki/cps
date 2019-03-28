@@ -25,6 +25,7 @@ import Gui.Form_support as Form_support
 import Logic.SignalTypeSelector as SignalTypeSelector
 import matplotlib.pyplot as plt
 import Logic.Configuration as configuration
+import numpy as np
 
 
 def start_Gui():
@@ -92,6 +93,12 @@ def onFirstSignalDrawClicked():
     plt.subplot(2, 1, 2)
     plt.hist(y, bins=100)
     plt.show()
+    oneperiod = signal.getSignal(one_period=True)
+    print('srednia:', np.mean(oneperiod))
+    print('srednia bezwzg:', np.mean(np.abs(oneperiod)))
+    print('skuteczna:', np.sqrt(np.mean(np.square(oneperiod))))
+    print('wariancja', np.var(oneperiod))
+    print('moc srednia:', np.average(np.square(oneperiod)))
 
 def onSecondSignalDrawClicked():
     config = readSecondSignalConfiguration()
@@ -103,6 +110,12 @@ def onSecondSignalDrawClicked():
     plt.subplot(2, 1, 2)
     plt.hist(y, bins=100)
     plt.show()
+    oneperiod = signal.getSignal(one_period=True)
+    print('srednia:', np.mean(oneperiod))
+    print('srednia bezwzg:', np.mean(np.abs(oneperiod)))
+    print('skuteczna:', np.sqrt(np.mean(np.square(oneperiod))))
+    print('wariancja', np.var(oneperiod))
+    print('moc srednia:', np.average(np.square(oneperiod)))
 
 class Toplevel1:
     def __init__(self, top=None):
