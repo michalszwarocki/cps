@@ -19,6 +19,7 @@ def set_Tk_var():
     global secondTime0Entry, secondTimeEntry, secondFrequencyEntry, secondAmplitudeEntry, secondNOSamplesEntry, \
         secondInfiltratorEntry, secondJumpMomentEntry, secondPossibilityEntry, secondJumpSampleEntry
     global firstTypeCombobox, firstNoiseCombobox, secondTypeCombobox, secondNoiseCombobox, operationCombobox
+    global text1Label, text2Label, text3Label, text4Label, text5Label
 
     firstTime0Entry = tk.StringVar()
     firstTimeEntry = tk.StringVar()
@@ -46,6 +47,12 @@ def set_Tk_var():
     secondNoiseCombobox = tk.StringVar()
     operationCombobox = tk.StringVar()
 
+    text1Label = tk.StringVar()
+    text2Label = tk.StringVar()
+    text3Label = tk.StringVar()
+    text4Label = tk.StringVar()
+    text5Label = tk.StringVar()
+
     firstTime0Entry.set('0')
     firstTimeEntry.set('3')
     firstFrequencyEntry.set('2')
@@ -65,6 +72,12 @@ def set_Tk_var():
     secondJumpMomentEntry.set('1')
     secondPossibilityEntry.set('0.5')
     secondJumpSampleEntry.set('0')
+
+    text1Label.set('')
+    text2Label.set('')
+    text3Label.set('')
+    text4Label.set('')
+    text5Label.set('')
 
 
 def init(top, gui, *args, **kwargs):

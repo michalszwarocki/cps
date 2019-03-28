@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 import Logic.Configuration as configuration
 import numpy as np
 import Gui.wav_file as wav
+from tkinter.filedialog import askopenfilename
+from tkinter.filedialog import asksaveasfilename
 
 class FormManager:
 
@@ -39,26 +41,57 @@ class FormManager:
     def onFirstSignalDrawClicked(self):
         config = self.readFirstSignalConfiguration()
         signal = sts.SignalTypeSelector(config).getSignal()
-        wav.save(signal.getSignal(), int(config.numberOfSamples), "sygnal"+str(config.time0))
-        a, b = wav.read("sygnal"+str(config.time0))
+
+        oneperiod = signal.getSignal(one_period=True)
+        fs.text1Label.set(np.mean(oneperiod))
+        fs.text2Label.set(np.mean(np.abs(oneperiod)))
+        fs.text3Label.set(np.average(np.square(oneperiod)))
+        fs.text4Label.set(np.var(oneperiod))
+        fs.text5Label.set(np.sqrt(np.mean(np.square(oneperiod))))
+
         plt.subplot(2, 1, 1)
         x = signal.getTime()
         y = signal.getSignal()
-        print(len(y))
         plt.plot(x, y, '-', markersize=0.9)
         plt.subplot(2, 1, 2)
         plt.hist(y, bins=100)
         plt.show()
-        oneperiod = signal.getSignal(one_period=True)
-        print('srednia:', np.mean(oneperiod))
-        print('srednia bezwzg:', np.mean(np.abs(oneperiod)))
-        print('skuteczna:', np.sqrt(np.mean(np.square(oneperiod))))
-        print('wariancja', np.var(oneperiod))
-        print('moc srednia:', np.average(np.square(oneperiod)))
+
+    def onFirstSignalSaveClicked(self):
+        config = self.readFirstSignalConfiguration()
+        signal = sts.SignalTypeSelector(config).getSignal()
+
+        fileName = asksaveasfilename()
+        wav.save(signal.getSignal(), int(config.numberOfSamples), fileName + str(config.time0))
+
+    def onFirstSignalReadClicked(self):
+        fileName = askopenfilename()
+        a, b = wav.read(fileName)
+        print(a)
+
+    def onSecondSignalSaveClicked(self):
+        config = self.readSecondSignalConfiguration()
+        signal = sts.SignalTypeSelector(config).getSignal()
+
+        fileName = asksaveasfilename()
+        wav.save(signal.getSignal(), int(config.numberOfSamples), fileName + str(config.time0))
+
+    def onSecondSignalReadClicked(self):
+        fileName = askopenfilename()
+        a, b = wav.read(fileName)
+        print(a)
 
     def onSecondSignalDrawClicked(self):
         config = self.readSecondSignalConfiguration()
         signal = sts.SignalTypeSelector(config).getSignal()
+
+        oneperiod = signal.getSignal(one_period=True)
+        fs.text1Label.set(np.mean(oneperiod))
+        fs.text2Label.set(np.mean(np.abs(oneperiod)))
+        fs.text3Label.set(np.average(np.square(oneperiod)))
+        fs.text4Label.set(np.var(oneperiod))
+        fs.text5Label.set(np.sqrt(np.mean(np.square(oneperiod))))
+
         plt.subplot(2, 1, 1)
         x = signal.getTime()
         y = signal.getSignal()
@@ -66,14 +99,8 @@ class FormManager:
         plt.subplot(2, 1, 2)
         plt.hist(y, bins=100)
         plt.show()
-        oneperiod = signal.getSignal(one_period=True)
-        print('srednia:', np.mean(oneperiod))
-        print('srednia bezwzg:', np.mean(np.abs(oneperiod)))
-        print('skuteczna:', np.sqrt(np.mean(np.square(oneperiod))))
-        print('wariancja', np.var(oneperiod))
-        print('moc srednia:', np.average(np.square(oneperiod)))
 
-    def onOperationClicked(self):
+    def onOperationDrawClicked(self):
         configFirstSignal = self.readFirstSignalConfiguration()
         configSecondSignal = self.readSecondSignalConfiguration()
         operation = fs.operationCombobox.get()
@@ -81,6 +108,13 @@ class FormManager:
         secondSignal = sts.SignalTypeSelector(configSecondSignal).getSignal()
 
         signal = ots.OperationTypeSelector(firstSignal, secondSignal, operation).getSignal()
+
+        fs.text1Label.set(np.mean(signal))
+        fs.text2Label.set(np.mean(np.abs(signal)))
+        fs.text3Label.set(np.average(np.square(signal)))
+        fs.text4Label.set(np.var(signal))
+        fs.text5Label.set(np.sqrt(np.mean(np.square(signal))))
+
         x = firstSignal.getTime()
         y = signal
 
@@ -89,3 +123,16 @@ class FormManager:
         plt.subplot(2, 1, 2)
         plt.hist(y, bins=100)
         plt.show()
+
+    def onOperationSaveClicked(self):
+        configFirstSignal = self.readFirstSignalConfiguration()
+        configSecondSignal = self.readSecondSignalConfiguration()
+        operation = fs.operationCombobox.get()
+        firstSignal = sts.SignalTypeSelector(configFirstSignal).getSignal()
+        secondSignal = sts.SignalTypeSelector(configSecondSignal).getSignal()
+
+        signal = ots.OperationTypeSelector(firstSignal, secondSignal, operation).getSignal()
+
+        fileName = asksaveasfilename()
+        wav.save(signal, int(configFirstSignal.numberOfSamples), fileName + str(configFirstSignal.time0))
+

@@ -292,7 +292,7 @@ class Toplevel1:
         self.TCombobox1.configure(textvariable=Form_support.firstTypeCombobox)
         self.TCombobox1.configure(
             values=["brak", "sinus", "sinus wyprostowany jednopołówkowo", "sinus wyprostowany dwupołówkowo",
-                    "prostokątny", "prostokatny symetryczny", "skok jednostkowy", "impuls jednostkowy"])
+                    "prostokątny", "prostokatny symetryczny", "trójkątny", "skok jednostkowy", "impuls jednostkowy"])
         self.TCombobox1.current(0)
 
         self.TCombobox2 = ttk.Combobox(self.Frame1)
@@ -333,7 +333,21 @@ class Toplevel1:
         self.Button3.configure(pady="0")
         self.Button3.configure(text='''Zapisz''')
         self.Button3.configure(width=77)
-        self.Button3.configure(command=lambda: FormManager.FormManager().onFirstSignalDrawClicked())
+        self.Button3.configure(command=lambda: FormManager.FormManager().onFirstSignalSaveClicked())
+
+        self.Button8 = tk.Button(top)
+        self.Button8.place(relx=0.24, rely=0.590, relheight=0.05, relwidth=0.07)
+        self.Button8.configure(activebackground="#ececec")
+        self.Button8.configure(activeforeground="#000000")
+        self.Button8.configure(background="#d9d9d9")
+        self.Button8.configure(disabledforeground="#a3a3a3")
+        self.Button8.configure(foreground="#000000")
+        self.Button8.configure(highlightbackground="#d9d9d9")
+        self.Button8.configure(highlightcolor="black")
+        self.Button8.configure(pady="0")
+        self.Button8.configure(text='''Odczytaj''')
+        self.Button8.configure(width=77)
+        self.Button8.configure(command=lambda: FormManager.FormManager().onFirstSignalReadClicked())
 
         #----------------------------------------------FRAME 2---------------------------------------------
 
@@ -556,7 +570,7 @@ class Toplevel1:
         self.TCombobox3.configure(textvariable=Form_support.secondTypeCombobox)
         self.TCombobox3.configure(
             values=["brak", "sinus", "sinus wyprostowany jednopołówkowo", "sinus wyprostowany dwupołówkowo",
-                    "prostokątny", "prostokatny symetryczny", "skok jednostkowy", "impuls jednostkowy"])
+                    "prostokątny", "prostokatny symetryczny", "trójkątny", "skok jednostkowy", "impuls jednostkowy"])
         self.TCombobox3.current(0)
 
         self.TCombobox4 = ttk.Combobox(self.Frame2)
@@ -597,12 +611,26 @@ class Toplevel1:
         self.Button5.configure(pady="0")
         self.Button5.configure(text='''Zapisz''')
         self.Button5.configure(width=77)
-        self.Button5.configure(command=lambda: FormManager.FormManager().onSecondSignalDrawClicked())
+        self.Button5.configure(command=lambda: FormManager.FormManager().onSecondSignalSaveClicked())
+
+        self.Button9 = tk.Button(top)
+        self.Button9.place(relx=0.73, rely=0.590, relheight=0.05, relwidth=0.07)
+        self.Button9.configure(activebackground="#ececec")
+        self.Button9.configure(activeforeground="#000000")
+        self.Button9.configure(background="#d9d9d9")
+        self.Button9.configure(disabledforeground="#a3a3a3")
+        self.Button9.configure(foreground="#000000")
+        self.Button9.configure(highlightbackground="#d9d9d9")
+        self.Button9.configure(highlightcolor="black")
+        self.Button9.configure(pady="0")
+        self.Button9.configure(text='''Odczytaj''')
+        self.Button9.configure(width=77)
+        self.Button9.configure(command=lambda: FormManager.FormManager().onSecondSignalReadClicked())
 
         #----------------------------------------------FRAME 3---------------------------------------------
 
         self.Frame3 = tk.Frame(top)
-        self.Frame3.place(relx=0.3, rely=0.68, relheight=0.24, relwidth=0.4)
+        self.Frame3.place(relx=0.55, rely=0.68, relheight=0.24, relwidth=0.4)
 
         self.Frame3.configure(relief='groove')
         self.Frame3.configure(borderwidth="2")
@@ -613,7 +641,7 @@ class Toplevel1:
         #------------------------------------------LABELS FRAME 3-------------------------------------------
 
         self.Label30 = tk.Label(top)
-        self.Label30.place(relx=0.47, rely=0.65, height=21, width=60)
+        self.Label30.place(relx=0.73, rely=0.65, height=21, width=60)
         self.Label30.configure(background="#d9d9d9")
         self.Label30.configure(disabledforeground="#a3a3a3")
         self.Label30.configure(foreground="#000000")
@@ -653,7 +681,7 @@ class Toplevel1:
         self.Button6.configure(pady="0")
         self.Button6.configure(text='''Rysuj''')
         self.Button6.configure(width=77)
-        self.Button6.configure(command=lambda: FormManager.FormManager().onOperationClicked())
+        self.Button6.configure(command=lambda: FormManager.FormManager().onOperationDrawClicked())
 
         self.Button7 = tk.Button(self.Frame3)
         self.Button7.place(relx=0.54, rely=0.78, relheight=0.2, relwidth=0.14)
@@ -667,7 +695,98 @@ class Toplevel1:
         self.Button7.configure(pady="0")
         self.Button7.configure(text='''Zapisz''')
         self.Button7.configure(width=77)
-        self.Button7.configure(command=lambda: FormManager.FormManager().hide_label(root))
+        self.Button7.configure(command=lambda: FormManager.FormManager().onOperationSaveClicked())
+
+        #----------------------------------------------FRAME 4---------------------------------------------
+
+        self.Frame4 = tk.Frame(top)
+        self.Frame4.place(relx=0.05, rely=0.68, relheight=0.24, relwidth=0.4)
+
+        self.Frame4.configure(relief='groove')
+        self.Frame4.configure(borderwidth="2")
+        self.Frame4.configure(relief='groove')
+        self.Frame4.configure(background="#d9d9d9")
+        self.Frame4.configure(width=625)
+
+        #------------------------------------------LABELS FRAME 3-------------------------------------------
+
+        self.Label36 = tk.Label(self.Frame4)
+        self.Label36.place(relx=0.1, rely=0.05, height=21, width=144)
+        self.Label36.configure(background="#d9d9d9")
+        self.Label36.configure(disabledforeground="#a3a3a3")
+        self.Label36.configure(foreground="#000000")
+        self.Label36.configure(text='''WARTOŚĆ ŚREDNIA''')
+
+        self.Label37 = tk.Label(self.Frame4)
+        self.Label37.place(relx=0.04, rely=0.25, height=21, width=200)
+        self.Label37.configure(background="#d9d9d9")
+        self.Label37.configure(disabledforeground="#a3a3a3")
+        self.Label37.configure(foreground="#000000")
+        self.Label37.configure(text='''WARTOŚĆ ŚREDNIA BEZWZGLĘDNA''')
+        self.Label37.configure(width=144)
+
+        self.Label38 = tk.Label(self.Frame4)
+        self.Label38.place(relx=0.1, rely=0.45, height=21, width=144)
+        self.Label38.configure(background="#d9d9d9")
+        self.Label38.configure(disabledforeground="#a3a3a3")
+        self.Label38.configure(foreground="#000000")
+        self.Label38.configure(text='''MOC ŚREDNIA''')
+        self.Label38.configure(width=144)
+
+        self.Label39 = tk.Label(self.Frame4)
+        self.Label39.place(relx=0.1, rely=0.65, height=21, width=144)
+        self.Label39.configure(background="#d9d9d9")
+        self.Label39.configure(disabledforeground="#a3a3a3")
+        self.Label39.configure(foreground="#000000")
+        self.Label39.configure(text='''WARIANCJA''')
+        self.Label39.configure(width=144)
+
+        self.Label40 = tk.Label(self.Frame4)
+        self.Label40.place(relx=0.1, rely=0.85, height=21, width=144)
+        self.Label40.configure(background="#d9d9d9")
+        self.Label40.configure(disabledforeground="#a3a3a3")
+        self.Label40.configure(foreground="#000000")
+        self.Label40.configure(text='''WARTOŚĆ SKUTECZNA''')
+        self.Label40.configure(width=144)
+
+        self.Label41 = tk.Label(self.Frame4)
+        self.Label41.place(relx=0.6, rely=0.05, height=21, width=120)
+        self.Label41.configure(background="#d9d9d9")
+        self.Label41.configure(disabledforeground="#a3a3a3")
+        self.Label41.configure(foreground="#000000")
+        self.Label41.configure(textvariable=Form_support.text1Label)
+
+        self.Label42 = tk.Label(self.Frame4)
+        self.Label42.place(relx=0.6, rely=0.25, height=21, width=120)
+        self.Label42.configure(background="#d9d9d9")
+        self.Label42.configure(disabledforeground="#a3a3a3")
+        self.Label42.configure(foreground="#000000")
+        self.Label42.configure(textvariable=Form_support.text2Label)
+        self.Label42.configure(width=144)
+
+        self.Label43 = tk.Label(self.Frame4)
+        self.Label43.place(relx=0.6, rely=0.45, height=21, width=120)
+        self.Label43.configure(background="#d9d9d9")
+        self.Label43.configure(disabledforeground="#a3a3a3")
+        self.Label43.configure(foreground="#000000")
+        self.Label43.configure(textvariable=Form_support.text3Label)
+        self.Label43.configure(width=144)
+
+        self.Label44 = tk.Label(self.Frame4)
+        self.Label44.place(relx=0.6, rely=0.65, height=21, width=120)
+        self.Label44.configure(background="#d9d9d9")
+        self.Label44.configure(disabledforeground="#a3a3a3")
+        self.Label44.configure(foreground="#000000")
+        self.Label44.configure(textvariable=Form_support.text4Label)
+        self.Label44.configure(width=144)
+
+        self.Label45 = tk.Label(self.Frame4)
+        self.Label45.place(relx=0.6, rely=0.85, height=21, width=120)
+        self.Label45.configure(background="#d9d9d9")
+        self.Label45.configure(disabledforeground="#a3a3a3")
+        self.Label45.configure(foreground="#000000")
+        self.Label45.configure(textvariable=Form_support.text5Label)
+        self.Label45.configure(width=144)
 
         self.Button1 = tk.Button(top)
         self.Button1.place(relx=0.9, rely=0.94, relheight=0.05, relwidth=0.07)

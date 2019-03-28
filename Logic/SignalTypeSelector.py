@@ -20,6 +20,8 @@ class SignalTypeSelector:
             self.signal.setAsRectangle(config.infiltrator)
         elif config.signalType == 'prostokatny symetryczny':
             self.signal.setAsSyncRectangle(config.infiltrator)
+        elif config.signalType == 'trójkątny':
+            self.signal.setTriangle(config.infiltrator)
         elif config.signalType == 'skok jednostkowy':
             self.signal.setSingleJump(config.jumpMoment)
         elif config.signalType == 'impuls jednostkowy':
