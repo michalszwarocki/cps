@@ -24,6 +24,7 @@ except ImportError:
 import Gui.Form_support as Form_support
 import Logic.SignalTypeSelector as SignalTypeSelector
 import matplotlib.pyplot as plt
+import Logic.Configuration as configuration
 
 
 def start_Gui():
@@ -57,21 +58,32 @@ def destroy_Window():
     root.destroy()
 
 
-def readConfiguration():
-    t0 = float(Form_support.entry1.get())
-    time = float(Form_support.entry2.get())
-    freq = float(Form_support.entry3.get())
-    ampli = float(Form_support.entry4.get())
-    samples = float(Form_support.entry5.get())
-    type = Form_support.var1.get()
-    infil = float(Form_support.entry6.get())
-    noise = Form_support.var2.get()
-    jumpMoment = float(Form_support.entry7.get())
-    return [t0, time, freq, ampli, samples, type, infil, noise, jumpMoment]
+def readFirstSignalConfiguration():
+    t0 = float(Form_support.firstTime0Entry.get())
+    time = float(Form_support.firstTimeEntry.get())
+    freq = float(Form_support.firstFrequencyEntry.get())
+    ampli = float(Form_support.firstAmplitudeEntry.get())
+    samples = float(Form_support.firstNOSamplesEntry.get())
+    type = Form_support.firstTypeCombobox.get()
+    infil = float(Form_support.firstInfiltratorEntry.get())
+    noise = Form_support.firstNoiseCombobox.get()
+    jumpMoment = float(Form_support.firstJumpMomentEntry.get())
+    return configuration.Configuration(t0, time, freq, ampli, samples, type, infil, noise, jumpMoment)
 
+def readSecondSignalConfiguration():
+    t0 = float(Form_support.secondTime0Entry.get())
+    time = float(Form_support.secondTimeEntry.get())
+    freq = float(Form_support.secondFrequencyEntry.get())
+    ampli = float(Form_support.secondAmplitudeEntry.get())
+    samples = float(Form_support.secondNOSamplesEntry.get())
+    type = Form_support.secondTypeCombobox.get()
+    infil = float(Form_support.secondInfiltratorEntry.get())
+    noise = Form_support.secondNoiseCombobox.get()
+    jumpMoment = float(Form_support.secondJumpMomentEntry.get())
+    return configuration.Configuration(t0, time, freq, ampli, samples, type, infil, noise, jumpMoment)
 
-def onDrawClicked():
-    config = readConfiguration()
+def onFirstSignalDrawClicked():
+    config = readFirstSignalConfiguration()
     signal = SignalTypeSelector.SignalTypeSelector(config).getSignal()
     plt.subplot(2, 1, 1)
     x = signal.getTime()
@@ -81,6 +93,16 @@ def onDrawClicked():
     plt.hist(y, bins=100)
     plt.show()
 
+def onSecondSignalDrawClicked():
+    config = readSecondSignalConfiguration()
+    signal = SignalTypeSelector.SignalTypeSelector(config).getSignal()
+    plt.subplot(2, 1, 1)
+    x = signal.getTime()
+    y = signal.getSignal(x)
+    plt.plot(x, y, '-', markersize=0.9)
+    plt.subplot(2, 1, 2)
+    plt.hist(y, bins=100)
+    plt.show()
 
 class Toplevel1:
     def __init__(self, top=None):
@@ -104,8 +126,10 @@ class Toplevel1:
         top.title("Generowanie sygnałów")
         top.configure(background="#d9d9d9")
 
+        #---------------------------------------FRAME 1----------------------------------------------
+
         self.Frame1 = tk.Frame(top)
-        self.Frame1.place(relx=0.03, rely=0.031, relheight=0.558, relwidth=0.946)
+        self.Frame1.place(relx=0.03, rely=0.031, relheight=0.558, relwidth=0.45)
 
         self.Frame1.configure(relief='groove')
         self.Frame1.configure(borderwidth="2")
@@ -113,13 +137,22 @@ class Toplevel1:
         self.Frame1.configure(background="#d9d9d9")
         self.Frame1.configure(width=625)
 
-        self.Label1 = tk.Label(self.Frame1)
-        self.Label1.place(relx=0.192, rely=0.075, height=21, width=144)
+        #----------------------------------------LABELS FRAME 1-------------------------------------
+
+        self.Label1 = tk.Label(top)
+        self.Label1.place(relx=0.23, rely=0.0, height=21, width=50)
         self.Label1.configure(background="#d9d9d9")
         self.Label1.configure(disabledforeground="#a3a3a3")
         self.Label1.configure(foreground="#000000")
-        self.Label1.configure(text='''CZAS POCZĄTKOWY''')
-        self.Label1.configure(width=144)
+        self.Label1.configure(text='''SYGNAŁ''')
+
+        self.Label2 = tk.Label(self.Frame1)
+        self.Label2.place(relx=0.192, rely=0.075, height=21, width=144)
+        self.Label2.configure(background="#d9d9d9")
+        self.Label2.configure(disabledforeground="#a3a3a3")
+        self.Label2.configure(foreground="#000000")
+        self.Label2.configure(text='''CZAS POCZĄTKOWY''')
+        self.Label2.configure(width=144)
 
         self.Label3 = tk.Label(self.Frame1)
         self.Label3.place(relx=0.224, rely=0.169, height=21, width=114)
@@ -136,33 +169,6 @@ class Toplevel1:
         self.Label4.configure(foreground="#000000")
         self.Label4.configure(text='''CZĘSTOTLIWOŚĆ SYGNAŁU''')
 
-        self.Entry1 = tk.Entry(self.Frame1)
-        self.Entry1.place(relx=0.528, rely=0.075, height=20, relwidth=0.262)
-        self.Entry1.configure(background="#ffffff")
-        self.Entry1.configure(disabledforeground="#a3a3a3")
-        self.Entry1.configure(font="TkFixedFont")
-        self.Entry1.configure(foreground="#000000")
-        self.Entry1.configure(insertbackground="black")
-        self.Entry1.configure(textvariable=Form_support.entry1)
-
-        self.Entry2 = tk.Entry(self.Frame1)
-        self.Entry2.place(relx=0.528, rely=0.169, height=20, relwidth=0.262)
-        self.Entry2.configure(background="white")
-        self.Entry2.configure(disabledforeground="#a3a3a3")
-        self.Entry2.configure(font="TkFixedFont")
-        self.Entry2.configure(foreground="#000000")
-        self.Entry2.configure(insertbackground="black")
-        self.Entry2.configure(textvariable=Form_support.entry2)
-
-        self.Entry3 = tk.Entry(self.Frame1)
-        self.Entry3.place(relx=0.528, rely=0.282, height=20, relwidth=0.262)
-        self.Entry3.configure(background="white")
-        self.Entry3.configure(disabledforeground="#a3a3a3")
-        self.Entry3.configure(font="TkFixedFont")
-        self.Entry3.configure(foreground="#000000")
-        self.Entry3.configure(insertbackground="black")
-        self.Entry3.configure(textvariable=Form_support.entry3)
-
         self.Label5 = tk.Label(self.Frame1)
         self.Label5.place(relx=0.256, rely=0.395, height=21, width=72)
         self.Label5.configure(background="#d9d9d9")
@@ -176,33 +182,6 @@ class Toplevel1:
         self.Label6.configure(disabledforeground="#a3a3a3")
         self.Label6.configure(foreground="#000000")
         self.Label6.configure(text='''CZĘSTOTLIWOŚĆ PRÓBKOWANIA''')
-
-        self.Entry4 = tk.Entry(self.Frame1)
-        self.Entry4.place(relx=0.528, rely=0.395, height=20, relwidth=0.262)
-        self.Entry4.configure(background="white")
-        self.Entry4.configure(disabledforeground="#a3a3a3")
-        self.Entry4.configure(font="TkFixedFont")
-        self.Entry4.configure(foreground="#000000")
-        self.Entry4.configure(insertbackground="black")
-        self.Entry4.configure(textvariable=Form_support.entry4)
-
-        self.Entry5 = tk.Entry(self.Frame1)
-        self.Entry5.place(relx=0.528, rely=0.508, height=20, relwidth=0.262)
-        self.Entry5.configure(background="white")
-        self.Entry5.configure(disabledforeground="#a3a3a3")
-        self.Entry5.configure(font="TkFixedFont")
-        self.Entry5.configure(foreground="#000000")
-        self.Entry5.configure(insertbackground="black")
-        self.Entry5.configure(textvariable=Form_support.entry5)
-
-        self.Entry6 = tk.Entry(self.Frame1)
-        self.Entry6.place(relx=0.528, rely=0.734, height=20, relwidth=0.262)
-        self.Entry6.configure(background="white")
-        self.Entry6.configure(disabledforeground="#a3a3a3")
-        self.Entry6.configure(font="TkFixedFont")
-        self.Entry6.configure(foreground="#000000")
-        self.Entry6.configure(insertbackground="black")
-        self.Entry6.configure(textvariable=Form_support.entry6)
 
         self.Label7 = tk.Label(self.Frame1)
         self.Label7.place(relx=0.816, rely=0.282, height=21, width=20)
@@ -240,47 +219,82 @@ class Toplevel1:
         self.Label12.configure(foreground="#000000")
         self.Label12.configure(text='''TYP''')
 
-        self.Label20 = tk.Label(self.Frame1)
-        self.Label20.place(relx=0.16, rely=0.735, height=21, width=187)
-        self.Label20.configure(background="#d9d9d9")
-        self.Label20.configure(disabledforeground="#a3a3a3")
-        self.Label20.configure(foreground="#000000")
-        self.Label20.configure(text='''WSPÓŁCZYNNIK WYPEŁNIENIA''')
+        self.Label13 = tk.Label(self.Frame1)
+        self.Label13.place(relx=0.16, rely=0.735, height=21, width=187)
+        self.Label13.configure(background="#d9d9d9")
+        self.Label13.configure(disabledforeground="#a3a3a3")
+        self.Label13.configure(foreground="#000000")
+        self.Label13.configure(text='''WSPÓŁCZYNNIK WYPEŁNIENIA''')
 
-        self.TCombobox1 = ttk.Combobox(self.Frame1)
-        self.TCombobox1.place(relx=0.528, rely=0.622, relheight=0.079
-                              , relwidth=0.261)
-        self.TCombobox1.configure(width=163)
-        self.TCombobox1.configure(takefocus="")
-        self.TCombobox1.configure(textvariable=Form_support.var1)
-        self.TCombobox1.configure(
-            values=["brak", "sinus", "sinus wyprostowany jednopołówkowo", "sinus wyprostowany dwupołówkowo",
-                    "prostokątny", "prostokatny symetryczny", "skok jednostkowy"])
-        self.TCombobox1.current(0)
+        self.Label14 = tk.Label(self.Frame1)
+        self.Label14.place(relx=0.288, rely=0.817, height=21, width=30)
+        self.Label14.configure(background="#d9d9d9")
+        self.Label14.configure(disabledforeground="#a3a3a3")
+        self.Label14.configure(foreground="#000000")
+        self.Label14.configure(text='''SZUM''')
 
-        self.Label21 = tk.Label(self.Frame1)
-        self.Label21.place(relx=0.288, rely=0.817, height=21, width=30)
-        self.Label21.configure(background="#d9d9d9")
-        self.Label21.configure(disabledforeground="#a3a3a3")
-        self.Label21.configure(foreground="#000000")
-        self.Label21.configure(text='''SZUM''')
+        self.Label15 = tk.Label(self.Frame1)
+        self.Label15.place(relx=0.16, rely=0.930, height=21, width=187)
+        self.Label15.configure(background="#d9d9d9")
+        self.Label15.configure(disabledforeground="#a3a3a3")
+        self.Label15.configure(foreground="#000000")
+        self.Label15.configure(text='''MOMENT SKOKU''')
 
-        self.TCombobox2 = ttk.Combobox(self.Frame1)
-        self.TCombobox2.place(relx=0.528, rely=0.817, relheight=0.079
-                              , relwidth=0.261)
-        self.TCombobox2.configure(width=163)
-        self.TCombobox2.configure(takefocus="")
-        self.TCombobox2.configure(textvariable=Form_support.var2)
-        self.TCombobox2.configure(
-            values=["brak", "gaussowski", "o rozkładzie jednostajnym", "impulsowy"])
-        self.TCombobox2.current(0)
+        #----------------------------ENTRIES FRAME 1-------------------------------
 
-        self.Label22 = tk.Label(self.Frame1)
-        self.Label22.place(relx=0.16, rely=0.930, height=21, width=187)
-        self.Label22.configure(background="#d9d9d9")
-        self.Label22.configure(disabledforeground="#a3a3a3")
-        self.Label22.configure(foreground="#000000")
-        self.Label22.configure(text='''MOMENT SKOKU''')
+        self.Entry1 = tk.Entry(self.Frame1)
+        self.Entry1.place(relx=0.528, rely=0.075, height=20, relwidth=0.262)
+        self.Entry1.configure(background="#ffffff")
+        self.Entry1.configure(disabledforeground="#a3a3a3")
+        self.Entry1.configure(font="TkFixedFont")
+        self.Entry1.configure(foreground="#000000")
+        self.Entry1.configure(insertbackground="black")
+        self.Entry1.configure(textvariable=Form_support.firstTime0Entry)
+
+        self.Entry2 = tk.Entry(self.Frame1)
+        self.Entry2.place(relx=0.528, rely=0.169, height=20, relwidth=0.262)
+        self.Entry2.configure(background="white")
+        self.Entry2.configure(disabledforeground="#a3a3a3")
+        self.Entry2.configure(font="TkFixedFont")
+        self.Entry2.configure(foreground="#000000")
+        self.Entry2.configure(insertbackground="black")
+        self.Entry2.configure(textvariable=Form_support.firstTimeEntry)
+
+        self.Entry3 = tk.Entry(self.Frame1)
+        self.Entry3.place(relx=0.528, rely=0.282, height=20, relwidth=0.262)
+        self.Entry3.configure(background="white")
+        self.Entry3.configure(disabledforeground="#a3a3a3")
+        self.Entry3.configure(font="TkFixedFont")
+        self.Entry3.configure(foreground="#000000")
+        self.Entry3.configure(insertbackground="black")
+        self.Entry3.configure(textvariable=Form_support.firstFrequencyEntry)
+
+        self.Entry4 = tk.Entry(self.Frame1)
+        self.Entry4.place(relx=0.528, rely=0.395, height=20, relwidth=0.262)
+        self.Entry4.configure(background="white")
+        self.Entry4.configure(disabledforeground="#a3a3a3")
+        self.Entry4.configure(font="TkFixedFont")
+        self.Entry4.configure(foreground="#000000")
+        self.Entry4.configure(insertbackground="black")
+        self.Entry4.configure(textvariable=Form_support.firstAmplitudeEntry)
+
+        self.Entry5 = tk.Entry(self.Frame1)
+        self.Entry5.place(relx=0.528, rely=0.508, height=20, relwidth=0.262)
+        self.Entry5.configure(background="white")
+        self.Entry5.configure(disabledforeground="#a3a3a3")
+        self.Entry5.configure(font="TkFixedFont")
+        self.Entry5.configure(foreground="#000000")
+        self.Entry5.configure(insertbackground="black")
+        self.Entry5.configure(textvariable=Form_support.firstNOSamplesEntry)
+
+        self.Entry6 = tk.Entry(self.Frame1)
+        self.Entry6.place(relx=0.528, rely=0.734, height=20, relwidth=0.262)
+        self.Entry6.configure(background="white")
+        self.Entry6.configure(disabledforeground="#a3a3a3")
+        self.Entry6.configure(font="TkFixedFont")
+        self.Entry6.configure(foreground="#000000")
+        self.Entry6.configure(insertbackground="black")
+        self.Entry6.configure(textvariable=Form_support.firstInfiltratorEntry)
 
         self.Entry7 = tk.Entry(self.Frame1)
         self.Entry7.place(relx=0.528, rely=0.930, height=20, relwidth=0.262)
@@ -289,10 +303,65 @@ class Toplevel1:
         self.Entry7.configure(font="TkFixedFont")
         self.Entry7.configure(foreground="#000000")
         self.Entry7.configure(insertbackground="black")
-        self.Entry7.configure(textvariable=Form_support.entry7)
+        self.Entry7.configure(textvariable=Form_support.firstJumpMomentEntry)
+
+        #-----------------------------------------COMBOBOXES FRAME 1------------------------------------------
+
+        self.TCombobox1 = ttk.Combobox(self.Frame1)
+        self.TCombobox1.place(relx=0.528, rely=0.622, relheight=0.079
+                              , relwidth=0.261)
+        self.TCombobox1.configure(width=163)
+        self.TCombobox1.configure(takefocus="")
+        self.TCombobox1.configure(textvariable=Form_support.firstTypeCombobox)
+        self.TCombobox1.configure(
+            values=["brak", "sinus", "sinus wyprostowany jednopołówkowo", "sinus wyprostowany dwupołówkowo",
+                    "prostokątny", "prostokatny symetryczny", "skok jednostkowy"])
+        self.TCombobox1.current(0)
+
+        self.TCombobox2 = ttk.Combobox(self.Frame1)
+        self.TCombobox2.place(relx=0.528, rely=0.817, relheight=0.079
+                              , relwidth=0.261)
+        self.TCombobox2.configure(width=163)
+        self.TCombobox2.configure(takefocus="")
+        self.TCombobox2.configure(textvariable=Form_support.firstNoiseCombobox)
+        self.TCombobox2.configure(
+            values=["brak", "gaussowski", "o rozkładzie jednostajnym", "impulsowy"])
+        self.TCombobox2.current(0)
+
+        # -----------------------------------------BUTTONS FRAME 1------------------------------------------
+
+        self.Button2 = tk.Button(top)
+        self.Button2.place(relx=0.40, rely=0.590, relheight=0.05, relwidth=0.07)
+        self.Button2.configure(activebackground="#ececec")
+        self.Button2.configure(activeforeground="#000000")
+        self.Button2.configure(background="#d9d9d9")
+        self.Button2.configure(disabledforeground="#a3a3a3")
+        self.Button2.configure(foreground="#000000")
+        self.Button2.configure(highlightbackground="#d9d9d9")
+        self.Button2.configure(highlightcolor="black")
+        self.Button2.configure(pady="0")
+        self.Button2.configure(text='''Rysuj''')
+        self.Button2.configure(width=77)
+        self.Button2.configure(command=lambda: onFirstSignalDrawClicked())
+
+        self.Button3 = tk.Button(top)
+        self.Button3.place(relx=0.32, rely=0.590, relheight=0.05, relwidth=0.07)
+        self.Button3.configure(activebackground="#ececec")
+        self.Button3.configure(activeforeground="#000000")
+        self.Button3.configure(background="#d9d9d9")
+        self.Button3.configure(disabledforeground="#a3a3a3")
+        self.Button3.configure(foreground="#000000")
+        self.Button3.configure(highlightbackground="#d9d9d9")
+        self.Button3.configure(highlightcolor="black")
+        self.Button3.configure(pady="0")
+        self.Button3.configure(text='''Zapisz''')
+        self.Button3.configure(width=77)
+        self.Button3.configure(command=lambda: onFirstSignalDrawClicked())
+
+        #----------------------------------------------FRAME 2---------------------------------------------
 
         self.Frame2 = tk.Frame(top)
-        self.Frame2.place(relx=0.03, rely=0.6, relheight=0.405, relwidth=0.946)
+        self.Frame2.place(relx=0.52, rely=0.031, relheight=0.558, relwidth=0.45)
 
         self.Frame2.configure(relief='groove')
         self.Frame2.configure(borderwidth="2")
@@ -300,15 +369,299 @@ class Toplevel1:
         self.Frame2.configure(background="#d9d9d9")
         self.Frame2.configure(width=625)
 
-        self.Label13 = tk.Label(self.Frame2)
-        self.Label13.place(relx=0.448, rely=0.0, height=21, width=61)
-        self.Label13.configure(background="#d9d9d9")
-        self.Label13.configure(disabledforeground="#a3a3a3")
-        self.Label13.configure(foreground="#000000")
-        self.Label13.configure(text='''OPERACJE''')
+        #------------------------------------------LABELS FRAME 2-------------------------------------------
+
+        self.Label16 = tk.Label(top)
+        self.Label16.place(relx=0.73, rely=0.0, height=21, width=60)
+        self.Label16.configure(background="#d9d9d9")
+        self.Label16.configure(disabledforeground="#a3a3a3")
+        self.Label16.configure(foreground="#000000")
+        self.Label16.configure(text='''SYGNAŁ 2''')
+
+        self.Label17 = tk.Label(self.Frame2)
+        self.Label17.place(relx=0.192, rely=0.075, height=21, width=144)
+        self.Label17.configure(background="#d9d9d9")
+        self.Label17.configure(disabledforeground="#a3a3a3")
+        self.Label17.configure(foreground="#000000")
+        self.Label17.configure(text='''CZAS POCZĄTKOWY''')
+        self.Label17.configure(width=144)
+
+        self.Label18 = tk.Label(self.Frame2)
+        self.Label18.place(relx=0.224, rely=0.169, height=21, width=114)
+        self.Label18.configure(background="#d9d9d9")
+        self.Label18.configure(disabledforeground="#a3a3a3")
+        self.Label18.configure(foreground="#000000")
+        self.Label18.configure(text='''CZAS TRWANIA''')
+        self.Label18.configure(width=114)
+
+        self.Label19 = tk.Label(self.Frame2)
+        self.Label19.place(relx=0.192, rely=0.282, height=21, width=154)
+        self.Label19.configure(background="#d9d9d9")
+        self.Label19.configure(disabledforeground="#a3a3a3")
+        self.Label19.configure(foreground="#000000")
+        self.Label19.configure(text='''CZĘSTOTLIWOŚĆ SYGNAŁU''')
+
+        self.Label20 = tk.Label(self.Frame2)
+        self.Label20.place(relx=0.256, rely=0.395, height=21, width=72)
+        self.Label20.configure(background="#d9d9d9")
+        self.Label20.configure(disabledforeground="#a3a3a3")
+        self.Label20.configure(foreground="#000000")
+        self.Label20.configure(text='''AMPLITUDA''')
+
+        self.Label21 = tk.Label(self.Frame2)
+        self.Label21.place(relx=0.16, rely=0.508, height=21, width=187)
+        self.Label21.configure(background="#d9d9d9")
+        self.Label21.configure(disabledforeground="#a3a3a3")
+        self.Label21.configure(foreground="#000000")
+        self.Label21.configure(text='''CZĘSTOTLIWOŚĆ PRÓBKOWANIA''')
+
+        self.Label22 = tk.Label(self.Frame2)
+        self.Label22.place(relx=0.816, rely=0.282, height=21, width=20)
+        self.Label22.configure(background="#d9d9d9")
+        self.Label22.configure(disabledforeground="#a3a3a3")
+        self.Label22.configure(foreground="#000000")
+        self.Label22.configure(text='''Hz''')
+
+        self.Label23 = tk.Label(self.Frame2)
+        self.Label23.place(relx=0.816, rely=0.508, height=21, width=20)
+        self.Label23.configure(background="#d9d9d9")
+        self.Label23.configure(disabledforeground="#a3a3a3")
+        self.Label23.configure(foreground="#000000")
+        self.Label23.configure(text='''Hz''')
+
+        self.Label24 = tk.Label(self.Frame2)
+        self.Label24.place(relx=0.816, rely=0.169, height=21, width=11)
+        self.Label24.configure(background="#d9d9d9")
+        self.Label24.configure(disabledforeground="#a3a3a3")
+        self.Label24.configure(foreground="#000000")
+        self.Label24.configure(text='''s''')
+        self.Label24.configure(width=11)
+
+        self.Label25 = tk.Label(self.Frame2)
+        self.Label25.place(relx=0.816, rely=0.075, height=21, width=11)
+        self.Label25.configure(background="#d9d9d9")
+        self.Label25.configure(disabledforeground="#a3a3a3")
+        self.Label25.configure(foreground="#000000")
+        self.Label25.configure(text='''s''')
+
+        self.Label26 = tk.Label(self.Frame2)
+        self.Label26.place(relx=0.288, rely=0.622, height=21, width=27)
+        self.Label26.configure(background="#d9d9d9")
+        self.Label26.configure(disabledforeground="#a3a3a3")
+        self.Label26.configure(foreground="#000000")
+        self.Label26.configure(text='''TYP''')
+
+        self.Label27 = tk.Label(self.Frame2)
+        self.Label27.place(relx=0.16, rely=0.735, height=21, width=187)
+        self.Label27.configure(background="#d9d9d9")
+        self.Label27.configure(disabledforeground="#a3a3a3")
+        self.Label27.configure(foreground="#000000")
+        self.Label27.configure(text='''WSPÓŁCZYNNIK WYPEŁNIENIA''')
+
+        self.Label28 = tk.Label(self.Frame2)
+        self.Label28.place(relx=0.288, rely=0.817, height=21, width=30)
+        self.Label28.configure(background="#d9d9d9")
+        self.Label28.configure(disabledforeground="#a3a3a3")
+        self.Label28.configure(foreground="#000000")
+        self.Label28.configure(text='''SZUM''')
+
+        self.Label29 = tk.Label(self.Frame2)
+        self.Label29.place(relx=0.16, rely=0.930, height=21, width=187)
+        self.Label29.configure(background="#d9d9d9")
+        self.Label29.configure(disabledforeground="#a3a3a3")
+        self.Label29.configure(foreground="#000000")
+        self.Label29.configure(text='''MOMENT SKOKU''')
+
+        #-----------------------------------------ENTRIES FRAME 2--------------------------------------
+
+        self.Entry8 = tk.Entry(self.Frame2)
+        self.Entry8.place(relx=0.528, rely=0.075, height=20, relwidth=0.262)
+        self.Entry8.configure(background="#ffffff")
+        self.Entry8.configure(disabledforeground="#a3a3a3")
+        self.Entry8.configure(font="TkFixedFont")
+        self.Entry8.configure(foreground="#000000")
+        self.Entry8.configure(insertbackground="black")
+        self.Entry8.configure(textvariable=Form_support.secondTime0Entry)
+
+        self.Entry9 = tk.Entry(self.Frame2)
+        self.Entry9.place(relx=0.528, rely=0.169, height=20, relwidth=0.262)
+        self.Entry9.configure(background="white")
+        self.Entry9.configure(disabledforeground="#a3a3a3")
+        self.Entry9.configure(font="TkFixedFont")
+        self.Entry9.configure(foreground="#000000")
+        self.Entry9.configure(insertbackground="black")
+        self.Entry9.configure(textvariable=Form_support.secondTimeEntry)
+
+        self.Entry10 = tk.Entry(self.Frame2)
+        self.Entry10.place(relx=0.528, rely=0.282, height=20, relwidth=0.262)
+        self.Entry10.configure(background="white")
+        self.Entry10.configure(disabledforeground="#a3a3a3")
+        self.Entry10.configure(font="TkFixedFont")
+        self.Entry10.configure(foreground="#000000")
+        self.Entry10.configure(insertbackground="black")
+        self.Entry10.configure(textvariable=Form_support.secondFrequencyEntry)
+
+        self.Entry11 = tk.Entry(self.Frame2)
+        self.Entry11.place(relx=0.528, rely=0.395, height=20, relwidth=0.262)
+        self.Entry11.configure(background="white")
+        self.Entry11.configure(disabledforeground="#a3a3a3")
+        self.Entry11.configure(font="TkFixedFont")
+        self.Entry11.configure(foreground="#000000")
+        self.Entry11.configure(insertbackground="black")
+        self.Entry11.configure(textvariable=Form_support.secondAmplitudeEntry)
+
+        self.Entry12 = tk.Entry(self.Frame2)
+        self.Entry12.place(relx=0.528, rely=0.508, height=20, relwidth=0.262)
+        self.Entry12.configure(background="white")
+        self.Entry12.configure(disabledforeground="#a3a3a3")
+        self.Entry12.configure(font="TkFixedFont")
+        self.Entry12.configure(foreground="#000000")
+        self.Entry12.configure(insertbackground="black")
+        self.Entry12.configure(textvariable=Form_support.secondNOSamplesEntry)
+
+        self.Entry13 = tk.Entry(self.Frame2)
+        self.Entry13.place(relx=0.528, rely=0.734, height=20, relwidth=0.262)
+        self.Entry13.configure(background="white")
+        self.Entry13.configure(disabledforeground="#a3a3a3")
+        self.Entry13.configure(font="TkFixedFont")
+        self.Entry13.configure(foreground="#000000")
+        self.Entry13.configure(insertbackground="black")
+        self.Entry13.configure(textvariable=Form_support.secondInfiltratorEntry)
+
+        self.Entry14 = tk.Entry(self.Frame2)
+        self.Entry14.place(relx=0.528, rely=0.930, height=20, relwidth=0.262)
+        self.Entry14.configure(background="white")
+        self.Entry14.configure(disabledforeground="#a3a3a3")
+        self.Entry14.configure(font="TkFixedFont")
+        self.Entry14.configure(foreground="#000000")
+        self.Entry14.configure(insertbackground="black")
+        self.Entry14.configure(textvariable=Form_support.secondJumpMomentEntry)
+
+        # -----------------------------------------COMBOBOXES FRAME 2------------------------------------------
+
+        self.TCombobox3 = ttk.Combobox(self.Frame2)
+        self.TCombobox3.place(relx=0.528, rely=0.622, relheight=0.079
+                              , relwidth=0.261)
+        self.TCombobox3.configure(width=163)
+        self.TCombobox3.configure(takefocus="")
+        self.TCombobox3.configure(textvariable=Form_support.secondTypeCombobox)
+        self.TCombobox3.configure(
+            values=["brak", "sinus", "sinus wyprostowany jednopołówkowo", "sinus wyprostowany dwupołówkowo",
+                    "prostokątny", "prostokatny symetryczny", "skok jednostkowy"])
+        self.TCombobox3.current(0)
+
+        self.TCombobox4 = ttk.Combobox(self.Frame2)
+        self.TCombobox4.place(relx=0.528, rely=0.817, relheight=0.079
+                              , relwidth=0.261)
+        self.TCombobox4.configure(width=163)
+        self.TCombobox4.configure(takefocus="")
+        self.TCombobox4.configure(textvariable=Form_support.secondNoiseCombobox)
+        self.TCombobox4.configure(
+            values=["brak", "gaussowski", "o rozkładzie jednostajnym", "impulsowy"])
+        self.TCombobox4.current(0)
+
+        # -----------------------------------------BUTTONS FRAME 2------------------------------------------
+
+        self.Button4 = tk.Button(top)
+        self.Button4.place(relx=0.89, rely=0.590, relheight=0.05, relwidth=0.07)
+        self.Button4.configure(activebackground="#ececec")
+        self.Button4.configure(activeforeground="#000000")
+        self.Button4.configure(background="#d9d9d9")
+        self.Button4.configure(disabledforeground="#a3a3a3")
+        self.Button4.configure(foreground="#000000")
+        self.Button4.configure(highlightbackground="#d9d9d9")
+        self.Button4.configure(highlightcolor="black")
+        self.Button4.configure(pady="0")
+        self.Button4.configure(text='''Rysuj''')
+        self.Button4.configure(width=77)
+        self.Button4.configure(command=lambda: onSecondSignalDrawClicked())
+
+        self.Button5 = tk.Button(top)
+        self.Button5.place(relx=0.81, rely=0.590, relheight=0.05, relwidth=0.07)
+        self.Button5.configure(activebackground="#ececec")
+        self.Button5.configure(activeforeground="#000000")
+        self.Button5.configure(background="#d9d9d9")
+        self.Button5.configure(disabledforeground="#a3a3a3")
+        self.Button5.configure(foreground="#000000")
+        self.Button5.configure(highlightbackground="#d9d9d9")
+        self.Button5.configure(highlightcolor="black")
+        self.Button5.configure(pady="0")
+        self.Button5.configure(text='''Zapisz''')
+        self.Button5.configure(width=77)
+        self.Button5.configure(command=lambda: onSecondSignalDrawClicked())
+
+        #----------------------------------------------FRAME 3---------------------------------------------
+
+        self.Frame3 = tk.Frame(top)
+        self.Frame3.place(relx=0.3, rely=0.68, relheight=0.24, relwidth=0.4)
+
+        self.Frame3.configure(relief='groove')
+        self.Frame3.configure(borderwidth="2")
+        self.Frame3.configure(relief='groove')
+        self.Frame3.configure(background="#d9d9d9")
+        self.Frame3.configure(width=625)
+
+        #------------------------------------------LABELS FRAME 3-------------------------------------------
+
+        self.Label30 = tk.Label(top)
+        self.Label30.place(relx=0.47, rely=0.65, height=21, width=60)
+        self.Label30.configure(background="#d9d9d9")
+        self.Label30.configure(disabledforeground="#a3a3a3")
+        self.Label30.configure(foreground="#000000")
+        self.Label30.configure(text='''OPERACJE''')
+
+        self.Label31 = tk.Label(self.Frame3)
+        self.Label31.place(relx=0.1, rely=0.35, height=21, width=144)
+        self.Label31.configure(background="#d9d9d9")
+        self.Label31.configure(disabledforeground="#a3a3a3")
+        self.Label31.configure(foreground="#000000")
+        self.Label31.configure(text='''WYBIERZ OPERACJE''')
+        self.Label31.configure(width=144)
+
+        # -----------------------------------------COMBOBOXES FRAME 3------------------------------------------
+
+        self.TCombobox5 = ttk.Combobox(self.Frame3)
+        self.TCombobox5.place(relx=0.5, rely=0.33, relheight=0.2
+                              , relwidth=0.261)
+        self.TCombobox5.configure(width=163)
+        self.TCombobox5.configure(takefocus="")
+        self.TCombobox5.configure(textvariable=Form_support.operationCombobox)
+        self.TCombobox5.configure(
+            values=["dodawanie", "odejmowanie", "mnożenie", "dzielenie"])
+        self.TCombobox5.current(0)
+
+        # -----------------------------------------BUTTONS FRAME 3------------------------------------------
+
+        self.Button6 = tk.Button(self.Frame3)
+        self.Button6.place(relx=0.38, rely=0.78, relheight=0.2, relwidth=0.14)
+        self.Button6.configure(activebackground="#ececec")
+        self.Button6.configure(activeforeground="#000000")
+        self.Button6.configure(background="#d9d9d9")
+        self.Button6.configure(disabledforeground="#a3a3a3")
+        self.Button6.configure(foreground="#000000")
+        self.Button6.configure(highlightbackground="#d9d9d9")
+        self.Button6.configure(highlightcolor="black")
+        self.Button6.configure(pady="0")
+        self.Button6.configure(text='''Rysuj''')
+        self.Button6.configure(width=77)
+        self.Button6.configure(command=lambda: onSecondSignalDrawClicked())
+
+        self.Button7 = tk.Button(self.Frame3)
+        self.Button7.place(relx=0.54, rely=0.78, relheight=0.2, relwidth=0.14)
+        self.Button7.configure(activebackground="#ececec")
+        self.Button7.configure(activeforeground="#000000")
+        self.Button7.configure(background="#d9d9d9")
+        self.Button7.configure(disabledforeground="#a3a3a3")
+        self.Button7.configure(foreground="#000000")
+        self.Button7.configure(highlightbackground="#d9d9d9")
+        self.Button7.configure(highlightcolor="black")
+        self.Button7.configure(pady="0")
+        self.Button7.configure(text='''Zapisz''')
+        self.Button7.configure(width=77)
+        self.Button7.configure(command=lambda: onSecondSignalDrawClicked())
 
         self.Button1 = tk.Button(top)
-        self.Button1.place(relx=0.862, rely=0.94, height=34, width=77)
+        self.Button1.place(relx=0.9, rely=0.94, relheight=0.05, relwidth=0.07)
         self.Button1.configure(activebackground="#ececec")
         self.Button1.configure(activeforeground="#000000")
         self.Button1.configure(background="#d9d9d9")
@@ -320,24 +673,3 @@ class Toplevel1:
         self.Button1.configure(text='''Wyjdź''')
         self.Button1.configure(width=77)
         self.Button1.configure(command=lambda: destroy_Window())
-
-        self.Button2 = tk.Button(top)
-        self.Button2.place(relx=0.726, rely=0.94, height=34, width=77)
-        self.Button2.configure(activebackground="#ececec")
-        self.Button2.configure(activeforeground="#000000")
-        self.Button2.configure(background="#d9d9d9")
-        self.Button2.configure(disabledforeground="#a3a3a3")
-        self.Button2.configure(foreground="#000000")
-        self.Button2.configure(highlightbackground="#d9d9d9")
-        self.Button2.configure(highlightcolor="black")
-        self.Button2.configure(pady="0")
-        self.Button2.configure(text='''Rysuj''')
-        self.Button2.configure(width=77)
-        self.Button2.configure(command=lambda: onDrawClicked())
-
-        self.Label2 = tk.Label(top)
-        self.Label2.place(relx=0.454, rely=0.0, height=21, width=50)
-        self.Label2.configure(background="#d9d9d9")
-        self.Label2.configure(disabledforeground="#a3a3a3")
-        self.Label2.configure(foreground="#000000")
-        self.Label2.configure(text='''SYGNAŁ''')
