@@ -13,10 +13,12 @@ class Signal:
         self.time = time
         self.freq = freq
         self.amp = alt
-        self.timeline = np.linspace(time0, time0 + time, time * sample)
+        self.timeline = np.linspace(time0, time0 + time, time * sample + 1)
         self.signal = lambda t: t * 0
 
-    def getSignal(self, time):
+    def getSignal(self, time=None):
+        if time is None:
+            time = self.timeline
         return self.signal(time)
 
     def getTime(self):
@@ -50,19 +52,40 @@ class Signal:
         return self
 
     def setAsRectangle(self, infil=0.5):
-        self.signal = lambda t: (t % self.freq < self.freq * infil) * np.ones(t.shape) * self.amp
+        print(self.freq, 1 / self.freq)
+        self.signal = lambda t: (t % (1 / self.freq) < (1 / self.freq) * infil) * np.ones(t.shape) * self.amp
         # x = np.where(self.timeline % self.freq > self.freq * infil)
         # self.signal[x] = 0
         return self
 
     def setAsSyncRectangle(self, infil=0.5):
         self.signal = lambda t: (t % self.freq < self.freq * infil) * np.ones(t.shape) * self.amp * 2 - self.amp
-        # self.signal = np.ones(self.signal.shape) * self.amp * 2
-        # x = np.where(self.timeline % self.freq > self.freq * infil)
-        # self.signal[x] = 0
-        # self.signal -= self.amp
         return self
 
     def setSingleJump(self, ts=0):
         self.signal = lambda t: (t > ts) * np.ones(t.shape) * self.amp
         return self
+
+    def setImpulse(self, possibility=0.5):
+        self.signal = lambda t: np.random.choice([0, 1], size=t.shape, p=[1 - possibility, possibility])
+        return self
+
+    def setTriangle(self, infil=0.5):
+        okres = 1 / self.freq
+        self.signal = lambda t: (t % okres <= (okres * infil)) * (
+                ((t % okres) / (okres * infil)) * self.amp) + (
+                                        t % okres > (okres * infil)) * (
+                                        self.amp - (((t % okres) - infil * okres) / (okres * (1 - infil))) * self.amp)
+        return self
+
+    def add(self, signal):
+        return self.getSignal() + signal.getSignal()
+
+    def sub(self, signal):
+        return self.getSignal() - signal.getSignal()
+
+    def mul(self, signal):
+        return self.getSignal() * signal.getSignal()
+
+    def div(self, signal):
+        return self.getSignal() / signal.getSignal()

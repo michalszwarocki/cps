@@ -3,7 +3,8 @@ import Logic.Configuration as conf
 
 
 class SignalTypeSelector:
-    def __init__(self, configuration: conf.Configuration):
+
+    def __init__(self, configuration):
         self.signal = Signal.Signal(configuration.time0, configuration.time, configuration.frequency,
                                     configuration.amplitude, configuration.numberOfSamples)
         self.setType(configuration)

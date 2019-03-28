@@ -14,10 +14,13 @@ except ImportError:
 
 try:
     import ttk
+
     py3 = False
 except ImportError:
     import tkinter.ttk as ttk
+
     py3 = True
+
 
 def set_Tk_var():
     global firstTime0Entry, firstTimeEntry, firstFrequencyEntry, firstAmplitudeEntry, firstNOSamplesEntry, firstInfiltratorEntry, firstJumpMomentEntry
@@ -58,11 +61,13 @@ def set_Tk_var():
     secondInfiltratorEntry.set('0.5')
     secondJumpMomentEntry.set('1')
 
+
 def init(top, gui, *args, **kwargs):
     global w, top_level, root
     w = gui
     top_level = top
     root = top
+
 
 def destroy_window():
     # Function which closes the window.
@@ -70,10 +75,8 @@ def destroy_window():
     top_level.destroy()
     top_level = None
 
+
 if __name__ == '__main__':
     import Form
+
     Form.vp_start_gui()
-
-
-
-
