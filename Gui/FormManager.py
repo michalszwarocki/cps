@@ -3,6 +3,7 @@ import Logic.SignalTypeSelector as sts
 import matplotlib.pyplot as plt
 import Logic.Configuration as configuration
 import numpy as np
+import Gui.wav_file as wav
 
 class FormManager:
 
@@ -33,6 +34,8 @@ class FormManager:
     def onFirstSignalDrawClicked(self):
         config = self.readFirstSignalConfiguration()
         signal = sts.SignalTypeSelector(config).getSignal()
+        wav.save(signal.getSignal(), int(config.numberOfSamples), "sygnal"+str(config.time0))
+        a, b = wav.read("sygnal"+str(config.time0))
         plt.subplot(2, 1, 1)
         x = signal.getTime()
         y = signal.getSignal()
@@ -52,7 +55,7 @@ class FormManager:
         signal = sts.SignalTypeSelector(config).getSignal()
         plt.subplot(2, 1, 1)
         x = signal.getTime()
-        y = signal.getSignal(x)
+        y = signal.getSignal()
         plt.plot(x, y, '-', markersize=0.9)
         plt.subplot(2, 1, 2)
         plt.hist(y, bins=100)

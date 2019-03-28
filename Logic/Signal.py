@@ -58,14 +58,15 @@ class Signal:
         return self
 
     def setAsRectangle(self, infil=0.5):
-        print(self.freq, 1 / self.freq)
-        self.signal = lambda t: (t % (1 / self.freq) < (1 / self.freq) * infil) * np.ones(t.shape) * self.amp
+        okres = 1 / self.freq
+        self.signal = lambda t: (t % okres < okres * infil) * np.ones(t.shape) * self.amp
         # x = np.where(self.timeline % self.freq > self.freq * infil)
         # self.signal[x] = 0
         return self
 
     def setAsSyncRectangle(self, infil=0.5):
-        self.signal = lambda t: (t % self.freq < self.freq * infil) * np.ones(t.shape) * self.amp * 2 - self.amp
+        okres = 1 / self.freq
+        self.signal = lambda t: (t % okres < okres * infil) * np.ones(t.shape) * self.amp * 2 - self.amp
         return self
 
     def setSingleJump(self, ts=0):
