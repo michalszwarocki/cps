@@ -72,7 +72,7 @@ class Signal:
         self.signal = lambda t: (t > ts) * np.ones(t.shape) * self.amp
         return self
 
-    def setImpulse(self, possibility=0.5):
+    def setImpulseNoice(self, possibility=0.5):
         self.signal = lambda t: np.random.choice([0, 1], size=t.shape, p=[1 - possibility, possibility])
         return self
 
@@ -82,6 +82,13 @@ class Signal:
                 ((t % okres) / (okres * infil)) * self.amp) + (
                                         t % okres > (okres * infil)) * (
                                         self.amp - (((t % okres) - infil * okres) / (okres * (1 - infil))) * self.amp)
+        return self
+
+    def setImpulse(self, n = 0):
+        temp = self.timeline * False
+        temp[n] = True
+        self.signal = lambda t: self.amp * np.ones(t.shape) * temp
+        # print(temp)
         return self
 
     def add(self, signal):
