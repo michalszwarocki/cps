@@ -5,20 +5,24 @@ class Configuration:
     frequency: float
     amplitude: float
     numberOfSamples: float
-    signalType: str
     infiltrator: float
-    noise: str
     jumpMoment: float
+    possibility: float
+    jumpSample : int
+    signalType: str
+    noise: str
 
-    def __init__(self, t0, time, freq, ampl, samples, type, infil, noise, jumpMom):
+    def __init__(self, t0, time, freq, ampl, samples, infil, jumpMom, possib, jumpSamp, type, noise):
         self.time0 = t0
         self.time = time
         self.frequency = freq
         self.amplitude = ampl
         self.numberOfSamples = samples
-        self.signalType = type
         self.infiltrator = infil
-        self.noise = noise
         self.jumpMoment = jumpMom
+        self.possibility = possib
+        self.jumpSample = jumpSamp
+        self.signalType = type
+        self.noise = noise
 
 

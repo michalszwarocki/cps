@@ -1,5 +1,4 @@
 import Logic.Signal as Signal
-import Logic.Configuration as conf
 
 
 class SignalTypeSelector:
@@ -23,6 +22,8 @@ class SignalTypeSelector:
             self.signal.setAsSyncRectangle(config.infiltrator)
         elif config.signalType == 'skok jednostkowy':
             self.signal.setSingleJump(config.jumpMoment)
+        elif config.signalType == 'impuls jednostkowy':
+            self.signal.setImpulse(config.jumpSample)
 
     def setNoise(self, config):
         if config.noise == 'gaussowski':
@@ -30,7 +31,7 @@ class SignalTypeSelector:
         elif config.noise == 'o rozkładzie jednostajnym':
             self.signal.setUniformNoise()
         elif config.noise == 'impulsowy':
-            self.signal
+            self.signal.setImpulseNoice(config.possibility)
 
     def getSignal(self):
         return self.signal

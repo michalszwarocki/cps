@@ -14,8 +14,10 @@ except ImportError:
 
 
 def set_Tk_var():
-    global firstTime0Entry, firstTimeEntry, firstFrequencyEntry, firstAmplitudeEntry, firstNOSamplesEntry, firstInfiltratorEntry, firstJumpMomentEntry
-    global secondTime0Entry, secondTimeEntry, secondFrequencyEntry, secondAmplitudeEntry, secondNOSamplesEntry, secondInfiltratorEntry, secondJumpMomentEntry
+    global firstTime0Entry, firstTimeEntry, firstFrequencyEntry, firstAmplitudeEntry, firstNOSamplesEntry, \
+        firstInfiltratorEntry, firstJumpMomentEntry, firstPossibilityEntry, firstJumpSampleEntry
+    global secondTime0Entry, secondTimeEntry, secondFrequencyEntry, secondAmplitudeEntry, secondNOSamplesEntry, \
+        secondInfiltratorEntry, secondJumpMomentEntry, secondPossibilityEntry, secondJumpSampleEntry
     global firstTypeCombobox, firstNoiseCombobox, secondTypeCombobox, secondNoiseCombobox, operationCombobox
 
     firstTime0Entry = tk.StringVar()
@@ -25,6 +27,8 @@ def set_Tk_var():
     firstNOSamplesEntry = tk.StringVar()
     firstInfiltratorEntry = tk.StringVar()
     firstJumpMomentEntry = tk.StringVar()
+    firstPossibilityEntry = tk.StringVar()
+    firstJumpSampleEntry = tk.StringVar()
 
     secondTime0Entry = tk.StringVar()
     secondTimeEntry = tk.StringVar()
@@ -33,6 +37,8 @@ def set_Tk_var():
     secondNOSamplesEntry = tk.StringVar()
     secondInfiltratorEntry = tk.StringVar()
     secondJumpMomentEntry = tk.StringVar()
+    secondPossibilityEntry = tk.StringVar()
+    secondJumpSampleEntry = tk.StringVar()
 
     firstTypeCombobox = tk.StringVar()
     firstNoiseCombobox = tk.StringVar()
@@ -47,6 +53,8 @@ def set_Tk_var():
     firstNOSamplesEntry.set('200')
     firstInfiltratorEntry.set('0.5')
     firstJumpMomentEntry.set('1')
+    firstPossibilityEntry.set('0.5')
+    firstJumpSampleEntry.set('0')
 
     secondTime0Entry.set('0')
     secondTimeEntry.set('3')
@@ -55,6 +63,8 @@ def set_Tk_var():
     secondNOSamplesEntry.set('200')
     secondInfiltratorEntry.set('0.5')
     secondJumpMomentEntry.set('1')
+    secondPossibilityEntry.set('0.5')
+    secondJumpSampleEntry.set('0')
 
 
 def init(top, gui, *args, **kwargs):
