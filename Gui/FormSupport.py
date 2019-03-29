@@ -12,6 +12,7 @@ except ImportError:
 
     py3 = True
 
+import numpy as np
 
 def set_Tk_var():
     global firstTime0Entry, firstTimeEntry, firstFrequencyEntry, firstAmplitudeEntry, firstNOSamplesEntry, \
@@ -20,6 +21,7 @@ def set_Tk_var():
         secondInfiltratorEntry, secondJumpMomentEntry, secondPossibilityEntry, secondJumpSampleEntry
     global firstTypeCombobox, firstNoiseCombobox, secondTypeCombobox, secondNoiseCombobox, operationCombobox
     global text1Label, text2Label, text3Label, text4Label, text5Label
+    global points
 
     firstTime0Entry = tk.StringVar()
     firstTimeEntry = tk.StringVar()
@@ -46,6 +48,8 @@ def set_Tk_var():
     secondTypeCombobox = tk.StringVar()
     secondNoiseCombobox = tk.StringVar()
     operationCombobox = tk.StringVar()
+
+    points = np.array
 
     text1Label = tk.StringVar()
     text2Label = tk.StringVar()

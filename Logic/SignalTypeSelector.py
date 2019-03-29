@@ -10,27 +10,30 @@ class SignalTypeSelector:
         self.setNoise(configuration)
 
     def setType(self, config):
+        print(config.signalType)
         if config.signalType == 'sinus':
             self.signal.setAsSin()
-        elif config.signalType == 'sinus wyprostowany jednopołówkowo':
+        elif config.signalType == 'sinus wyprostowany jednopolowkowo':
             self.signal.setHalfStraight()
-        elif config.signalType == 'sinus wyprostowany dwupołówkowo':
+        elif config.signalType == 'sinus wyprostowany dwupolowkowo':
             self.signal.setFullStraight()
-        elif config.signalType == 'prostokątny':
+        elif config.signalType == 'prostokatny':
             self.signal.setAsRectangle(config.infiltrator)
         elif config.signalType == 'prostokatny symetryczny':
             self.signal.setAsSyncRectangle(config.infiltrator)
-        elif config.signalType == 'trójkątny':
+        elif config.signalType == 'trojkatny':
             self.signal.setTriangle(config.infiltrator)
         elif config.signalType == 'skok jednostkowy':
             self.signal.setSingleJump(config.jumpMoment)
         elif config.signalType == 'impuls jednostkowy':
             self.signal.setImpulse(config.jumpSample)
+        elif config.signalType == 'wynik operacji':
+            self.signal.setAsOperation(config.points)
 
     def setNoise(self, config):
         if config.noise == 'gaussowski':
             self.signal.setGaussNoise(self.signal.amp)
-        elif config.noise == 'o rozkładzie jednostajnym':
+        elif config.noise == 'o rozkladzie jednostajnym':
             self.signal.setUniformNoise()
         elif config.noise == 'impulsowy':
             self.signal.setImpulseNoice(config.possibility)

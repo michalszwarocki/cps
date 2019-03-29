@@ -22,7 +22,10 @@ class FormManager:
         jumpSampl = int(fs.firstJumpSampleEntry.get())
         type = fs.firstTypeCombobox.get()
         noise = fs.firstNoiseCombobox.get()
-        return configuration.Configuration(t0, time, freq, ampli, samples, infil, jumpMoment, poss, jumpSampl, type, noise)
+        points = fs.points
+        config = configuration.Configuration(t0, time, freq, ampli, samples, infil, jumpMoment, poss, jumpSampl, type, noise)
+        config.setPoints(points)
+        return config
 
     def readSecondSignalConfiguration(self):
         t0 = float(fs.secondTime0Entry.get())
@@ -36,22 +39,34 @@ class FormManager:
         jumpSampl = int(fs.secondJumpSampleEntry.get())
         type = fs.secondTypeCombobox.get()
         noise = fs.secondNoiseCombobox.get()
-        return configuration.Configuration(t0, time, freq, ampli, samples, infil, jumpMoment, poss, jumpSampl, type, noise)
+        points = fs.points
+        config = configuration.Configuration(t0, time, freq, ampli, samples, infil, jumpMoment, poss, jumpSampl, type, noise)
+        config.setPoints(points)
+        return config
 
     def onFirstSignalDrawClicked(self):
         config = self.readFirstSignalConfiguration()
         signal = sts.SignalTypeSelector(config).getSignal()
 
-        oneperiod = signal.getSignal(one_period=True)
-        fs.text1Label.set(np.mean(oneperiod))
-        fs.text2Label.set(np.mean(np.abs(oneperiod)))
-        fs.text3Label.set(np.average(np.square(oneperiod)))
-        fs.text4Label.set(np.var(oneperiod))
-        fs.text5Label.set(np.sqrt(np.mean(np.square(oneperiod))))
+        if signal.points.size != 0:
+            fs.text1Label.set(np.mean(signal.points))
+            fs.text2Label.set(np.mean(np.abs(signal.points)))
+            fs.text3Label.set(np.average(np.square(signal.points)))
+            fs.text4Label.set(np.var(signal.points))
+            fs.text5Label.set(np.sqrt(np.mean(np.square(signal.points))))
+            x = signal.getTime()
+            y = signal.points
+
+        else:
+            fs.text1Label.set(np.mean(signal.getSignal()))
+            fs.text2Label.set(np.mean(np.abs(signal.getSignal())))
+            fs.text3Label.set(np.average(np.square(signal.getSignal())))
+            fs.text4Label.set(np.var(signal.getSignal()))
+            fs.text5Label.set(np.sqrt(np.mean(np.square(signal.getSignal()))))
+            x = signal.getTime()
+            y = signal.getSignal()
 
         plt.subplot(2, 1, 1)
-        x = signal.getTime()
-        y = signal.getSignal()
         plt.plot(x, y, '-', markersize=0.9)
         plt.subplot(2, 1, 2)
         plt.hist(y, bins=100)
@@ -78,6 +93,7 @@ class FormManager:
         fs.firstJumpSampleEntry.set(configuration.jumpSample)
         fs.firstTypeCombobox.set(configuration.signalType)
         fs.firstNoiseCombobox.set(configuration.noise)
+        fs.points = configuration.points
 
 
     def onSecondSignalSaveClicked(self):
@@ -85,7 +101,7 @@ class FormManager:
         signal = sts.SignalTypeSelector(config).getSignal()
 
         fileName = asksaveasfilename()
-        serial.save(fileName, config, signal)
+        serial.save(fileName, config, signal.getSignal())
 
     def onSecondSignalReadClicked(self):
         fileName = askopenfilename()
@@ -101,21 +117,31 @@ class FormManager:
         fs.secondJumpSampleEntry.set(configuration.jumpSample)
         fs.secondTypeCombobox.set(configuration.signalType)
         fs.secondNoiseCombobox.set(configuration.noise)
+        fs.points = configuration.points
 
     def onSecondSignalDrawClicked(self):
         config = self.readSecondSignalConfiguration()
         signal = sts.SignalTypeSelector(config).getSignal()
 
-        oneperiod = signal.getSignal(one_period=True)
-        fs.text1Label.set(np.mean(oneperiod))
-        fs.text2Label.set(np.mean(np.abs(oneperiod)))
-        fs.text3Label.set(np.average(np.square(oneperiod)))
-        fs.text4Label.set(np.var(oneperiod))
-        fs.text5Label.set(np.sqrt(np.mean(np.square(oneperiod))))
+        if signal.points.size != 0:
+            fs.text1Label.set(np.mean(signal.points))
+            fs.text2Label.set(np.mean(np.abs(signal.points)))
+            fs.text3Label.set(np.average(np.square(signal.points)))
+            fs.text4Label.set(np.var(signal.points))
+            fs.text5Label.set(np.sqrt(np.mean(np.square(signal.points))))
+            x = signal.getTime()
+            y = signal.points
+
+        else:
+            fs.text1Label.set(np.mean(signal.getSignal()))
+            fs.text2Label.set(np.mean(np.abs(signal.getSignal())))
+            fs.text3Label.set(np.average(np.square(signal.getSignal())))
+            fs.text4Label.set(np.var(signal.getSignal()))
+            fs.text5Label.set(np.sqrt(np.mean(np.square(signal.getSignal()))))
+            x = signal.getTime()
+            y = signal.getSignal()
 
         plt.subplot(2, 1, 1)
-        x = signal.getTime()
-        y = signal.getSignal()
         plt.plot(x, y, '-', markersize=0.9)
         plt.subplot(2, 1, 2)
         plt.hist(y, bins=100)
@@ -153,6 +179,8 @@ class FormManager:
         secondSignal = sts.SignalTypeSelector(configSecondSignal).getSignal()
 
         signal = ots.OperationTypeSelector(firstSignal, secondSignal, operation).getSignal()
+        configFirstSignal.signalType = 'wynik operacji'
+        configFirstSignal.noise = 'wynik operacji'
 
         fileName = asksaveasfilename()
         serial.save(fileName, configFirstSignal, signal)

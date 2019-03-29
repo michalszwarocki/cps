@@ -13,9 +13,10 @@ class Signal:
         self.time = time
         self.freq = freq
         self.amp = alt
-        self.timeline = np.linspace(time0, time0 + time, time * sample + 1)
+        self.timeline = np.linspace(time0, time0 + time, time * sample)
         self.one_period = np.linspace(time0, time0 + 1 / freq, 1 / freq * sample + 1)
         self.signal = lambda t: t * 0
+        self.points = np.array([])
 
     def getSignal(self, time=None, one_period=False):
         if time is None:
@@ -92,6 +93,9 @@ class Signal:
         # print(temp)
         return self
 
+    def setAsOperation(self, points):
+        self.points = points
+
     def add(self, signal):
         return self.getSignal() + signal.getSignal()
 
@@ -102,4 +106,11 @@ class Signal:
         return self.getSignal() * signal.getSignal()
 
     def div(self, signal):
-        return self.getSignal() / signal.getSignal()
+        t = []
+        for x, y in zip(self.getSignal(), signal.getSignal()):
+            if y == 0:
+                t.append(x/0.00001)
+            else:
+                t.append(x/y)
+        return t
+        # return self.getSignal() / signal.getSignal()

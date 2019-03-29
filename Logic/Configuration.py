@@ -29,6 +29,6 @@ class Configuration:
         self.noise = noise
 
     def setPoints(self, signal):
-        self.points = signal
+        self.points = np.array(signal)
 
 

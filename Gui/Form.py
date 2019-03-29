@@ -291,8 +291,8 @@ class Toplevel1:
         self.TCombobox1.configure(takefocus="")
         self.TCombobox1.configure(textvariable=Form_support.firstTypeCombobox)
         self.TCombobox1.configure(
-            values=["brak", "sinus", "sinus wyprostowany jednopołówkowo", "sinus wyprostowany dwupołówkowo",
-                    "prostokątny", "prostokatny symetryczny", "trójkątny", "skok jednostkowy", "impuls jednostkowy"])
+            values=["brak", "sinus", "sinus wyprostowany jednopolowkowo", "sinus wyprostowany dwupolowkowo",
+                    "prostokatny", "prostokatny symetryczny", "trojkatny", "skok jednostkowy", "impuls jednostkowy"])
         self.TCombobox1.current(0)
 
         self.TCombobox2 = ttk.Combobox(self.Frame1)
@@ -302,7 +302,7 @@ class Toplevel1:
         self.TCombobox2.configure(takefocus="")
         self.TCombobox2.configure(textvariable=Form_support.firstNoiseCombobox)
         self.TCombobox2.configure(
-            values=["brak", "gaussowski", "o rozkładzie jednostajnym", "impulsowy"])
+            values=["brak", "gaussowski", "o rozkladzie jednostajnym", "impulsowy"])
         self.TCombobox2.current(0)
 
         # -----------------------------------------BUTTONS FRAME 1------------------------------------------
@@ -569,8 +569,8 @@ class Toplevel1:
         self.TCombobox3.configure(takefocus="")
         self.TCombobox3.configure(textvariable=Form_support.secondTypeCombobox)
         self.TCombobox3.configure(
-            values=["brak", "sinus", "sinus wyprostowany jednopołówkowo", "sinus wyprostowany dwupołówkowo",
-                    "prostokątny", "prostokatny symetryczny", "trójkątny", "skok jednostkowy", "impuls jednostkowy"])
+            values=["brak", "sinus", "sinus wyprostowany jednopolowkowo", "sinus wyprostowany dwupolowkowo",
+                    "prostokatny", "prostokatny symetryczny", "trojkatny", "skok jednostkowy", "impuls jednostkowy"])
         self.TCombobox3.current(0)
 
         self.TCombobox4 = ttk.Combobox(self.Frame2)
@@ -580,7 +580,7 @@ class Toplevel1:
         self.TCombobox4.configure(takefocus="")
         self.TCombobox4.configure(textvariable=Form_support.secondNoiseCombobox)
         self.TCombobox4.configure(
-            values=["brak", "gaussowski", "o rozkładzie jednostajnym", "impulsowy"])
+            values=["brak", "gaussowski", "o rozkladzie jednostajnym", "impulsowy"])
         self.TCombobox4.current(0)
 
         # -----------------------------------------BUTTONS FRAME 2------------------------------------------
