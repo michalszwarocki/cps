@@ -49,20 +49,20 @@ class FormManager:
         signal = sts.SignalTypeSelector(config).getSignal()
 
         if signal.points.size != 0:
-            fs.text1Label.set(np.mean(signal.points))
-            fs.text2Label.set(np.mean(np.abs(signal.points)))
-            fs.text3Label.set(np.average(np.square(signal.points)))
-            fs.text4Label.set(np.var(signal.points))
-            fs.text5Label.set(np.sqrt(np.mean(np.square(signal.points))))
+            fs.text1Label.set(round(np.mean(signal.points), 3))
+            fs.text2Label.set(round(np.mean(np.abs(signal.points)), 3))
+            fs.text3Label.set(round(np.average(np.square(signal.points)), 3))
+            fs.text4Label.set(round(np.var(signal.points), 3))
+            fs.text5Label.set(round(np.sqrt(np.mean(np.square(signal.points))), 3))
             x = signal.getTime()
             y = signal.points
 
         else:
-            fs.text1Label.set(np.mean(signal.getSignal()))
-            fs.text2Label.set(np.mean(np.abs(signal.getSignal())))
-            fs.text3Label.set(np.average(np.square(signal.getSignal())))
-            fs.text4Label.set(np.var(signal.getSignal()))
-            fs.text5Label.set(np.sqrt(np.mean(np.square(signal.getSignal()))))
+            fs.text1Label.set(round(np.mean(signal.getSignal()), 3))
+            fs.text2Label.set(round(np.mean(np.abs(signal.getSignal())), 3))
+            fs.text3Label.set(round(np.average(np.square(signal.getSignal())), 3))
+            fs.text4Label.set(round(np.var(signal.getSignal()), 3))
+            fs.text5Label.set(round(np.sqrt(np.mean(np.square(signal.getSignal()))), 3))
             x = signal.getTime()
             y = signal.getSignal()
 
@@ -127,20 +127,20 @@ class FormManager:
         signal = sts.SignalTypeSelector(config).getSignal()
 
         if signal.points.size != 0:
-            fs.text1Label.set(np.mean(signal.points))
-            fs.text2Label.set(np.mean(np.abs(signal.points)))
-            fs.text3Label.set(np.average(np.square(signal.points)))
-            fs.text4Label.set(np.var(signal.points))
-            fs.text5Label.set(np.sqrt(np.mean(np.square(signal.points))))
+            fs.text1Label.set(round(np.mean(signal.points), 3))
+            fs.text2Label.set(round(np.mean(np.abs(signal.points)), 3))
+            fs.text3Label.set(round(np.average(np.square(signal.points)), 3))
+            fs.text4Label.set(round(np.var(signal.points), 3))
+            fs.text5Label.set(round(np.sqrt(np.mean(np.square(signal.points))), 3))
             x = signal.getTime()
             y = signal.points
 
         else:
-            fs.text1Label.set(np.mean(signal.getSignal()))
-            fs.text2Label.set(np.mean(np.abs(signal.getSignal())))
-            fs.text3Label.set(np.average(np.square(signal.getSignal())))
-            fs.text4Label.set(np.var(signal.getSignal()))
-            fs.text5Label.set(np.sqrt(np.mean(np.square(signal.getSignal()))))
+            fs.text1Label.set(round(np.mean(signal.getSignal()), 3))
+            fs.text2Label.set(round(np.mean(np.abs(signal.getSignal())), 3))
+            fs.text3Label.set(round(np.average(np.square(signal.getSignal())), 3))
+            fs.text4Label.set(round(np.var(signal.getSignal()), 3))
+            fs.text5Label.set(round(np.sqrt(np.mean(np.square(signal.getSignal()))), 3))
             x = signal.getTime()
             y = signal.getSignal()
 
@@ -162,11 +162,11 @@ class FormManager:
 
         signal = ots.OperationTypeSelector(firstSignal, secondSignal, operation).getSignal()
 
-        fs.text1Label.set(np.mean(signal))
-        fs.text2Label.set(np.mean(np.abs(signal)))
-        fs.text3Label.set(np.average(np.square(signal)))
-        fs.text4Label.set(np.var(signal))
-        fs.text5Label.set(np.sqrt(np.mean(np.square(signal))))
+        fs.text1Label.set(round(np.mean(signal), 3))
+        fs.text2Label.set(round(np.mean(np.abs(signal)), 3))
+        fs.text3Label.set(round(np.average(np.square(signal)), 3))
+        fs.text4Label.set(round(np.var(signal), 3))
+        fs.text5Label.set(round(np.sqrt(np.mean(np.square(signal))), 3))
 
         x = firstSignal.getTime()
         y = signal

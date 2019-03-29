@@ -51,7 +51,7 @@ class Signal:
         return self
 
     def setGaussNoise(self, noise_amp=1):
-        self.signal = lambda t: np.random.normal(0, noise_amp, t.shape)
+        self.signal = lambda t: np.random.normal(0, size=t.shape)
         return self
 
     def setUniformNoise(self):
