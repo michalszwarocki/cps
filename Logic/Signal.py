@@ -14,7 +14,7 @@ class Signal:
         self.freq = freq
         self.amp = alt
         self.timeline = np.linspace(time0, time0 + time, time * sample)
-        self.one_period = np.linspace(time0, time0 + 1 / freq, 1 / freq * sample + 1)
+        self.one_period = np.linspace(time0, time0 + 1 / freq, 1 / freq * sample)
         self.signal = lambda t: t * 0
         self.points = np.array([])
 
