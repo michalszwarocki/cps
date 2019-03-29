@@ -4,7 +4,7 @@ import Logic.OperationTypeSelector as ots
 import matplotlib.pyplot as plt
 import Logic.Configuration as configuration
 import numpy as np
-import Gui.wav_file as wav
+import Gui.SignalSerializator as serial
 from tkinter.filedialog import askopenfilename
 from tkinter.filedialog import asksaveasfilename
 
@@ -15,11 +15,11 @@ class FormManager:
         time = float(fs.firstTimeEntry.get())
         freq = float(fs.firstFrequencyEntry.get())
         ampli = float(fs.firstAmplitudeEntry.get())
-        samples = float(fs.firstNOSamplesEntry.get())
+        samples = int(fs.firstNOSamplesEntry.get())
         infil = float(fs.firstInfiltratorEntry.get())
         jumpMoment = float(fs.firstJumpMomentEntry.get())
         poss = float(fs.firstPossibilityEntry.get())
-        jumpSampl = float(fs.firstJumpSampleEntry.get())
+        jumpSampl = int(fs.firstJumpSampleEntry.get())
         type = fs.firstTypeCombobox.get()
         noise = fs.firstNoiseCombobox.get()
         return configuration.Configuration(t0, time, freq, ampli, samples, infil, jumpMoment, poss, jumpSampl, type, noise)
@@ -29,11 +29,11 @@ class FormManager:
         time = float(fs.secondTimeEntry.get())
         freq = float(fs.secondFrequencyEntry.get())
         ampli = float(fs.secondAmplitudeEntry.get())
-        samples = float(fs.secondNOSamplesEntry.get())
+        samples = int(fs.secondNOSamplesEntry.get())
         infil = float(fs.secondInfiltratorEntry.get())
         jumpMoment = float(fs.secondJumpMomentEntry.get())
         poss = float(fs.secondPossibilityEntry.get())
-        jumpSampl = float(fs.secondJumpSampleEntry.get())
+        jumpSampl = int(fs.secondJumpSampleEntry.get())
         type = fs.secondTypeCombobox.get()
         noise = fs.secondNoiseCombobox.get()
         return configuration.Configuration(t0, time, freq, ampli, samples, infil, jumpMoment, poss, jumpSampl, type, noise)
@@ -62,24 +62,45 @@ class FormManager:
         signal = sts.SignalTypeSelector(config).getSignal()
 
         fileName = asksaveasfilename()
-        wav.save(signal.getSignal(), int(config.numberOfSamples), fileName + str(config.time0))
+        serial.save(fileName, config, signal.getSignal())
 
     def onFirstSignalReadClicked(self):
         fileName = askopenfilename()
-        a, b = wav.read(fileName)
-        print(a)
+        configuration = serial.read(fileName)
+        fs.firstTime0Entry.set(configuration.time0)
+        fs.firstTimeEntry.set(configuration.time)
+        fs.firstFrequencyEntry.set(configuration.frequency)
+        fs.firstAmplitudeEntry.set(configuration.amplitude)
+        fs.firstNOSamplesEntry.set(configuration.numberOfSamples)
+        fs.firstInfiltratorEntry.set(configuration.infiltrator)
+        fs.firstJumpMomentEntry.set(configuration.jumpMoment)
+        fs.firstPossibilityEntry.set(configuration.possibility)
+        fs.firstJumpSampleEntry.set(configuration.jumpSample)
+        fs.firstTypeCombobox.set(configuration.signalType)
+        fs.firstNoiseCombobox.set(configuration.noise)
+
 
     def onSecondSignalSaveClicked(self):
         config = self.readSecondSignalConfiguration()
         signal = sts.SignalTypeSelector(config).getSignal()
 
         fileName = asksaveasfilename()
-        wav.save(signal.getSignal(), int(config.numberOfSamples), fileName + str(config.time0))
+        serial.save(fileName, config, signal)
 
     def onSecondSignalReadClicked(self):
         fileName = askopenfilename()
-        a, b = wav.read(fileName)
-        print(a)
+        configuration = serial.read(fileName)
+        fs.secondTime0Entry.set(configuration.time0)
+        fs.secondTimeEntry.set(configuration.time)
+        fs.secondFrequencyEntry.set(configuration.frequency)
+        fs.secondAmplitudeEntry.set(configuration.amplitude)
+        fs.secondNOSamplesEntry.set(configuration.numberOfSamples)
+        fs.secondInfiltratorEntry.set(configuration.infiltrator)
+        fs.secondJumpMomentEntry.set(configuration.jumpMoment)
+        fs.secondPossibilityEntry.set(configuration.possibility)
+        fs.secondJumpSampleEntry.set(configuration.jumpSample)
+        fs.secondTypeCombobox.set(configuration.signalType)
+        fs.secondNoiseCombobox.set(configuration.noise)
 
     def onSecondSignalDrawClicked(self):
         config = self.readSecondSignalConfiguration()
@@ -134,5 +155,5 @@ class FormManager:
         signal = ots.OperationTypeSelector(firstSignal, secondSignal, operation).getSignal()
 
         fileName = asksaveasfilename()
-        wav.save(signal, int(configFirstSignal.numberOfSamples), fileName + str(configFirstSignal.time0))
+        serial.save(fileName, configFirstSignal, signal)
 

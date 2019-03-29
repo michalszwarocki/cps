@@ -1,3 +1,5 @@
+import numpy as np
+
 
 class Configuration:
     time0: float
@@ -11,6 +13,7 @@ class Configuration:
     jumpSample : int
     signalType: str
     noise: str
+    points: np.array
 
     def __init__(self, t0, time, freq, ampl, samples, infil, jumpMom, possib, jumpSamp, type, noise):
         self.time0 = t0
@@ -24,5 +27,8 @@ class Configuration:
         self.jumpSample = jumpSamp
         self.signalType = type
         self.noise = noise
+
+    def setPoints(self, signal):
+        self.points = signal
 
 
