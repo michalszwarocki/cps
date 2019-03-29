@@ -15,7 +15,6 @@ def save(fileName, configuration, signal):
     possibilityBytes = struct.pack('f', configuration.possibility)
     jumpSampleBytes = struct.pack('i', configuration.jumpSample)
     signalTypeLengthBytes = struct.pack('i', len(configuration.signalType))
-    print(configuration.signalType)
     signalTypeBytes = struct.pack('%ds' % len(configuration.signalType), bytes(configuration.signalType, 'utf-8'))
     noiseLengthBytes = struct.pack('i', len(configuration.noise))
     noiseBytes = struct.pack('%ds' % len(configuration.noise), bytes(configuration.noise, 'utf-8'))

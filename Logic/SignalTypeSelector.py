@@ -10,7 +10,6 @@ class SignalTypeSelector:
         self.setNoise(configuration)
 
     def setType(self, config):
-        print(config.signalType)
         if config.signalType == 'sinus':
             self.signal.setAsSin()
         elif config.signalType == 'sinus wyprostowany jednopolowkowo':
