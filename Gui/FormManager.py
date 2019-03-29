@@ -69,7 +69,7 @@ class FormManager:
         plt.subplot(2, 1, 1)
         plt.plot(x, y, '-', markersize=0.9)
         plt.subplot(2, 1, 2)
-        plt.hist(y, bins=100)
+        plt.hist(y, bins=10)
         plt.show()
 
     def onFirstSignalSaveClicked(self):
@@ -144,7 +144,7 @@ class FormManager:
         plt.subplot(2, 1, 1)
         plt.plot(x, y, '-', markersize=0.9)
         plt.subplot(2, 1, 2)
-        plt.hist(y, bins=100)
+        plt.hist(y, bins=10)
         plt.show()
 
     def onOperationDrawClicked(self):
@@ -168,7 +168,7 @@ class FormManager:
         plt.subplot(2, 1, 1)
         plt.plot(x, y, '-', markersize=0.9)
         plt.subplot(2, 1, 2)
-        plt.hist(y, bins=100)
+        plt.hist(y, bins=10)
         plt.show()
 
     def onOperationSaveClicked(self):

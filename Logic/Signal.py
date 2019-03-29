@@ -97,17 +97,55 @@ class Signal:
         self.points = points
 
     def add(self, signal):
-        return self.getSignal() + signal.getSignal()
+        if signal.points.size == 0:
+            if self.points.size == 0:
+                return self.getSignal() + signal.getSignal()
+            else:
+                return self.points + signal.getSignal()
+        else:
+            if self.points.size == 0:
+                return self.getSignal() + signal.points
+            else:
+                return self.points + signal.points
 
     def sub(self, signal):
-        return self.getSignal() - signal.getSignal()
+        if signal.points.size == 0:
+            if self.points.size == 0:
+                return self.getSignal() - signal.getSignal()
+            else:
+                return self.points - signal.getSignal()
+        else:
+            if self.points.size == 0:
+                return self.getSignal() - signal.points
+            else:
+                return self.points - signal.points
 
     def mul(self, signal):
-        return self.getSignal() * signal.getSignal()
+        if signal.points.size == 0:
+            if self.points.size == 0:
+                return self.getSignal() * signal.getSignal()
+            else:
+                return self.points * signal.getSignal()
+        else:
+            if self.points.size == 0:
+                return self.getSignal() * signal.points
+            else:
+                return self.points * signal.points
 
     def div(self, signal):
         t = []
-        for x, y in zip(self.getSignal(), signal.getSignal()):
+
+        if self.points.size == 0:
+            first = self.getSignal()
+        else:
+            first = self.points
+
+        if signal.points.size == 0:
+            second = signal.getSignal()
+        else:
+            second = signal.points
+
+        for x, y in zip(first, second):
             if y == 0:
                 t.append(x/0.00001)
             else:
