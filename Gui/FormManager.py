@@ -67,7 +67,10 @@ class FormManager:
             y = signal.getSignal()
 
         plt.subplot(2, 1, 1)
-        plt.plot(x, y, '-', markersize=0.9)
+        if config.signalType == 'impuls jednostkowy' or config.noise == 'impulsowy':
+            plt.plot(x, y, 'o', markersize=0.9)
+        else:
+            plt.plot(x, y, '-', markersize=0.9)
         plt.subplot(2, 1, 2)
         plt.hist(y, bins=10)
         plt.show()
@@ -142,7 +145,10 @@ class FormManager:
             y = signal.getSignal()
 
         plt.subplot(2, 1, 1)
-        plt.plot(x, y, '-', markersize=0.9)
+        if config.signalType == 'impuls jednostkowy' or config.noise == 'impulsowy':
+            plt.plot(x, y, 'o', markersize=0.9)
+        else:
+            plt.plot(x, y, '-', markersize=0.9)
         plt.subplot(2, 1, 2)
         plt.hist(y, bins=10)
         plt.show()
