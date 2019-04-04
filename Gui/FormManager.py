@@ -3,6 +3,7 @@ import Logic.SignalTypeSelector as sts
 import Logic.OperationTypeSelector as ots
 import matplotlib.pyplot as plt
 import Logic.Configuration as configuration
+import Logic.Operations as oper
 import numpy as np
 import Gui.SignalSerializator as serial
 from tkinter.filedialog import askopenfilename

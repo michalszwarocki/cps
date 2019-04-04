@@ -24,6 +24,16 @@ def divideTwoSignals(firstSignal, secondSignal):
     return t
 
 
+def sampling(signal, period):
+    timeSamples = np.linspace(signal.time0, signal.time0 + signal.time, signal.time * period)
+    amplitudeSamples = signal.signalFunction(timeSamples)
+    samples = [timeSamples, amplitudeSamples]
+    return samples
+
+
 def quantizate(signal, bits, samples):
-    Q = signal.alt * 2.0 / pow(2, bits)
+    numberOfLevels = 2 ** bits - 1
+    minAmplitudeValue = min(samples)
+    maxAmplitudeValue = max(samples)
+    Q = (maxAmplitudeValue - minAmplitudeValue)/numberOfLevels
     return Q * (np.floor(samples / Q) + 0.5)

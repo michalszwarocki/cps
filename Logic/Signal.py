@@ -15,8 +15,8 @@ class Signal:
         self.amp = alt
         self.timeline = np.linspace(time0, time0 + time, time * sample)
         self.one_period = np.linspace(time0, time0 + 1 / freq, 1 / freq * sample)
-        self.signal = lambda t: t * 0
-        self.points = np.array([])
+        self.signalFunction = lambda t: t * 0
+        self.singalPoints = np.array([])
 
     def getSignal(self, time=None, one_period=False):
         if time is None:
@@ -24,63 +24,55 @@ class Signal:
                 time = self.one_period
             else:
                 time = self.timeline
-        return self.signal(time)
+        return self.signalFunction(time)
 
     def getTime(self, one_period=False):
         if one_period:
             return self.one_period
         return self.timeline
 
-    def samplingTime(self, period):
-        return np.linspace(self.time0, self.time0 + self.time, self.time / period)
-
-    def sampling(self, period):
-        return self.signal(self.samplingTime(period))
-
     def setAsSin(self):
-        self.signal = lambda t: self.amp * np.sin(2 * np.pi * self.freq * t)
+        self.signalFunction = lambda t: self.amp * np.sin(2 * np.pi * self.freq * t)
         return self
 
     def setHalfStraight(self):
-        self.signal = lambda t: 0.5 * self.amp * (
+        self.signalFunction = lambda t: 0.5 * self.amp * (
                 np.sin(2 * np.pi * self.freq * t) + np.abs(np.sin(2 * np.pi * self.freq * t)))
         return self
 
     def setFullStraight(self):
-        self.signal = lambda t: self.amp * np.abs(np.sin(2 * np.pi * self.freq * t))
+        self.signalFunction = lambda t: self.amp * np.abs(np.sin(2 * np.pi * self.freq * t))
         return self
 
     def setGaussNoise(self, noise_amp=1):
-        self.signal = lambda t: np.random.normal(0, size=t.shape)
+        self.signalFunction = lambda t: np.random.normal(0, size=t.shape)
         return self
 
     def setUniformNoise(self):
-        self.signal = lambda t: np.random.uniform(-self.amp, self.amp, t.shape)
+        self.signalFunction = lambda t: np.random.uniform(-self.amp, self.amp, t.shape)
         return self
 
     def setAsRectangle(self, infil=0.5):
         okres = 1 / self.freq
-        self.signal = lambda t: (t % okres < okres * infil) * np.ones(t.shape) * self.amp
-        # x = np.where(self.timeline % self.freq > self.freq * infil)
-        # self.signal[x] = 0
+        self.signalFunction = lambda t: (t % okres < okres * infil) * np.ones(t.shape) * self.amp
         return self
 
     def setAsSyncRectangle(self, infil=0.5):
         okres = 1 / self.freq
-        self.signal = lambda t: (t % okres < okres * infil) * np.ones(t.shape) * self.amp * 2 - self.amp
+        self.signalFunction = lambda t: (t % okres < okres * infil) * np.ones(t.shape) * self.amp * 2 - self.amp
         return self
 
     def setSingleJump(self, ts=0):
-        self.signal = lambda t: (t > ts) * np.ones(t.shape) * self.amp
+        self.signalFunction = lambda t: (t > ts) * np.ones(t.shape) * self.amp
         return self
 
     def setImpulseNoice(self, possibility=0.5):
-        self.signal = lambda t: np.random.choice([0, 1], size=t.shape, p=[1 - possibility, possibility])
+        self.signalFunction = lambda t: np.random.choice([0, 1], size=t.shape, p=[1 - possibility, possibility])
         return self
 
     def setTriangle(self, infil=0.5):
         okres = 1 / self.freq
-        self.signal = lambda t: (t % okres <= (okres * infil)) * (
+        self.signalFunction = lambda t: (t % okres <= (okres * infil)) * (
                 ((t % okres) / (okres * infil)) * self.amp) + (
                                         t % okres > (okres * infil)) * (
                                         self.amp - (((t % okres) - infil * okres) / (okres * (1 - infil))) * self.amp)
@@ -89,14 +81,14 @@ class Signal:
     def setImpulse(self, n = 0):
         temp = self.timeline * False
         temp[n] = True
-        self.signal = lambda t: self.amp * np.ones(t.shape) * temp
+        self.signalFunction = lambda t: self.amp * np.ones(t.shape) * temp
         # print(temp)
         return self
 
     def setAsOperation(self, points):
-        self.points = points
+        self.singalPoints = points
 
     def getSignalForOperation(self):
-        if self.points.size != 0:
-            return self.points
+        if self.singalPoints.size != 0:
+            return self.singalPoints
         return self.getSignal()
