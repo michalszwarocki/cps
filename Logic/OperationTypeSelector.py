@@ -1,20 +1,20 @@
-import Logic.Signal as Signal
+import Logic.Operations as opr
 
 
 class OperationTypeSelector:
 
     def __init__(self, firstSignal, secondSignal, operation):
-        self.signal = self.setType(firstSignal, secondSignal, operation)
+        self.operationResult = self.setType(firstSignal, secondSignal, operation)
 
     def setType(self, firstSignal, secondSignal, operation):
         if operation == 'dodawanie':
-            return firstSignal.add(secondSignal)
+            return opr.addTwoSignals(firstSignal, secondSignal)
         elif operation == 'odejmowanie':
-            return firstSignal.sub(secondSignal)
+            return opr.substractTwoSignals(firstSignal, secondSignal)
         elif operation == 'mnożenie':
-            return firstSignal.mul(secondSignal)
+            return opr.multiplyTwoSignals(firstSignal, secondSignal)
         elif operation == 'dzielenie':
-            return firstSignal.div(secondSignal)
+            return opr.divideTwoSignals(firstSignal, secondSignal)
 
-    def getSignal(self):
-        return self.signal
+    def getOperationResult(self):
+        return self.operationResult

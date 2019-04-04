@@ -319,7 +319,7 @@ class Toplevel1:
         self.Button2.configure(pady="0")
         self.Button2.configure(text='''Rysuj''')
         self.Button2.configure(width=77)
-        self.Button2.configure(command=lambda: FormManager.FormManager().onFirstSignalDrawClicked())
+        self.Button2.configure(command=lambda: FormManager.FormManager().onSignalDrawClicked('first'))
 
         self.Button3 = tk.Button(top)
         self.Button3.place(relx=0.32, rely=0.590, relheight=0.05, relwidth=0.07)
@@ -333,7 +333,7 @@ class Toplevel1:
         self.Button3.configure(pady="0")
         self.Button3.configure(text='''Zapisz''')
         self.Button3.configure(width=77)
-        self.Button3.configure(command=lambda: FormManager.FormManager().onFirstSignalSaveClicked())
+        self.Button3.configure(command=lambda: FormManager.FormManager().onSignalSaveClicked('first'))
 
         self.Button8 = tk.Button(top)
         self.Button8.place(relx=0.24, rely=0.590, relheight=0.05, relwidth=0.07)
@@ -347,7 +347,7 @@ class Toplevel1:
         self.Button8.configure(pady="0")
         self.Button8.configure(text='''Odczytaj''')
         self.Button8.configure(width=77)
-        self.Button8.configure(command=lambda: FormManager.FormManager().onFirstSignalReadClicked())
+        self.Button8.configure(command=lambda: FormManager.FormManager().onSignalReadClicked('first'))
 
         #----------------------------------------------FRAME 2---------------------------------------------
 
@@ -597,7 +597,7 @@ class Toplevel1:
         self.Button4.configure(pady="0")
         self.Button4.configure(text='''Rysuj''')
         self.Button4.configure(width=77)
-        self.Button4.configure(command=lambda: FormManager.FormManager().onSecondSignalDrawClicked())
+        self.Button4.configure(command=lambda: FormManager.FormManager().onSignalDrawClicked('second'))
 
         self.Button5 = tk.Button(top)
         self.Button5.place(relx=0.81, rely=0.590, relheight=0.05, relwidth=0.07)
@@ -611,7 +611,7 @@ class Toplevel1:
         self.Button5.configure(pady="0")
         self.Button5.configure(text='''Zapisz''')
         self.Button5.configure(width=77)
-        self.Button5.configure(command=lambda: FormManager.FormManager().onSecondSignalSaveClicked())
+        self.Button5.configure(command=lambda: FormManager.FormManager().onSignalSaveClicked('second'))
 
         self.Button9 = tk.Button(top)
         self.Button9.place(relx=0.73, rely=0.590, relheight=0.05, relwidth=0.07)
@@ -625,7 +625,7 @@ class Toplevel1:
         self.Button9.configure(pady="0")
         self.Button9.configure(text='''Odczytaj''')
         self.Button9.configure(width=77)
-        self.Button9.configure(command=lambda: FormManager.FormManager().onSecondSignalReadClicked())
+        self.Button9.configure(command=lambda: FormManager.FormManager().onSignalReadClicked('second'))
 
         #----------------------------------------------FRAME 3---------------------------------------------
 

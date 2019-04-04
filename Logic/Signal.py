@@ -96,59 +96,7 @@ class Signal:
     def setAsOperation(self, points):
         self.points = points
 
-    def add(self, signal):
-        if signal.points.size == 0:
-            if self.points.size == 0:
-                return self.getSignal() + signal.getSignal()
-            else:
-                return self.points + signal.getSignal()
-        else:
-            if self.points.size == 0:
-                return self.getSignal() + signal.points
-            else:
-                return self.points + signal.points
-
-    def sub(self, signal):
-        if signal.points.size == 0:
-            if self.points.size == 0:
-                return self.getSignal() - signal.getSignal()
-            else:
-                return self.points - signal.getSignal()
-        else:
-            if self.points.size == 0:
-                return self.getSignal() - signal.points
-            else:
-                return self.points - signal.points
-
-    def mul(self, signal):
-        if signal.points.size == 0:
-            if self.points.size == 0:
-                return self.getSignal() * signal.getSignal()
-            else:
-                return self.points * signal.getSignal()
-        else:
-            if self.points.size == 0:
-                return self.getSignal() * signal.points
-            else:
-                return self.points * signal.points
-
-    def div(self, signal):
-        t = []
-
-        if self.points.size == 0:
-            first = self.getSignal()
-        else:
-            first = self.points
-
-        if signal.points.size == 0:
-            second = signal.getSignal()
-        else:
-            second = signal.points
-
-        for x, y in zip(first, second):
-            if y == 0:
-                t.append(x/0.00001)
-            else:
-                t.append(x/y)
-        return t
-        # return self.getSignal() / signal.getSignal()
+    def getSignalForOperation(self):
+        if self.points.size != 0:
+            return self.points
+        return self.getSignal()
