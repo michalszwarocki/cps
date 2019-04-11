@@ -23,6 +23,9 @@ def set_Tk_var():
     global text1Label, text2Label, text3Label, text4Label, text5Label
     global points
 
+    global mseLabel, snrLabel, psnrLabel, mdLabel
+    global samplingPeriodEntry, quantizationBitsEntry, nOSamplesEntry, actionCombobox
+
     firstTime0Entry = tk.StringVar()
     firstTimeEntry = tk.StringVar()
     firstFrequencyEntry = tk.StringVar()
@@ -57,6 +60,16 @@ def set_Tk_var():
     text4Label = tk.StringVar()
     text5Label = tk.StringVar()
 
+    mseLabel = tk.StringVar()
+    snrLabel = tk.StringVar()
+    psnrLabel = tk.StringVar()
+    mdLabel = tk.StringVar()
+
+    samplingPeriodEntry = tk.StringVar()
+    quantizationBitsEntry = tk.StringVar()
+    nOSamplesEntry = tk.StringVar()
+    actionCombobox = tk.StringVar()
+
     firstTime0Entry.set('0')
     firstTimeEntry.set('1')
     firstFrequencyEntry.set('2')
@@ -82,6 +95,15 @@ def set_Tk_var():
     text3Label.set('')
     text4Label.set('')
     text5Label.set('')
+
+    mseLabel.set('')
+    snrLabel.set('')
+    psnrLabel.set('')
+    mdLabel.set('')
+
+    samplingPeriodEntry.set('0.1')
+    quantizationBitsEntry.set('4')
+    nOSamplesEntry.set('10')
 
 
 def init(top, gui, *args, **kwargs):

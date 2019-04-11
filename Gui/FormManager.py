@@ -2,8 +2,9 @@ import Gui.FormSupport as fs
 import Logic.SignalTypeSelector as sts
 import Logic.OperationTypeSelector as ots
 import matplotlib.pyplot as plt
-import Logic.Configuration as configuration
+import Logic.SignalConfiguration as configuration
 import Logic.Operations as oper
+import Logic.Metrics as met
 import numpy as np
 import Gui.SignalSerializator as serial
 from tkinter.filedialog import askopenfilename
@@ -34,6 +35,23 @@ class FormManager:
 
         self.setSignalAvarageValues(signal.getSignalForOperation())
         self.drawPlot(config, signal.getTime(), signal.getSignalForOperation())
+
+    def onActionDrawClicked(self):
+        config = self.readSignalConfiguration('first')
+        signal = sts.SignalTypeSelector(config).getSignal()
+
+        self.setSignalAvarageValues(signal.getSignalForOperation())
+        self.drawPlot(config, signal.getTime(), signal.getSignalForOperation())
+
+        # samples = oper.sampling(signal, 0.1)
+        # v = oper.fohExtrapolateArray(signal.timeline, samples, 10)
+        # print(met.meanSquaredError(signal.getSignalForOperation(), v))
+        # print(met.signalToNoiseRatio(signal.getSignalForOperation(), v))
+        # print(met.peakSignalToNoiseRatio(signal.getSignalForOperation(), v))
+        # print(met.maximumDifference(signal.getSignalForOperation(), v))
+        #
+        # plt.plot(signal.timeline, v)
+        # plt.show()
 
     def onSignalSaveClicked(self, which):
         config = self.readSignalConfiguration(which)

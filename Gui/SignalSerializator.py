@@ -1,5 +1,5 @@
 import struct
-import Logic.Configuration as config
+import Logic.SignalConfiguration as config
 
 
 def save(fileName, configuration, signal):
