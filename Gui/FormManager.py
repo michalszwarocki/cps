@@ -40,16 +40,14 @@ class FormManager:
         config = self.readSignalConfiguration('first')
         signal = sts.SignalTypeSelector(config).getSignal()
 
+        received = None
         self.setSignalAvarageValues(signal.getSignalForOperation())
+        self.setMetricsValues(signal.getSignalForOperation(), received)
         self.drawPlot(config, signal.getTime(), signal.getSignalForOperation())
 
         # samples = oper.sampling(signal, 0.1)
         # v = oper.fohExtrapolateArray(signal.timeline, samples, 10)
-        # print(met.meanSquaredError(signal.getSignalForOperation(), v))
-        # print(met.signalToNoiseRatio(signal.getSignalForOperation(), v))
-        # print(met.peakSignalToNoiseRatio(signal.getSignalForOperation(), v))
-        # print(met.maximumDifference(signal.getSignalForOperation(), v))
-        #
+
         # plt.plot(signal.timeline, v)
         # plt.show()
 
@@ -119,6 +117,12 @@ class FormManager:
         fs.text3Label.set(round(np.average(np.square(signal)), 3))
         fs.text4Label.set(round(np.var(signal), 3))
         fs.text5Label.set(round(np.sqrt(np.mean(np.square(signal))), 3))
+
+    def setMetricsValues(self, originalSignal, receivedSignal):
+        fs.mseLabel.set(round(met.meanSquaredError(originalSignal, receivedSignal), 3))
+        fs.snrLabel.set(round(met.signalToNoiseRatio(originalSignal, receivedSignal), 3))
+        fs.psnrLabel.set(round(met.peakSignalToNoiseRatio(originalSignal, receivedSignal), 3))
+        fs.mdLabel.set(round(met.maximumDifference(originalSignal, receivedSignal), 3))
 
     def drawPlot(self, config, x, y):
         plt.subplot(2, 1, 1)
