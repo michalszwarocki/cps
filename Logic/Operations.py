@@ -46,34 +46,34 @@ def find_nearest(array, value):
     return array[idx]
 
 
-def sincInterpolate(t, samples, howMany):
-    if np.size(samples) > 2:
-        samplingPeriod = samples[0][1] - samples[0][0]
+def sincInterpolate(t, samplesTimeline, samplesAmplitudes, howMany):
+    if np.size(samplesTimeline) > 2:
+        samplingPeriod = samplesTimeline[1] - samplesTimeline[0]
     else:
         print("Array has to have minimum 2 elements")
         return
 
     value = 0
-    if t in samples[0][:]:
-        index = int(np.where(t == samples[0])[0])
+    if t in samplesTimeline[:]:
+        index = int(np.where(t == samplesTimeline)[0])
     else:
-        nearest = find_nearest(samples[0], t)
-        index = int(np.where(nearest == samples[0])[0])
+        nearest = find_nearest(samplesTimeline, t)
+        index = int(np.where(nearest == samplesTimeline)[0])
 
     pointsIndexes = np.arange(index-howMany, index+howMany+1)
     pointsIndexes = np.array([num for num in pointsIndexes if num >= 0])
-    pointsIndexes = np.array([num for num in pointsIndexes if num <= np.size(samples[1])-1])
+    pointsIndexes = np.array([num for num in pointsIndexes if num <= np.size(samplesAmplitudes)-1])
 
     for i in pointsIndexes:
-        value += np.take(samples[1], i)*np.sinc(t/samplingPeriod - i)
+        value += np.take(samplesAmplitudes, i)*np.sinc(t/samplingPeriod - i)
 
     return value
 
 
-def sincInterpolateArray(array, samples, howMany):
+def sincInterpolateArray(array, samplesTimeline, samplesAmplitudes, howMany):
     values = None
     for element in array:
-        values = np.append(values, sincInterpolate(element, samples, howMany))
+        values = np.append(values, sincInterpolate(element, samplesTimeline, samplesAmplitudes, howMany))
     values = np.delete(values, 0)
     return values
 
@@ -84,34 +84,34 @@ def tri(t):
     else:
         return 0
 
-def fohExtrapolate(t, samples, howMany):
-    if np.size(samples) > 2:
-        samplingPeriod = samples[0][1] - samples[0][0]
+def fohExtrapolate(t, samplesTimeline, samplesAmplitudes, howMany):
+    if np.size(samplesTimeline) > 2:
+        samplingPeriod = samplesTimeline[1] - samplesTimeline[0]
     else:
         print("Array has to have minimum 2 elements")
         return
 
     value = 0
-    if t in samples[0][:]:
-        index = int(np.where(t == samples[0])[0])
+    if t in samplesTimeline[:]:
+        index = int(np.where(t == samplesTimeline)[0])
     else:
-        nearest = find_nearest(samples[0], t)
-        index = int(np.where(nearest == samples[0])[0])
+        nearest = find_nearest(samplesTimeline, t)
+        index = int(np.where(nearest == samplesTimeline)[0])
 
     pointsIndexes = np.arange(index-howMany, index+howMany+1)
     pointsIndexes = np.array([num for num in pointsIndexes if num >= 0])
-    pointsIndexes = np.array([num for num in pointsIndexes if num <= np.size(samples[1])-1])
+    pointsIndexes = np.array([num for num in pointsIndexes if num <= np.size(samplesAmplitudes)-1])
 
     for i in pointsIndexes:
-        value += np.take(samples[1], i)*tri(t/samplingPeriod - i)
+        value += np.take(samplesAmplitudes, i)*tri(t/samplingPeriod - i)
 
     return value
 
 
-def fohExtrapolateArray(array, samples, howMany):
+def fohExtrapolateArray(array, samplesTimeline, samplesAmplitudes, howMany):
     values = None
     for element in array:
-        values = np.append(values, fohExtrapolate(element, samples, howMany))
+        values = np.append(values, fohExtrapolate(element, samplesTimeline, samplesAmplitudes, howMany))
     values = np.delete(values, 0)
     return values
 

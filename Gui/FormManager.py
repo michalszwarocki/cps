@@ -3,6 +3,8 @@ import Logic.SignalTypeSelector as sts
 import Logic.OperationTypeSelector as ots
 import matplotlib.pyplot as plt
 import Logic.SignalConfiguration as configuration
+import Logic.SamplingConfiguration as sampConfig
+import Logic.ActionTypeSelector as ats
 import Logic.Operations as oper
 import Logic.Metrics as met
 import numpy as np
@@ -29,6 +31,14 @@ class FormManager:
         config.setPoints(points)
         return config
 
+    def readSamplingConfiguration(self):
+        samplingPeriod = float(fs.samplingPeriodEntry.get())
+        quantizationBits = int(fs.quantizationBitsEntry.get())
+        numberOfSamples = int(fs.nOSamplesEntry.get())
+        action = fs.actionCombobox.get()
+        config = sampConfig.SamplingConfiguration(samplingPeriod, quantizationBits, numberOfSamples, action)
+        return config
+
     def onSignalDrawClicked(self, which):
         config = self.readSignalConfiguration(which)
         signal = sts.SignalTypeSelector(config).getSignal()
@@ -37,19 +47,26 @@ class FormManager:
         self.drawPlot(config, signal.getTime(), signal.getSignalForOperation())
 
     def onActionDrawClicked(self):
-        config = self.readSignalConfiguration('first')
-        signal = sts.SignalTypeSelector(config).getSignal()
-
-        received = None
+        signalConfig = self.readSignalConfiguration('first')
+        samplingConfig = self.readSamplingConfiguration()
+        signal = sts.SignalTypeSelector(signalConfig).getSignal()
+        receivedSignal = ats.ActionTypeSelector(signal, samplingConfig).getActionResult()
         self.setSignalAvarageValues(signal.getSignalForOperation())
-        self.setMetricsValues(signal.getSignalForOperation(), received)
-        self.drawPlot(config, signal.getTime(), signal.getSignalForOperation())
+        originalTimeline = signal.getTime()
+        originalSignal = signal.getSignalForOperation()
+        samplingX = ats.ActionTypeSelector(signal, samplingConfig).getSamplingResult()[0]
+        samplingY = ats.ActionTypeSelector(signal, samplingConfig).getSamplingResult()[1]
 
-        # samples = oper.sampling(signal, 0.1)
-        # v = oper.fohExtrapolateArray(signal.timeline, samples, 10)
+        if samplingConfig.action=='próbkowanie' or samplingConfig.action=='kwantyzacja z zaokrągleniem':
+            originalSignalToMetrics = samplingY
+            receivedTimeline = samplingX
+        else:
+            originalSignalToMetrics = signal.getSignalForOperation()
+            receivedTimeline = signal.getTime()
 
-        # plt.plot(signal.timeline, v)
-        # plt.show()
+        self.setMetricsValues(originalSignalToMetrics, receivedSignal)
+        self.drawPlot(signalConfig, originalTimeline, originalSignal, receivedTimeline, receivedSignal,
+                      samplingX,  samplingY)
 
     def onSignalSaveClicked(self, which):
         config = self.readSignalConfiguration(which)
@@ -132,4 +149,29 @@ class FormManager:
             plt.plot(x, y, '-', markersize=0.9)
         plt.subplot(2, 1, 2)
         plt.hist(y, bins=10)
+        plt.show()
+
+    def drawPlot(self, config, originalX, originalY, receivedX, receivedY, samplesX, samplesY):
+        plt.subplot(4, 1, 1)
+        if config is not None and (config.signalType == 'impuls jednostkowy' or config.noise == 'impulsowy'):
+            plt.plot(originalX, originalY, 'o', markersize=0.9)
+        else:
+            plt.plot(originalX, originalY, '-', markersize=0.9)
+
+        plt.subplot(4, 1, 2)
+        plt.hist(originalY, bins=10)
+
+        plt.subplot(4, 1, 3)
+        if config is not None and (config.signalType == 'impuls jednostkowy' or config.noise == 'impulsowy'):
+            plt.plot(originalX, originalY, 'o', markersize=0.9)
+        else:
+            plt.plot(originalX, originalY, '-', markersize=0.9)
+        plt.plot(samplesX, samplesY, 'o', markersize=5)
+
+        plt.subplot(4, 1, 4)
+        if config is not None and (config.signalType == 'impuls jednostkowy' or config.noise == 'impulsowy'):
+            plt.plot(originalX, originalY, 'o', markersize=0.9)
+        else:
+            plt.plot(originalX, originalY, '-', markersize=0.9)
+        plt.plot(receivedX, receivedY, '-', markersize=0.9)
         plt.show()
