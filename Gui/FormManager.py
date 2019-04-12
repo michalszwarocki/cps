@@ -169,5 +169,5 @@ class FormManager:
             plt.plot(originalX, originalY, 'o', markersize=0.9)
         else:
             plt.plot(originalX, originalY, '-', markersize=0.9)
-        plt.plot(receivedX, receivedY, '-', markersize=0.9)
+        plt.plot(receivedX, receivedY, 'o', markersize=0.9)
         plt.show()

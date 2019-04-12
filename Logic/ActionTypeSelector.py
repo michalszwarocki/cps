@@ -58,7 +58,6 @@ class ActionTypeSelector:
         elif samplingConfiguration.action == 'interpolacja pierwszego rzędu':
             self.receivedSingal = opr.fohInterpolateArray(signal.timeline, samples[0], samples[1],
                                                           samplingConfiguration.numberOfSamples)
-            print(self.receivedSingal)
             self.originalSignalToMetrics = signal.getSignalForOperation()
             self.receivedTimeline = signal.getTime()
         elif samplingConfiguration.action == 'rekonstrukcja sinc':
