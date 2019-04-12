@@ -60,7 +60,7 @@ class FormManager:
         originalSignalToMetrics = selectedAction.getOriginalSignalToMetrics()
 
         self.setSignalAvarageValues(signal.getSignalForOperation())
-        self.setMetricsValues(originalSignalToMetrics, receivedSignal)
+        self.setMetricsValues(originalSignalToMetrics, receivedSignal, samplingConfig)
         self.drawPlotForSampling(signalConfig, originalTimeline, originalSignal, receivedTimeline, receivedSignal,
                       samplingX,  samplingY)
 
@@ -131,11 +131,15 @@ class FormManager:
         fs.text4Label.set(round(np.var(signal), 3))
         fs.text5Label.set(round(np.sqrt(np.mean(np.square(signal))), 3))
 
-    def setMetricsValues(self, originalSignal, receivedSignal):
+    def setMetricsValues(self, originalSignal, receivedSignal, samplingConfig):
         fs.mseLabel.set(round(met.meanSquaredError(originalSignal, receivedSignal), 3))
         fs.snrLabel.set(round(met.signalToNoiseRatio(originalSignal, receivedSignal), 3))
         fs.psnrLabel.set(round(met.peakSignalToNoiseRatio(originalSignal, receivedSignal), 3))
         fs.mdLabel.set(round(met.maximumDifference(originalSignal, receivedSignal), 3))
+        if samplingConfig.action == 'kwantyzacja z zaokrągleniem':
+            fs.enobLabel.set(round(met.effectiveNumberOfBits(originalSignal, receivedSignal), 3))
+        else:
+            fs.enobLabel.set('')
 
     def drawPlot(self, config, x, y):
         plt.subplot(2, 1, 1)

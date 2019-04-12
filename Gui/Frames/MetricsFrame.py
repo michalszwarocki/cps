@@ -38,7 +38,7 @@ class MetricsFrame:
         self.Label1.configure(text='''BŁĄD ŚREDNIOKWADRATOWY''')
 
         self.Label2 = tk.Label(self.Frame1)
-        self.Label2.place(relx=0.1, rely=0.3, height=21, width=200)
+        self.Label2.place(relx=0.1, rely=0.25, height=21, width=200)
         self.Label2.configure(background="#d9d9d9")
         self.Label2.configure(disabledforeground="#a3a3a3")
         self.Label2.configure(foreground="#000000")
@@ -46,7 +46,7 @@ class MetricsFrame:
         self.Label2.configure(width=144)
 
         self.Label3 = tk.Label(self.Frame1)
-        self.Label3.place(relx=0.06, rely=0.55, height=21, width=230)
+        self.Label3.place(relx=0.06, rely=0.45, height=21, width=230)
         self.Label3.configure(background="#d9d9d9")
         self.Label3.configure(disabledforeground="#a3a3a3")
         self.Label3.configure(foreground="#000000")
@@ -54,12 +54,20 @@ class MetricsFrame:
         self.Label3.configure(width=144)
 
         self.Label4 = tk.Label(self.Frame1)
-        self.Label4.place(relx=0.15, rely=0.8, height=21, width=144)
+        self.Label4.place(relx=0.15, rely=0.65, height=21, width=144)
         self.Label4.configure(background="#d9d9d9")
         self.Label4.configure(disabledforeground="#a3a3a3")
         self.Label4.configure(foreground="#000000")
         self.Label4.configure(text='''MAKSYMALNA RÓŻNICA''')
         self.Label4.configure(width=144)
+
+        self.Label5 = tk.Label(self.Frame1)
+        self.Label5.place(relx=0.14, rely=0.85, height=21, width=154)
+        self.Label5.configure(background="#d9d9d9")
+        self.Label5.configure(disabledforeground="#a3a3a3")
+        self.Label5.configure(foreground="#000000")
+        self.Label5.configure(text='''EFEKTYWNA LICZBA BITÓW''')
+        self.Label5.configure(width=144)
 
         self.Label6 = tk.Label(self.Frame1)
         self.Label6.place(relx=0.6, rely=0.05, height=21, width=120)
@@ -69,7 +77,7 @@ class MetricsFrame:
         self.Label6.configure(textvariable=fs.mseLabel)
 
         self.Label7 = tk.Label(self.Frame1)
-        self.Label7.place(relx=0.6, rely=0.3, height=21, width=120)
+        self.Label7.place(relx=0.6, rely=0.25, height=21, width=120)
         self.Label7.configure(background="#d9d9d9")
         self.Label7.configure(disabledforeground="#a3a3a3")
         self.Label7.configure(foreground="#000000")
@@ -77,7 +85,7 @@ class MetricsFrame:
         self.Label7.configure(width=144)
 
         self.Label8 = tk.Label(self.Frame1)
-        self.Label8.place(relx=0.6, rely=0.55, height=21, width=120)
+        self.Label8.place(relx=0.6, rely=0.45, height=21, width=120)
         self.Label8.configure(background="#d9d9d9")
         self.Label8.configure(disabledforeground="#a3a3a3")
         self.Label8.configure(foreground="#000000")
@@ -85,10 +93,18 @@ class MetricsFrame:
         self.Label8.configure(width=144)
 
         self.Label9 = tk.Label(self.Frame1)
-        self.Label9.place(relx=0.6, rely=0.8, height=21, width=120)
+        self.Label9.place(relx=0.6, rely=0.65, height=21, width=120)
         self.Label9.configure(background="#d9d9d9")
         self.Label9.configure(disabledforeground="#a3a3a3")
         self.Label9.configure(foreground="#000000")
         self.Label9.configure(textvariable=fs.mdLabel)
         self.Label9.configure(width=144)
+
+        self.Label10 = tk.Label(self.Frame1)
+        self.Label10.place(relx=0.6, rely=0.85, height=21, width=120)
+        self.Label10.configure(background="#d9d9d9")
+        self.Label10.configure(disabledforeground="#a3a3a3")
+        self.Label10.configure(foreground="#000000")
+        self.Label10.configure(textvariable=fs.enobLabel)
+        self.Label10.configure(width=144)
 

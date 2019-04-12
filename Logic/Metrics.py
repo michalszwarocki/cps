@@ -44,3 +44,10 @@ def maximumDifference(originalSignal, receivedSignal):
     result = np.amax(differences)
 
     return result
+
+
+def effectiveNumberOfBits(originalSignal, receivedSignal):
+    result = signalToNoiseRatio(originalSignal, receivedSignal) - 1.76
+    result /= 6.02
+
+    return result

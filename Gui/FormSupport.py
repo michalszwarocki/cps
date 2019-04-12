@@ -23,7 +23,7 @@ def set_Tk_var():
     global text1Label, text2Label, text3Label, text4Label, text5Label
     global points
 
-    global mseLabel, snrLabel, psnrLabel, mdLabel
+    global mseLabel, snrLabel, psnrLabel, mdLabel, enobLabel
     global samplingPeriodEntry, quantizationBitsEntry, nOSamplesEntry, actionCombobox
 
     firstTime0Entry = tk.StringVar()
@@ -64,6 +64,7 @@ def set_Tk_var():
     snrLabel = tk.StringVar()
     psnrLabel = tk.StringVar()
     mdLabel = tk.StringVar()
+    enobLabel = tk.StringVar()
 
     samplingPeriodEntry = tk.StringVar()
     quantizationBitsEntry = tk.StringVar()
@@ -100,6 +101,7 @@ def set_Tk_var():
     snrLabel.set('')
     psnrLabel.set('')
     mdLabel.set('')
+    enobLabel.set('')
 
     samplingPeriodEntry.set('0.1')
     quantizationBitsEntry.set('4')
