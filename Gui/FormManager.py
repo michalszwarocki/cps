@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 import Logic.SignalConfiguration as configuration
 import Logic.SamplingConfiguration as sampConfig
 import Logic.ActionTypeSelector as ats
-import Logic.Operations as oper
 import Logic.Metrics as met
 import numpy as np
 import Gui.SignalSerializator as serial
@@ -50,22 +49,19 @@ class FormManager:
         signalConfig = self.readSignalConfiguration('first')
         samplingConfig = self.readSamplingConfiguration()
         signal = sts.SignalTypeSelector(signalConfig).getSignal()
-        receivedSignal = ats.ActionTypeSelector(signal, samplingConfig).getActionResult()
+        selectedAction = ats.ActionTypeSelector(signal, samplingConfig, signalConfig)
+
+        receivedTimeline = selectedAction.getReceivedTimeline()
+        receivedSignal = selectedAction.getReceivedSingnal()
+        originalTimeline = selectedAction.getOriginalTimeline()
+        originalSignal = selectedAction.getOriginalSignal()
+        samplingX = selectedAction.getSamplingX()
+        samplingY = selectedAction.getSamplingY()
+        originalSignalToMetrics = selectedAction.getOriginalSignalToMetrics()
+
         self.setSignalAvarageValues(signal.getSignalForOperation())
-        originalTimeline = signal.getTime()
-        originalSignal = signal.getSignalForOperation()
-        samplingX = ats.ActionTypeSelector(signal, samplingConfig).getSamplingResult()[0]
-        samplingY = ats.ActionTypeSelector(signal, samplingConfig).getSamplingResult()[1]
-
-        if samplingConfig.action=='próbkowanie' or samplingConfig.action=='kwantyzacja z zaokrągleniem':
-            originalSignalToMetrics = samplingY
-            receivedTimeline = samplingX
-        else:
-            originalSignalToMetrics = signal.getSignalForOperation()
-            receivedTimeline = signal.getTime()
-
         self.setMetricsValues(originalSignalToMetrics, receivedSignal)
-        self.drawPlot(signalConfig, originalTimeline, originalSignal, receivedTimeline, receivedSignal,
+        self.drawPlotForSampling(signalConfig, originalTimeline, originalSignal, receivedTimeline, receivedSignal,
                       samplingX,  samplingY)
 
     def onSignalSaveClicked(self, which):
@@ -151,7 +147,7 @@ class FormManager:
         plt.hist(y, bins=10)
         plt.show()
 
-    def drawPlot(self, config, originalX, originalY, receivedX, receivedY, samplesX, samplesY):
+    def drawPlotForSampling(self, config, originalX, originalY, receivedX, receivedY, samplesX, samplesY):
         plt.subplot(4, 1, 1)
         if config is not None and (config.signalType == 'impuls jednostkowy' or config.noise == 'impulsowy'):
             plt.plot(originalX, originalY, 'o', markersize=0.9)
