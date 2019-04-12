@@ -55,9 +55,10 @@ class ActionTypeSelector:
             self.receivedSingal = opr.quantizate(samplingConfiguration.quantizationBits, samples[1])
             self.originalSignalToMetrics = samples[1]
             self.receivedTimeline = samples[0]
-        elif samplingConfiguration.action == 'ekstrapolacja pierwszego rzędu':
-            self.receivedSingal = opr.fohExtrapolateArray(signal.timeline, samples[0], samples[1],
+        elif samplingConfiguration.action == 'interpolacja pierwszego rzędu':
+            self.receivedSingal = opr.fohInterpolateArray(signal.timeline, samples[0], samples[1],
                                                           samplingConfiguration.numberOfSamples)
+            print(self.receivedSingal)
             self.originalSignalToMetrics = signal.getSignalForOperation()
             self.receivedTimeline = signal.getTime()
         elif samplingConfiguration.action == 'rekonstrukcja sinc':
@@ -79,8 +80,8 @@ class ActionTypeSelector:
             self.receivedSingal = samples
         elif samplingConfiguration.action == 'kwantyzacja z zaokrągleniem':
             self.receivedSingal = opr.quantizate(samplingConfiguration.quantizationBits, samples)
-        elif samplingConfiguration.action == 'ekstrapolacja pierwszego rzędu':
-            self.receivedSingal = opr.fohExtrapolateArray(signal.timeline, signal.getTime(), samples,
+        elif samplingConfiguration.action == 'interpolacja pierwszego rzędu':
+            self.receivedSingal = opr.fohInterpolateArray(signal.timeline, signal.getTime(), samples,
                                                           samplingConfiguration.numberOfSamples)
         elif samplingConfiguration.action == 'rekonstrukcja sinc':
             self.receivedSingal = opr.sincInterpolateArray(signal.timeline, signal.getTime(), samples,

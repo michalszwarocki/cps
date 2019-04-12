@@ -107,7 +107,7 @@ class SamplingFrame:
         self.TCombobox1.configure(takefocus="")
         self.TCombobox1.configure(textvariable=fs.actionCombobox)
         self.TCombobox1.configure(
-            values=["próbkowanie", "kwantyzacja z zaokrągleniem", "ekstrapolacja pierwszego rzędu", "rekonstrukcja sinc"])
+            values=["próbkowanie", "kwantyzacja z zaokrągleniem", "interpolacja pierwszego rzędu", "rekonstrukcja sinc"])
         self.TCombobox1.current(0)
 
         # -----------------------------------------BUTTONS FRAME------------------------------------------
@@ -125,31 +125,4 @@ class SamplingFrame:
         self.Button2.configure(text='''Rysuj''')
         self.Button2.configure(width=77)
         self.Button2.configure(command=lambda: FormManager.FormManager().onActionDrawClicked())
-        #
-        # self.Button3 = tk.Button(top)
-        # self.Button3.place(relx=relx+0.29, rely=rely+0.559, relheight=0.05, relwidth=0.07)
-        # self.Button3.configure(activebackground="#ececec")
-        # self.Button3.configure(activeforeground="#000000")
-        # self.Button3.configure(background="#d9d9d9")
-        # self.Button3.configure(disabledforeground="#a3a3a3")
-        # self.Button3.configure(foreground="#000000")
-        # self.Button3.configure(highlightbackground="#d9d9d9")
-        # self.Button3.configure(highlightcolor="black")
-        # self.Button3.configure(pady="0")
-        # self.Button3.configure(text='''Zapisz''')
-        # self.Button3.configure(width=77)
-        # self.Button3.configure(command=lambda: FormManager.FormManager().onSignalSaveClicked(which))
-        #
-        # self.Button8 = tk.Button(top)
-        # self.Button8.place(relx=relx+0.21, rely=rely+0.559, relheight=0.05, relwidth=0.07)
-        # self.Button8.configure(activebackground="#ececec")
-        # self.Button8.configure(activeforeground="#000000")
-        # self.Button8.configure(background="#d9d9d9")
-        # self.Button8.configure(disabledforeground="#a3a3a3")
-        # self.Button8.configure(foreground="#000000")
-        # self.Button8.configure(highlightbackground="#d9d9d9")
-        # self.Button8.configure(highlightcolor="black")
-        # self.Button8.configure(pady="0")
-        # self.Button8.configure(text='''Odczytaj''')
-        # self.Button8.configure(width=77)
-        # self.Button8.configure(command=lambda: FormManager.FormManager().onSignalReadClicked(which))
+

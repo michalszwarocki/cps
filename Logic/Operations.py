@@ -84,7 +84,7 @@ def tri(t):
     else:
         return 0
 
-def fohExtrapolate(t, samplesTimeline, samplesAmplitudes, howMany):
+def fohInterpolate(t, samplesTimeline, samplesAmplitudes, howMany):
     if np.size(samplesTimeline) > 2:
         samplingPeriod = samplesTimeline[1] - samplesTimeline[0]
     else:
@@ -108,10 +108,10 @@ def fohExtrapolate(t, samplesTimeline, samplesAmplitudes, howMany):
     return value
 
 
-def fohExtrapolateArray(array, samplesTimeline, samplesAmplitudes, howMany):
+def fohInterpolateArray(array, samplesTimeline, samplesAmplitudes, howMany):
     values = None
     for element in array:
-        values = np.append(values, fohExtrapolate(element, samplesTimeline, samplesAmplitudes, howMany))
+        values = np.append(values, fohInterpolate(element, samplesTimeline, samplesAmplitudes, howMany))
     values = np.delete(values, 0)
     return values
 
