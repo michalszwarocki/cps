@@ -40,10 +40,11 @@ def quantizate(bits, samples):
     return Q * (np.floor(samples / Q) + 0.5)
 
 
-def find_nearest(array, value):
+def findTwoNearestElements(array, value):
     array = np.asarray(array)
     idx = (np.abs(array - value)).argmin()
-    return array[idx]
+    sortedArray = sorted(array, key=lambda x: np.abs(x-value))[:2]
+    return sortedArray
 
 
 def sincInterpolate(t, samplesTimeline, samplesAmplitudes, howMany):
@@ -56,14 +57,15 @@ def sincInterpolate(t, samplesTimeline, samplesAmplitudes, howMany):
     value = 0
     if t in samplesTimeline[:]:
         index = int(np.where(t == samplesTimeline)[0])
+        pointsIndexes = np.arange(index - howMany, index + howMany + 1)
     else:
-        nearest = find_nearest(samplesTimeline, t)
-        index = int(np.where(nearest == samplesTimeline)[0])
+        twoNearest = findTwoNearestElements(samplesTimeline, t)
+        smallerIndex = int(np.where(min(twoNearest) == samplesTimeline)[0])
+        biggerIndex = int(np.where(max(twoNearest) == samplesTimeline)[0])
+        pointsIndexes = np.arange(smallerIndex - howMany + 1, biggerIndex + howMany)
 
-    pointsIndexes = np.arange(index-howMany, index+howMany+1)
     pointsIndexes = np.array([num for num in pointsIndexes if num >= 0])
     pointsIndexes = np.array([num for num in pointsIndexes if num <= np.size(samplesAmplitudes)-1])
-
     for i in pointsIndexes:
         value += np.take(samplesAmplitudes, i)*np.sinc(t/samplingPeriod - i)
 
@@ -84,6 +86,7 @@ def tri(t):
     else:
         return 0
 
+
 def fohInterpolate(t, samplesTimeline, samplesAmplitudes, howMany):
     if np.size(samplesTimeline) > 2:
         samplingPeriod = samplesTimeline[1] - samplesTimeline[0]
@@ -94,11 +97,13 @@ def fohInterpolate(t, samplesTimeline, samplesAmplitudes, howMany):
     value = 0
     if t in samplesTimeline[:]:
         index = int(np.where(t == samplesTimeline)[0])
+        pointsIndexes = np.arange(index - howMany, index + howMany + 1)
     else:
-        nearest = find_nearest(samplesTimeline, t)
-        index = int(np.where(nearest == samplesTimeline)[0])
+        twoNearest = findTwoNearestElements(samplesTimeline, t)
+        smallerIndex = int(np.where(min(twoNearest) == samplesTimeline)[0])
+        biggerIndex = int(np.where(max(twoNearest) == samplesTimeline)[0])
+        pointsIndexes = np.arange(smallerIndex - howMany + 1, biggerIndex + howMany)
 
-    pointsIndexes = np.arange(index-howMany, index+howMany+1)
     pointsIndexes = np.array([num for num in pointsIndexes if num >= 0])
     pointsIndexes = np.array([num for num in pointsIndexes if num <= np.size(samplesAmplitudes)-1])
 
@@ -114,5 +119,4 @@ def fohInterpolateArray(array, samplesTimeline, samplesAmplitudes, howMany):
         values = np.append(values, fohInterpolate(element, samplesTimeline, samplesAmplitudes, howMany))
     values = np.delete(values, 0)
     return values
-
 
