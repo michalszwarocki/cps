@@ -21,7 +21,7 @@ def signalToNoiseRatio(originalSignal, receivedSignal):
     if originalSquared/differenceSquared != 0:
         result = 10*np.log10(originalSquared/differenceSquared)
     else:
-        result = 10 * np.log10(0.001)
+        result = 10 * np.log10(originalSquared/differenceSquared)
 
     return result
 
@@ -34,7 +34,7 @@ def peakSignalToNoiseRatio(originalSignal, receivedSignal):
     if maxSignalValue/mse != 0:
         result = 10*np.log10(maxSignalValue/mse)
     else:
-        result = 10*np.log10(0.001)
+        result = 10*np.log10(maxSignalValue/0.001)
 
     return result
 

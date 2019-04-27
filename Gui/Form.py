@@ -89,8 +89,11 @@ class Toplevel1:
         self.Frame9 = metFrame.MetricsFrame(0.55, 0.68, self.Frame6)
         self.Frame10 = sampFrame.SamplingFrame(0.52, 0.031, self.Frame6)
 
+        self.Frame11 = ttk.Frame(self.TabControl1)
+
         self.TabControl1.add(self.Frame1, text="SYGNAŁY I OPERACJE")
         self.TabControl1.add(self.Frame6, text="PRÓBKOWANIE I KWANTYZACJA")
+        self.TabControl1.add(self.Frame11, text="ZADANIE 3")
         self.TabControl1.pack(expan=1, fill="both")
 
 
