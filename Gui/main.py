@@ -4,6 +4,8 @@ from Logic import Signal
 import numpy as np
 import Logic.Window as Window
 import Logic.Operations as Operations
+
+
 # Form.start_Gui()
 
 # signal1 = Signal.Signal(time0=0, time=10, freq=1, alt=1, sample=100)
@@ -33,8 +35,7 @@ import Logic.Operations as Operations
 # def both_sides_filter():
 
 
-
-def low_filter(length, f0, sampling_rate, window = "blackman"):
+def low_filter(length, f0, sampling_rate, window="blackman"):
     time = np.linspace(0, length / sampling_rate, num=length)
     time = time - time[-1] / 2
     ideal_filter = f0 * np.sinc(2 * f0 * time)
@@ -48,16 +49,18 @@ def low_filter(length, f0, sampling_rate, window = "blackman"):
     filter = ideal_filter * window_signal
     filter /= np.max(np.abs(filter), axis=0)
 
-    return Signal.Signal(signal=filter, time=np.linspace(0, length / sampling_rate, num=length), sampling_rate=sampling_rate,
+    return Signal.Signal(signal=filter, time=np.linspace(0, length / sampling_rate, num=length),
+                         sampling_rate=sampling_rate,
                          duration=length / sampling_rate)
 
 
-def high_filter(length: int, f0: int, sampling_rate, window = "blackman"):
+def high_filter(length: int, f0: int, sampling_rate, window="blackman"):
     _filter = low_filter(length, sampling_rate // 2 - f0, sampling_rate, window)
 
     _filter.signal[::2] *= -1
 
     return _filter
+
 
 def low_high_filter(length: int, f1: int, f2: int, sampling_rate, window: str = "blackman"):
     _low_filter = low_filter(length=length // 2 + 1, f0=f2, sampling_rate=sampling_rate)
@@ -72,47 +75,66 @@ def low_high_filter(length: int, f1: int, f2: int, sampling_rate, window: str = 
         timeline, window_signal = Window.getHanningWindow(len(band_filter))
 
     return Signal.Signal(signal=band_filter * window_signal,
-                  time=np.linspace(0, length / sampling_rate, num=length),
-                  sampling_rate=sampling_rate,
-                  duration=length / sampling_rate)
+                         time=np.linspace(0, length / sampling_rate, num=length),
+                         sampling_rate=sampling_rate,
+                         duration=length / sampling_rate)
 
 
-def convolve(signal1: Signal.Signal, signal2: Signal.Signal):
+def convolve(signal1, signal2):
     array = np.convolve(signal1.signal, signal2.signal)
     duration = len(array) / signal1.sampling_rate
     time = np.linspace(signal1.time[0], signal1.time[0] + duration, num=len(array))
     return Signal.Signal(signal=array, time=time, sampling_rate=signal1.sampling_rate, duration=duration)
 
 
-def correlate(signal1: Signal.Signal, signal2: Signal.Signal):
+def correlate(signal1, signal2):
     array = np.correlate(signal1.signal, signal2.signal, mode='full')
     duration = len(array) / signal1.sampling_rate
     time = np.linspace(signal1.time[0], signal1.time[0] + duration, num=len(array))
     return Signal.Signal(signal=array, time=time, sampling_rate=signal1.sampling_rate, duration=duration)
 
 
-def get_spectrum(signal):
+def get_spectrum(signal: Signal.Signal):
     fft = np.fft.rfft(signal.signal)
     amplitudes = np.abs(fft)
     plt.plot(np.arange(len(amplitudes)) * signal.sampling_rate / (2 * len(amplitudes)), amplitudes)
+    plt.xlabel("[Hz]")
+    plt.ylabel("amp")
     plt.show()
 
 
-sig1 = Signal.createAsSin(time0=0.0, duration=1.0, sampling_rate=4000, amp=1, freq=10)
-sig2 = Signal.createAsSin(time0=0.0, duration=1.0, sampling_rate=2000, amp=1, freq=20)
-# x, y = Window.getHammingWindow(5000)
+def get_signal(signal):
+    plt.plot(signal.time, signal.signal, markersize=0.9)
+    plt.show()
 
-filter4 = low_high_filter(length=300, f1=500, f2=1000, sampling_rate=2500)
-# tempsig = Signal.Signal(y, 5.0, 100, 5.0)
-# sig3 = convolve(sig1, tempsig)
-# sig3 = convolve(sig3, tempsig)
-# sig3 = convolve(sig3, sig1)
-sig3 = convolve(sig1, filter4)
-# plt.plot(sig3.time, sig3.signal, '-', markersize=0.9)
-# plt.show()
-get_spectrum(sig1)
-get_spectrum(sig3)
-get_spectrum(filter4)
+
+# sig1 = Signal.createAsSin(time0=0.0, duration=1.0, sampling_rate=2500, amp=1, freq=100)
+# sig2 = Signal.createAsSin(time0=0.0, duration=1.0, sampling_rate=2000, amp=1, freq=800)
+# # x, y = Window.getHammingWindow(5000)
+#
+# filter4 = low_high_filter(length=2501, f1=500, f2=1000, sampling_rate=2500)
+# # tempsig = Signal.Signal(y, 5.0, 100, 5.0)
+# # sig3 = convolve(sig1, tempsig)
+# # sig3 = convolve(sig3, tempsig)
+# # sig3 = convolve(sig3, sig1)
+# sig3 = convolve(sig1, sig2)
+# get_spectrum(sig3)
+# sig3 = convolve(filter4, sig3)
+# # plt.plot(sig3.time, sig3.signal, '-', markersize=0.9)
+# # plt.show()
+# get_spectrum(sig3)
+# get_spectrum(filter4)
+# get_signal(sig3)
+
+dist = 1000
+speed = 20
+emited = Signal.createAsSin(time0=0.0, duration=1.0, sampling_rate=2000, amp=1, freq=1)
+delayed = emited.delay(2 * dist / speed)
+correlated = correlate(emited, delayed)
+t_max = correlated.time[np.argmax(correlated.signal)]
+print("Dystans obliczony  ", (correlated.time[-1] - t_max) / 2 * speed)
+print("Dystans rzeczywisty", dist)
+
 # sig3 = correlate(sig1, filter)
 # plt.plot(sig3.time, sig3.signal, '-', markersize=0.9)
 # plt.show()
@@ -127,4 +149,3 @@ get_spectrum(filter4)
 # time = time - time[-1] / 2
 # plt.plot(time, np.sinc(2 * 1 * time), '-')
 # plt.show()
-

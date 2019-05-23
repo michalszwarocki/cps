@@ -1,6 +1,5 @@
 import numpy as np
 
-
 # class Signal:
 #     timeline: np.array
 #     time0: float
@@ -40,62 +39,68 @@ class Signal:
     def getTime(self, one_period=False):
         return self.time
 
+    def delay(self, time: float):
+        length = int((self.duration + time) * self.sampling_rate)
+        new_signal = np.zeros((length,))
+        new_signal[-len(self.signal):] = self.signal
+        new_time = np.linspace(self.time[0], self.time[-1] + 1, len(new_signal))
+        return Signal(signal=new_signal, time=new_time, sampling_rate=self.sampling_rate, duration=self.duration + time)
 
 def createAsSin(time0, duration, sampling_rate, amp, freq):
     signalFunction = lambda t: amp * np.sin(2 * np.pi * freq * t)
     timeline = np.linspace(time0, time0 + duration, num=duration * sampling_rate)
-    return Signal(signalFunction(timeline), timeline, sampling_rate=sampling_rate, duration=timeline)
+    return Signal(signalFunction(timeline), timeline, sampling_rate=sampling_rate, duration=duration)
 
 
 def createAsHalfStraight(time0, duration, sampling_rate, amp, freq):
     signalFunction = lambda t: 0.5 * amp * (
             np.sin(2 * np.pi * freq * t) + np.abs(np.sin(2 * np.pi * freq * t)))
     timeline = np.linspace(time0, time0 + duration, duration * sampling_rate)
-    return Signal(signalFunction(timeline), timeline, sampling_rate=sampling_rate, duration=timeline)
+    return Signal(signalFunction(timeline), timeline, sampling_rate=sampling_rate, duration=duration)
 
 
 def createAsFullStraight(time0, duration, sampling_rate, amp, freq):
     signalFunction = lambda t: amp * np.abs(np.sin(2 * np.pi * freq * t))
     timeline = np.linspace(time0, time0 + duration, duration * sampling_rate)
-    return Signal(signalFunction(timeline), timeline, sampling_rate=sampling_rate, duration=timeline)
+    return Signal(signalFunction(timeline), timeline, sampling_rate=sampling_rate, duration=duration)
 
 
 def createAsGaussNoise(time0, duration, sampling_rate, noise_amp=1):
     signalFunction = lambda t: np.random.normal(0, size=t.shape)
     timeline = np.linspace(time0, time0 + duration, duration * sampling_rate)
-    return Signal(signalFunction(timeline), timeline, sampling_rate=sampling_rate, duration=timeline)
+    return Signal(signalFunction(timeline), timeline, sampling_rate=sampling_rate, duration=duration)
 
 
 def createAsUniformNoise(time0, duration, sampling_rate, low, high):
     signalFunction = lambda t: np.random.uniform(low, high, t.shape)
     timeline = np.linspace(time0, time0 + duration, duration * sampling_rate)
-    return Signal(signalFunction(timeline), timeline, sampling_rate=sampling_rate, duration=timeline)
+    return Signal(signalFunction(timeline), timeline, sampling_rate=sampling_rate, duration=duration)
 
 
 def createAsRectangle(time0, duration, sampling_rate, amp, freq, infil=0.5):
     okres = 1 / freq
     signalFunction = lambda t: (t % okres < okres * infil) * np.ones(t.shape) * amp
     timeline = np.linspace(time0, time0 + duration, duration * sampling_rate)
-    return Signal(signalFunction(timeline), timeline, sampling_rate=sampling_rate, duration=timeline)
+    return Signal(signalFunction(timeline), timeline, sampling_rate=sampling_rate, duration=duration)
 
 
 def createAsSyncRectangle(time0, duration, sampling_rate, amp, freq, infil=0.5):
     okres = 1 / freq
     signalFunction = lambda t: (t % okres < okres * infil) * np.ones(t.shape) * amp * 2 - amp
     timeline = np.linspace(time0, time0 + duration, duration * sampling_rate)
-    return Signal(signalFunction(timeline), timeline, sampling_rate=sampling_rate, duration=timeline)
+    return Signal(signalFunction(timeline), timeline, sampling_rate=sampling_rate, duration=duration)
 
 
 def createAsSingleJump(time0, duration, sampling_rate, amp, ts=0):
     signalFunction = lambda t: (t > ts) * np.ones(t.shape) * amp
     timeline = np.linspace(time0, time0 + duration, duration * sampling_rate)
-    return Signal(signalFunction(timeline), timeline, sampling_rate=sampling_rate, duration=timeline)
+    return Signal(signalFunction(timeline), timeline, sampling_rate=sampling_rate, duration=duration)
 
 
 def createAsImpulseNoice(time0, duration, sampling_rate, possibility=0.5):
     signalFunction = lambda t: np.random.choice([0, 1], size=t.shape, p=[1 - possibility, possibility])
     timeline = np.linspace(time0, time0 + duration, duration * sampling_rate)
-    return Signal(signalFunction(timeline), timeline, sampling_rate=sampling_rate, duration=timeline)
+    return Signal(signalFunction(timeline), timeline, sampling_rate=sampling_rate, duration=duration)
 
 
 def createAsTriangle(time0, duration, sampling_rate, amp, freq, infil=0.5):
@@ -105,16 +110,17 @@ def createAsTriangle(time0, duration, sampling_rate, amp, freq, infil=0.5):
                                     t % okres > (okres * infil)) * (
                                     amp - (((t % okres) - infil * okres) / (okres * (1 - infil))) * amp)
     timeline = np.linspace(time0, time0 + duration, duration * sampling_rate)
-    return Signal(signalFunction(timeline), timeline, sampling_rate=sampling_rate, duration=timeline)
+    return Signal(signalFunction(timeline), timeline, sampling_rate=sampling_rate, duration=duration)
 
 
 def createAsImpulse(time0, duration, sampling_rate, n = 0):
+    timeline = np.linspace(time0, time0 + duration, num=duration * sampling_rate)
     temp = timeline * False
     temp[n] = True
     signalFunction = lambda t: amp * np.ones(t.shape) * temp
     # print(temp)
     timeline = np.linspace(time0, time0 + duration, duration * sampling_rate)
-    return Signal(signalFunction(timeline), timeline, sampling_rate=sampling_rate, duration=timeline)
+    return Signal(signalFunction(timeline), timeline, sampling_rate=sampling_rate, duration=duration)
 
     def setAsOperation(self, points):
         self.singalPoints = points
