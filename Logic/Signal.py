@@ -1,4 +1,5 @@
 import numpy as np
+import scipy.integrate as integ
 
 # class Signal:
 #     timeline: np.array
@@ -121,6 +122,13 @@ def createAsImpulse(time0, duration, sampling_rate, n = 0):
     # print(temp)
     timeline = np.linspace(time0, time0 + duration, duration * sampling_rate)
     return Signal(signalFunction(timeline), timeline, sampling_rate=sampling_rate, duration=duration)
+
+
+def createAsChirp(time0, duration, sampling_rate, freq0, time1, freq1):
+    timeline = np.linspace(time0, time0 + duration, duration * sampling_rate+1)
+    ans = lambda t: integ.quad(lambda t: 2.0*np.pi*(freq0 + (freq1 - freq0) * t / time1), 0, t)[0]
+    signalFunction = lambda  t: np.cos(ans(t))
+    return Signal(np.array([signalFunction(element) for element in timeline]), timeline, sampling_rate=sampling_rate, duration=duration)
 
     def setAsOperation(self, points):
         self.singalPoints = points

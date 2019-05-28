@@ -1,5 +1,6 @@
 from Gui import Form
 import matplotlib.pyplot as plt
+import scipy.integrate as integ
 from Logic import Signal
 import numpy as np
 import Logic.Window as Window
@@ -107,45 +108,49 @@ def get_signal(signal):
     plt.plot(signal.time, signal.signal, markersize=0.9)
     plt.show()
 
+samplingRate = 100
+sig0 = Signal.createAsChirp(time0=0.0, duration=5.0, sampling_rate=300, freq0=1.0, time1=3.0, freq1=5.0)
+plt.plot(sig0.time, sig0.signal)
+plt.show()
 
-# sig1 = Signal.createAsSin(time0=0.0, duration=1.0, sampling_rate=2500, amp=1, freq=100)
-# sig2 = Signal.createAsSin(time0=0.0, duration=1.0, sampling_rate=2000, amp=1, freq=800)
-# # x, y = Window.getHammingWindow(5000)
+# sig1 = Signal.createAsSin(time0=0.0, duration=1.0, sampling_rate=10, amp=1, freq=100)
+# # sig2 = Signal.createAsSin(time0=0.0, duration=1.0, sampling_rate=2000, amp=1, freq=800)
+# # # x, y = Window.getHammingWindow(5000)
+# #
+filter4 = low_filter(length=100, f0=10, sampling_rate=10)
+# # # tempsig = Signal.Signal(y, 5.0, 100, 5.0)
+# # # sig3 = convolve(sig1, tempsig)
+# # # sig3 = convolve(sig3, tempsig)
+# # # sig3 = convolve(sig3, sig1)
+# # sig3 = convolve(sig1, sig2)
+# # get_spectrum(sig3)
+sig3 = convolve(sig0, filter4)
+plt.plot(sig3.time, sig3.signal, '-', markersize=0.9)
+plt.show()
+# # get_spectrum(sig3)
+# # get_spectrum(filter4)
+# get_signal(sig3)
 #
-# filter4 = low_high_filter(length=2501, f1=500, f2=1000, sampling_rate=2500)
-# # tempsig = Signal.Signal(y, 5.0, 100, 5.0)
-# # sig3 = convolve(sig1, tempsig)
-# # sig3 = convolve(sig3, tempsig)
-# # sig3 = convolve(sig3, sig1)
-# sig3 = convolve(sig1, sig2)
-# get_spectrum(sig3)
-# sig3 = convolve(filter4, sig3)
+# dist = 1000
+# speed = 20
+# emited = Signal.createAsSin(time0=0.0, duration=1.0, sampling_rate=2000, amp=1, freq=1)
+# delayed = emited.delay(2 * dist / speed)
+# correlated = correlate(emited, delayed)
+# t_max = correlated.time[np.argmax(correlated.signal)]
+# print("Dystans obliczony  ", (correlated.time[-1] - t_max) / 2 * speed)
+# print("Dystans rzeczywisty", dist)
+#
+# # sig3 = correlate(sig1, filter)
 # # plt.plot(sig3.time, sig3.signal, '-', markersize=0.9)
 # # plt.show()
-# get_spectrum(sig3)
-# get_spectrum(filter4)
-# get_signal(sig3)
-
-dist = 1000
-speed = 20
-emited = Signal.createAsSin(time0=0.0, duration=1.0, sampling_rate=2000, amp=1, freq=1)
-delayed = emited.delay(2 * dist / speed)
-correlated = correlate(emited, delayed)
-t_max = correlated.time[np.argmax(correlated.signal)]
-print("Dystans obliczony  ", (correlated.time[-1] - t_max) / 2 * speed)
-print("Dystans rzeczywisty", dist)
-
-# sig3 = correlate(sig1, filter)
-# plt.plot(sig3.time, sig3.signal, '-', markersize=0.9)
-# plt.show()
-# x, y = Window.getBlackmanWindow(10)
-# plt.plot(x, y, '-')
-# plt.show()
-# x, y = Window.getHammingWindow(10)
-# plt.plot(x, y, '-')
-# plt.show()
-# x, y = Window.getHanningWindow(10)
-# time = np.linspace(0, 100, num=101)
-# time = time - time[-1] / 2
-# plt.plot(time, np.sinc(2 * 1 * time), '-')
-# plt.show()
+# # x, y = Window.getBlackmanWindow(10)
+# # plt.plot(x, y, '-')
+# # plt.show()
+# # x, y = Window.getHammingWindow(10)
+# # plt.plot(x, y, '-')
+# # plt.show()
+# # x, y = Window.getHanningWindow(10)
+# # time = np.linspace(0, 100, num=101)
+# # time = time - time[-1] / 2
+# # plt.plot(time, np.sinc(2 * 1 * time), '-')
+# # plt.show()
