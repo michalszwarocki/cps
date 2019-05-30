@@ -273,7 +273,7 @@ class SignalFrame:
         Label1.configure(width=11)
 
     def createFrequencyLabel(self, which, rely, Label, Entry, Label1):
-        Label.place(relx=0.192, rely=rely, height=21, width=154)
+        Label.place(relx=0.182, rely=rely, height=21, width=164)
         Label.configure(background="#d9d9d9")
         Label.configure(disabledforeground="#a3a3a3")
         Label.configure(foreground="#000000")
@@ -309,7 +309,7 @@ class SignalFrame:
         Entry.configure(textvariable=getattr(fs, which + 'AmplitudeEntry'))
 
     def createSamplingFrequencyLabel(self, which, rely, Label, Entry, Label1):
-        Label.place(relx=0.16, rely=rely, height=21, width=187)
+        Label.place(relx=0.16, rely=rely, height=21, width=198)
         Label.configure(background="#d9d9d9")
         Label.configure(disabledforeground="#a3a3a3")
         Label.configure(foreground="#000000")
@@ -350,7 +350,7 @@ class SignalFrame:
 
     def createNoiseLabel(self, which, rely):
         Label = tk.Label(self.Frame1)
-        Label.place(relx=0.288, rely=rely, height=21, width=30)
+        Label.place(relx=0.288, rely=rely, height=21, width=35)
         Label.configure(background="#d9d9d9")
         Label.configure(disabledforeground="#a3a3a3")
         Label.configure(foreground="#000000")
@@ -448,7 +448,7 @@ class SignalFrame:
         Label1.configure(text='''s''')
 
     def createFrequency1Label(self, which, rely, Label, Entry, Label1):
-        Label.place(relx=0.192, rely=rely, height=21, width=154)
+        Label.place(relx=0.165, rely=rely, height=21, width=180)
         Label.configure(background="#d9d9d9")
         Label.configure(disabledforeground="#a3a3a3")
         Label.configure(foreground="#000000")
