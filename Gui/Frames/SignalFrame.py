@@ -18,25 +18,22 @@ import Gui.FormManager as FormManager
 
 class SignalFrame:
 
-
     def __init__(self, which, relx, rely, top=None):
 
         self.possibleRelY = [
-        [0.0750, False],
-        [0.1605, False],
-        [0.2460, False],
-        [0.3315, False],
-        [0.4170, False],
-        [0.5025, False],
-        [0.5880, False],
-        [0.6735, False],
-        [0.7590, False],
-        [0.8445, False],
-        [0.9300, False]
-    ]
+            [0.0750, False],
+            [0.1605, False],
+            [0.2460, False],
+            [0.3315, False],
+            [0.4170, False],
+            [0.5025, False],
+            [0.5880, False],
+            [0.6735, False],
+            [0.7590, False],
+            [0.8445, False],
+            [0.9300, False]
+        ]
 
-        self.actualType = getattr(fs, which + 'TypeCombobox').get()
-        self.actualNoise = getattr(fs, which + 'NoiseCombobox').get()
         # ---------------------------------------FRAME----------------------------------------------
 
         self.Frame1 = tk.Frame(top)
@@ -57,9 +54,8 @@ class SignalFrame:
         self.Label1.configure(foreground="#000000")
         self.Label1.configure(text='''SYGNAŁ''')
 
-
         self.Button2 = tk.Button(top)
-        self.Button2.place(relx=relx+0.37, rely=rely+0.559, relheight=0.05, relwidth=0.07)
+        self.Button2.place(relx=relx + 0.37, rely=rely + 0.559, relheight=0.05, relwidth=0.07)
         self.Button2.configure(activebackground="#ececec")
         self.Button2.configure(activeforeground="#000000")
         self.Button2.configure(background="#d9d9d9")
@@ -73,7 +69,7 @@ class SignalFrame:
         self.Button2.configure(command=lambda: FormManager.FormManager().onSignalDrawClicked(which))
 
         self.Button3 = tk.Button(top)
-        self.Button3.place(relx=relx+0.29, rely=rely+0.559, relheight=0.05, relwidth=0.07)
+        self.Button3.place(relx=relx + 0.29, rely=rely + 0.559, relheight=0.05, relwidth=0.07)
         self.Button3.configure(activebackground="#ececec")
         self.Button3.configure(activeforeground="#000000")
         self.Button3.configure(background="#d9d9d9")
@@ -87,7 +83,7 @@ class SignalFrame:
         self.Button3.configure(command=lambda: FormManager.FormManager().onSignalSaveClicked(which))
 
         self.Button8 = tk.Button(top)
-        self.Button8.place(relx=relx+0.21, rely=rely+0.559, relheight=0.05, relwidth=0.07)
+        self.Button8.place(relx=relx + 0.21, rely=rely + 0.559, relheight=0.05, relwidth=0.07)
         self.Button8.configure(activebackground="#ececec")
         self.Button8.configure(activeforeground="#000000")
         self.Button8.configure(background="#d9d9d9")
@@ -134,23 +130,24 @@ class SignalFrame:
         self.Entry11 = tk.Entry(self.Frame1)
 
         type = getattr(fs, which + 'TypeCombobox')
-        type.trace("w", lambda name, index, mode, type=type: self.typeCallback(type, which))
+        type.trace("w", lambda name, index, mode, b=type: self.typeCallback(b, which))
 
         noise = getattr(fs, which + 'NoiseCombobox')
-        noise.trace("w", lambda name, index, mode, noise=noise: self.noiseCallback(noise, which))
+        noise.trace("w", lambda name, index, mode, b=noise: self.noiseCallback(b, which))
 
     def typeCallback(self, sv, which):
         self.setAllPossibleRelYAsFalse()
-        self.disableAllEntries()
-        self.disableAllLabels()
 
         if sv.get() != 'brak':
+            self.disableAllEntries()
+            self.disableAllLabels()
             getattr(fs, which + 'NoiseCombobox').set('brak')
             self.createTime0Label(which, self.getFirstPossibleRelY(), self.Label2, self.Entry1, self.Label3)
             self.createTimeLabel(which, self.getFirstPossibleRelY(), self.Label4, self.Entry2, self.Label5)
             self.createFrequencyLabel(which, self.getFirstPossibleRelY(), self.Label6, self.Entry3, self.Label7)
             self.createAmplitudeLabel(which, self.getFirstPossibleRelY(), self.Label8, self.Entry4)
-            self.createSamplingFrequencyLabel(which, self.getFirstPossibleRelY(), self.Label9, self.Entry5, self.Label10)
+            self.createSamplingFrequencyLabel(which, self.getFirstPossibleRelY(), self.Label9, self.Entry5,
+                                              self.Label10)
 
         if sv.get() == 'prostokatny' or sv.get() == 'prostokatny symetryczny' or sv.get() == 'trojkatny':
             self.createInfiltratorLabel(which, self.getFirstPossibleRelY(), self.Label11, self.Entry6)
@@ -165,20 +162,22 @@ class SignalFrame:
             self.createTime1Label(which, self.getFirstPossibleRelY(), self.Label15, self.Entry10, self.Label16)
             self.createFrequency1Label(which, self.getFirstPossibleRelY(), self.Label17, self.Entry11, self.Label18)
 
-    def noiseCallback(self, sv, which):
-        self.setAllPossibleRelYAsFalse()
-        self.disableAllEntries()
-        self.disableAllLabels()
 
-        if sv.get() != 'brak':
+    def noiseCallback(self, cv, which):
+        self.setAllPossibleRelYAsFalse()
+
+        if cv.get() != 'brak':
+            self.disableAllEntries()
+            self.disableAllLabels()
             getattr(fs, which + 'TypeCombobox').set('brak')
             self.createTime0Label(which, self.getFirstPossibleRelY(), self.Label2, self.Entry1, self.Label3)
             self.createTimeLabel(which, self.getFirstPossibleRelY(), self.Label4, self.Entry2, self.Label5)
             self.createFrequencyLabel(which, self.getFirstPossibleRelY(), self.Label6, self.Entry3, self.Label7)
             self.createAmplitudeLabel(which, self.getFirstPossibleRelY(), self.Label8, self.Entry4)
-            self.createSamplingFrequencyLabel(which, self.getFirstPossibleRelY(), self.Label9, self.Entry5, self.Label10)
+            self.createSamplingFrequencyLabel(which, self.getFirstPossibleRelY(), self.Label9, self.Entry5,
+                                              self.Label10)
 
-        if sv.get() == 'impulsowy':
+        if cv.get() == 'impulsowy':
             self.createPossibilityLabel(which, self.getFirstPossibleRelY(), self.Label14, self.Entry9)
 
     def getFirstPossibleRelY(self):
@@ -207,7 +206,7 @@ class SignalFrame:
         self.Entry11.place_forget()
 
     def disableAllLabels(self):
-        self.Label2.configure(text='')
+        self.Label2.place_forget()
         self.Label3.place_forget()
         self.Label4.place_forget()
         self.Label5.place_forget()
@@ -224,8 +223,6 @@ class SignalFrame:
         self.Label16.place_forget()
         self.Label17.place_forget()
         self.Label18.place_forget()
-
-
 
     def createTime0Label(self, which, rely, Label, Entry, Label1):
         Label.place(relx=0.192, rely=rely, height=21, width=144)

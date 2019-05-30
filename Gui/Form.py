@@ -90,7 +90,10 @@ class Toplevel1:
         self.Frame10 = sampFrame.SamplingFrame(0.52, 0.031, self.Frame6)
 
         self.Frame11 = ttk.Frame(self.TabControl1)
+        self.Frame12 = sigFrame.SignalFrame('first', 0.03, 0.031, self.Frame11)
+        self.Frame13 = sigFrame.SignalFrame('second', 0.52, 0.031, self.Frame11)
 
+        print(self.Frame7.possibleRelY)
         self.TabControl1.add(self.Frame1, text="SYGNAŁY I OPERACJE")
         self.TabControl1.add(self.Frame6, text="PRÓBKOWANIE I KWANTYZACJA")
         self.TabControl1.add(self.Frame11, text="ZADANIE 3")
