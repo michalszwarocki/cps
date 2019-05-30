@@ -1,5 +1,5 @@
 import numpy as np
-
+import scipy.integrate as integ
 
 class Signal:
     timeline: np.array
@@ -85,6 +85,11 @@ class Signal:
         # print(temp)
         return self
 
+    def setChirp(self, time1, freq1):
+        ans = lambda t: integ.quad(lambda t: 2.0 * np.pi * (self.freq + (freq1 - self.freq) * t / time1), 0, t)[0]
+        self.signalFunction = lambda t: chirpSignal(t, ans)
+        return self
+
     def setAsOperation(self, points):
         self.singalPoints = points
 
@@ -92,3 +97,12 @@ class Signal:
         if self.singalPoints.size != 0:
             return self.singalPoints
         return self.getSignal()
+
+
+def chirpSignal(a, ans):
+    if type(a) is np.ndarray:
+        return [chirpSignal(element, ans) for element in a]
+    else:
+        return np.cos(ans(a))
+
+

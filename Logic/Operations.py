@@ -1,5 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from Logic import Window
+from Logic import Signal
 
 
 def addTwoSignals(firstSignal, secondSignal):
@@ -120,3 +122,83 @@ def fohInterpolateArray(array, samplesTimeline, samplesAmplitudes, howMany):
     values = np.delete(values, 0)
     return values
 
+
+def convolve(signal1, signal2):
+    firstValues = signal1.getSignalForOperation()
+    secondValues = signal2.getSignalForOperation()
+
+    length = len(firstValues) + len(secondValues) - 1
+    values = []
+    for n in range(length):
+        firstTime = 0
+        for k in range(len(firstValues)):
+            if 0 <= n-k < len(secondValues):
+                if firstTime == 0:
+                    values.append(firstValues[k] * secondValues[n-k])
+                    firstTime += 1
+                else:
+                    values[n] += firstValues[k] * secondValues[n - k]
+    timeline = np.linspace(0, signal1.time, len(values))
+    return [timeline, values]
+
+
+def correlate(signal1, signal2):
+    firstValues = signal1.getSignalForOperation()
+    secondValues = signal2.getSignalForOperation()
+    sec = list(reversed(secondValues))
+
+    length = len(firstValues) + len(sec) - 1
+    values = []
+    for n in range(length):
+        firstTime = 0
+        for k in range(len(firstValues)):
+            if 0 <= n-k < len(sec):
+                if firstTime == 0:
+                    values.append(firstValues[k] * sec[n-k])
+                    firstTime += 1
+                else:
+                    values[n] += firstValues[k] * sec[n - k]
+    timeline = np.linspace(0, signal1.time, len(values))
+    return [timeline, values]
+
+
+def low_filter(M, K, window="null"):
+    impulseResponseValues = []
+    for n in range(M):
+        if n == (M - 1) / 2:
+            impulseResponseValues.append(2.0 / K)
+        else:
+            impulseResponseValues.append(np.sin(2.0 * np.pi * (n - (M - 1.0) / 2.0) / K) / (np.pi * (n - (M - 1.0) / 2.0)))
+
+    if window is "blackman":
+        impulseResponseValues = Window.getBlackmanWindow(impulseResponseValues, M)
+    if window is "hamming":
+        impulseResponseValues = Window.getHammingWindow(impulseResponseValues, M)
+    if window is "hanning":
+        impulseResponseValues = Window.getHanningWindow(impulseResponseValues, M)
+
+    signal = Signal.Signal(0, len(impulseResponseValues)-1, 1, 1, 1)
+    signal.setAsOperation(np.array(impulseResponseValues))
+    return signal
+
+
+def high_filter(M, K, window="null"):
+    impulseResponseValues = []
+    signal = low_filter(M, K, window)
+
+    for n in range(len(signal.getSignalForOperation())):
+        impulseResponseValues.append(signal.getSignalForOperation()[n]*((-1)**n))
+
+    signal.setAsOperation(np.array(impulseResponseValues))
+    return signal
+
+
+def low_high_filter(M, K, window="null"):
+    impulseResponseValues = []
+    signal = low_filter(M, K, window)
+
+    for n in range(len(signal.getSignalForOperation())):
+        impulseResponseValues.append(signal.getSignalForOperation()[n]*2*np.sin(np.pi*n/2))
+
+    signal.setAsOperation(np.array(impulseResponseValues))
+    return signal

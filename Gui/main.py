@@ -1,6 +1,28 @@
 from Gui import Form
+from Logic import Signal
+from Logic import Operations
+import matplotlib.pyplot as plt
+import numpy as np
+import scipy.integrate as integ
+from scipy import signal
 
-Form.start_Gui()
+# Form.start_Gui()
+
+signal = Signal.Signal(0, 64, 2, 5, 300).setChirp(10, 5)
+sig1 = Signal.Signal(0, 2000, 0.005, 2, 1).setAsSin()
+sig2 = Signal.Signal(0, 2000, 0.005, 4, 1).setAsRectangle()
+sig3 = Operations.low_high_filter(60, 10)
+sig4 = Signal.Signal(0, 160, 0.5, 5, 40).setChirp(20, 2)
+
+a = Operations.convolve(sig4, sig3)
+plt.subplot(3,1,1)
+plt.plot(sig4.timeline, sig4.getSignalForOperation())
+plt.subplot(3,1,2)
+plt.plot(sig3.timeline, sig3.getSignalForOperation())
+plt.subplot(3,1,3)
+plt.plot(a[0], a[1])
+plt.show()
+
 
 # # RYSOWANIE SYGNAŁU
 # plt.subplot(4, 1, 1)
