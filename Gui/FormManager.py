@@ -4,6 +4,7 @@ import Logic.OperationTypeSelector as ots
 import matplotlib.pyplot as plt
 import Logic.SignalConfiguration as configuration
 import Logic.SamplingConfiguration as sampConfig
+import Logic.OperationConfiguration as operConfig
 import Logic.ActionTypeSelector as ats
 import Logic.Metrics as met
 import numpy as np
@@ -38,6 +39,24 @@ class FormManager:
         numberOfSamples = int(fs.nOSamplesEntry.get())
         action = fs.actionCombobox.get()
         config = sampConfig.SamplingConfiguration(samplingPeriod, quantizationBits, numberOfSamples, action)
+        return config
+
+    def readOperationConfiguration(self):
+        operation = fs.operationCombobox.get()
+        filterType = fs.filterTypeCombobox.get()
+        windowType = fs.windowCombobox.get()
+        mValue = int(fs.mValueEntry.get())
+        foValue = float(fs.foEntry.get())
+        config = operConfig.OperationConfiguration(operation, filterType, windowType, mValue, foValue)
+        return config
+
+    def readFilterOperationConfiguration(self):
+        operation = fs.filterOperationCombobox.get()
+        filterType = fs.filterTypeCombobox.get()
+        windowType = fs.windowCombobox.get()
+        mValue = int(fs.mValueEntry.get())
+        foValue = float(fs.foEntry.get())
+        config = operConfig.OperationConfiguration(operation, filterType, windowType, mValue, foValue)
         return config
 
     def onSignalDrawClicked(self, which):
@@ -102,22 +121,22 @@ class FormManager:
     def onOperationDrawClicked(self):
         configFirstSignal = self.readSignalConfiguration('first')
         configSecondSignal = self.readSignalConfiguration('second')
-        operation = fs.operationCombobox.get()
+        config = self.readOperationConfiguration()
         firstSignal = sts.SignalTypeSelector(configFirstSignal).getSignal()
         secondSignal = sts.SignalTypeSelector(configSecondSignal).getSignal()
 
-        signal = ots.OperationTypeSelector(firstSignal, secondSignal, operation).getOperationResult()
+        signal = ots.OperationTypeSelector(firstSignal, secondSignal, config).getOperationResult()
         self.setSignalAvarageValues(signal)
         self.drawPlot(None, firstSignal.getTime(), signal)
 
     def onOperationSaveClicked(self):
         configFirstSignal = self.readSignalConfiguration('first')
         configSecondSignal = self.readSignalConfiguration('second')
-        operation = fs.operationCombobox.get()
+        config = self.readOperationConfiguration()
         firstSignal = sts.SignalTypeSelector(configFirstSignal).getSignal()
         secondSignal = sts.SignalTypeSelector(configSecondSignal).getSignal()
 
-        signal = ots.OperationTypeSelector(firstSignal, secondSignal, operation).getOperationResult()
+        signal = ots.OperationTypeSelector(firstSignal, secondSignal, config).getOperationResult()
         configFirstSignal.signalType = 'wynik operacji'
         configFirstSignal.noise = 'wynik operacji'
 
@@ -126,6 +145,18 @@ class FormManager:
             serial.save(fileName, configFirstSignal, signal)
         except FileNotFoundError:
             print("Nie zapisano pliku!!")
+
+    def onFilterOperationDrawClicked(self):
+        configFirstSignal = self.readSignalConfiguration('first')
+        configSecondSignal = self.readSignalConfiguration('second')
+        config = self.readFilterOperationConfiguration()
+        firstSignal = sts.SignalTypeSelector(configFirstSignal).getSignal()
+        secondSignal = sts.SignalTypeSelector(configSecondSignal).getSignal()
+
+        operationSelector = ots.OperationTypeSelector(firstSignal, secondSignal, config)
+        result = operationSelector.getOperationResult()
+
+        self.drawPlotForOperation(None, operationSelector.getFirstSignal(), operationSelector.getSecondSignal(), result[0], result[1])
 
     def setSignalAvarageValues(self, signal):
         fs.text1Label.set(round(np.mean(signal), 3))
@@ -152,6 +183,29 @@ class FormManager:
             plt.plot(x, y, '-', markersize=0.9)
         plt.subplot(2, 1, 2)
         plt.hist(y, bins=10)
+        plt.show()
+
+    def drawPlotForOperation(self, config, signal1, signal2, resultX, resultY):
+        plt.subplot(4, 1, 1)
+        if config is not None and (config.signalType == 'impuls jednostkowy' or config.noise == 'impulsowy'):
+            plt.plot(signal1.getTime(), signal1.getSignalForOperation(), 'o', markersize=0.9)
+        else:
+            plt.plot(signal1.getTime(), signal1.getSignalForOperation(), '-', markersize=0.9)
+
+        plt.subplot(4, 1, 2)
+        if config is not None and (config.signalType == 'impuls jednostkowy' or config.noise == 'impulsowy'):
+            plt.plot(signal2.getTime(), signal2.getSignalForOperation(), 'o', markersize=0.9)
+        else:
+            plt.plot(signal2.getTime(), signal2.getSignalForOperation(), '-', markersize=0.9)
+
+        plt.subplot(4, 1, 3)
+        if config is not None and (config.signalType == 'impuls jednostkowy' or config.noise == 'impulsowy'):
+            plt.plot(resultX, resultY, 'o', markersize=0.9)
+        else:
+            plt.plot(resultX, resultY, '-', markersize=0.9)
+
+        plt.subplot(4, 1, 4)
+        plt.hist(resultY, bins=10)
         plt.show()
 
     def drawPlotForSampling(self, config, originalX, originalY, receivedX, receivedY, samplesX, samplesY):

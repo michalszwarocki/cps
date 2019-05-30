@@ -162,7 +162,7 @@ def correlate(signal1, signal2):
     return [timeline, values]
 
 
-def low_filter(M, fo, fs, window="null"):
+def low_filter(M, fo, fs, window):
     impulseResponseValues = []
     for n in range(M):
         if n == (M - 1) / 2:
@@ -170,11 +170,11 @@ def low_filter(M, fo, fs, window="null"):
         else:
             impulseResponseValues.append(np.sin(2.0 * np.pi * (n - (M - 1.0) / 2.0) *fo/ fs) / (np.pi * (n - (M - 1.0) / 2.0)))
 
-    if window is "blackman":
+    if window == 'Blackman':
         impulseResponseValues = Window.getBlackmanWindow(impulseResponseValues, M)
-    if window is "hamming":
+    if window == 'Hamming':
         impulseResponseValues = Window.getHammingWindow(impulseResponseValues, M)
-    if window is "hanning":
+    if window == 'Hanning':
         impulseResponseValues = Window.getHanningWindow(impulseResponseValues, M)
 
     signal = Signal.Signal(0, len(impulseResponseValues)-1, 1, 1, 1)
@@ -182,7 +182,7 @@ def low_filter(M, fo, fs, window="null"):
     return signal
 
 
-def high_filter(M, fo, fs, window="null"):
+def high_filter(M, fo, fs, window):
     impulseResponseValues = []
     signal = low_filter(M, fo, fs, window)
 
@@ -193,7 +193,7 @@ def high_filter(M, fo, fs, window="null"):
     return signal
 
 
-def low_high_filter(M, fo, fs, window="null"):
+def low_high_filter(M, fo, fs, window):
     impulseResponseValues = []
     signal = low_filter(M, fo, fs, window)
 
@@ -202,3 +202,17 @@ def low_high_filter(M, fo, fs, window="null"):
 
     signal.setAsOperation(np.array(impulseResponseValues))
     return signal
+
+
+def filtering(signal, filterType, window, M, fo):
+    if filterType == 'dolnoprzepustowy':
+        fil = low_filter(M, fo, signal.sample, window)
+    elif filterType == 'gornoprzepustowy':
+        print(window)
+        fil = high_filter(M, fo, signal.sample, window)
+    elif filterType == 'srodkowoprzepustowy':
+        fil = low_high_filter(M, fo, signal.sample, window)
+
+    filteredSignal = convolve(signal, fil)
+
+    return filteredSignal, fil

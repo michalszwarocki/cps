@@ -13,6 +13,7 @@ class Signal:
         self.time = time
         self.freq = freq
         self.amp = alt
+        self.sample = sample
         self.timeline = np.linspace(time0, time0 + time, time * sample + 1)
         self.one_period = np.linspace(time0, time0 + 1 / freq, 1 / freq * sample)
         self.signalFunction = lambda t: t * 0

@@ -13,14 +13,14 @@ Form.start_Gui()
 # sig2 = Signal.Signal(0, 2000, 0.005, 4, 1).setAsRectangle()
 # sig3 = Operations.low_high_filter(50, 5, 40, "hamming")
 # sig4 = Signal.Signal(0, 10, 1, 5, 40).setChirp(2, 5)
-#
-# a = Operations.convolve(sig4, sig3)
+# print(sig4.time)
+# filteredSignal = Operations.filtering(sig4, 'srodkowoprzepustowy', 'hamming', 50, 5)
 # plt.subplot(3,1,1)
 # plt.plot(sig4.timeline, sig4.getSignalForOperation())
 # plt.subplot(3,1,2)
 # plt.plot(sig3.timeline, sig3.getSignalForOperation())
 # plt.subplot(3,1,3)
-# plt.plot(a[0], a[1])
+# plt.plot(filteredSignal[0], filteredSignal[1])
 # plt.show()
 
 

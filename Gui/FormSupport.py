@@ -21,12 +21,15 @@ def set_Tk_var():
     global secondTime0Entry, secondTimeEntry, secondFrequencyEntry, secondAmplitudeEntry, secondNOSamplesEntry, \
         secondInfiltratorEntry, secondJumpMomentEntry, secondPossibilityEntry, secondJumpSampleEntry, secondTime1Entry, \
         secondFreq1Entry
-    global firstTypeCombobox, firstNoiseCombobox, secondTypeCombobox, secondNoiseCombobox, operationCombobox
+    global firstTypeCombobox, firstNoiseCombobox, secondTypeCombobox, secondNoiseCombobox, operationCombobox, \
+        filterOperationCombobox, filterTypeCombobox, windowCombobox
     global text1Label, text2Label, text3Label, text4Label, text5Label
     global points
 
     global mseLabel, snrLabel, psnrLabel, mdLabel, enobLabel
     global samplingPeriodEntry, quantizationBitsEntry, nOSamplesEntry, actionCombobox
+
+    global mValueEntry, foEntry
 
     firstTime0Entry = tk.StringVar()
     firstTimeEntry = tk.StringVar()
@@ -57,6 +60,9 @@ def set_Tk_var():
     secondTypeCombobox = tk.StringVar()
     secondNoiseCombobox = tk.StringVar()
     operationCombobox = tk.StringVar()
+    filterOperationCombobox = tk.StringVar()
+    filterTypeCombobox = tk.StringVar()
+    windowCombobox = tk.StringVar()
 
     points = np.array
 
@@ -76,6 +82,9 @@ def set_Tk_var():
     quantizationBitsEntry = tk.StringVar()
     nOSamplesEntry = tk.StringVar()
     actionCombobox = tk.StringVar()
+
+    mValueEntry = tk.StringVar()
+    foEntry = tk.StringVar()
 
     firstTime0Entry.set('0')
     firstTimeEntry.set('1')
@@ -116,6 +125,9 @@ def set_Tk_var():
     samplingPeriodEntry.set('0.1')
     quantizationBitsEntry.set('4')
     nOSamplesEntry.set('10')
+
+    mValueEntry.set('65')
+    foEntry.set('5')
 
 
 def init(top, gui, *args, **kwargs):

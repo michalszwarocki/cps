@@ -20,6 +20,7 @@ import Gui.Frames.SignalFrame as sigFrame
 import Gui.Frames.SignalMetricFrame as sigMetFrame
 import Gui.Frames.MetricsFrame as metFrame
 import Gui.Frames.SamplingFrame as sampFrame
+import Gui.Frames.FilterFrame as filterFrame
 
 
 def start_Gui():
@@ -92,11 +93,11 @@ class Toplevel1:
         self.Frame11 = ttk.Frame(self.TabControl1)
         self.Frame12 = sigFrame.SignalFrame('first', 0.03, 0.031, self.Frame11)
         self.Frame13 = sigFrame.SignalFrame('second', 0.52, 0.031, self.Frame11)
+        self.Frame14 = filterFrame.FilterFrame(0.35, 0.68, self.Frame11)
 
-        print(self.Frame7.possibleRelY)
         self.TabControl1.add(self.Frame1, text="SYGNAŁY I OPERACJE")
         self.TabControl1.add(self.Frame6, text="PRÓBKOWANIE I KWANTYZACJA")
-        self.TabControl1.add(self.Frame11, text="ZADANIE 3")
+        self.TabControl1.add(self.Frame11, text="FILTRACJA")
         self.TabControl1.pack(expan=1, fill="both")
 
 
