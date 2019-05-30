@@ -17,8 +17,26 @@ import Gui.FormManager as FormManager
 
 
 class SignalFrame:
+
+
     def __init__(self, which, relx, rely, top=None):
 
+        self.possibleRelY = [
+        [0.0750, False],
+        [0.1605, False],
+        [0.2460, False],
+        [0.3315, False],
+        [0.4170, False],
+        [0.5025, False],
+        [0.5880, False],
+        [0.6735, False],
+        [0.7590, False],
+        [0.8445, False],
+        [0.9300, False]
+    ]
+
+        self.actualType = getattr(fs, which + 'TypeCombobox').get()
+        self.actualNoise = getattr(fs, which + 'NoiseCombobox').get()
         # ---------------------------------------FRAME----------------------------------------------
 
         self.Frame1 = tk.Frame(top)
@@ -39,221 +57,6 @@ class SignalFrame:
         self.Label1.configure(foreground="#000000")
         self.Label1.configure(text='''SYGNAŁ''')
 
-        self.Label2 = tk.Label(self.Frame1)
-        self.Label2.place(relx=0.192, rely=0.075, height=21, width=144)
-        self.Label2.configure(background="#d9d9d9")
-        self.Label2.configure(disabledforeground="#a3a3a3")
-        self.Label2.configure(foreground="#000000")
-        self.Label2.configure(text='''CZAS POCZĄTKOWY''')
-        self.Label2.configure(width=144)
-
-        self.Label3 = tk.Label(self.Frame1)
-        self.Label3.place(relx=0.224, rely=0.1605, height=21, width=114)
-        self.Label3.configure(background="#d9d9d9")
-        self.Label3.configure(disabledforeground="#a3a3a3")
-        self.Label3.configure(foreground="#000000")
-        self.Label3.configure(text='''CZAS TRWANIA''')
-        self.Label3.configure(width=114)
-
-        self.Label4 = tk.Label(self.Frame1)
-        self.Label4.place(relx=0.192, rely=0.246, height=21, width=154)
-        self.Label4.configure(background="#d9d9d9")
-        self.Label4.configure(disabledforeground="#a3a3a3")
-        self.Label4.configure(foreground="#000000")
-        self.Label4.configure(text='''CZĘSTOTLIWOŚĆ SYGNAŁU''')
-
-        self.Label5 = tk.Label(self.Frame1)
-        self.Label5.place(relx=0.256, rely=0.3315, height=21, width=72)
-        self.Label5.configure(background="#d9d9d9")
-        self.Label5.configure(disabledforeground="#a3a3a3")
-        self.Label5.configure(foreground="#000000")
-        self.Label5.configure(text='''AMPLITUDA''')
-
-        self.Label6 = tk.Label(self.Frame1)
-        self.Label6.place(relx=0.16, rely=0.417, height=21, width=187)
-        self.Label6.configure(background="#d9d9d9")
-        self.Label6.configure(disabledforeground="#a3a3a3")
-        self.Label6.configure(foreground="#000000")
-        self.Label6.configure(text='''CZĘSTOTLIWOŚĆ PRÓBKOWANIA''')
-
-        self.Label7 = tk.Label(self.Frame1)
-        self.Label7.place(relx=0.816, rely=0.246, height=21, width=20)
-        self.Label7.configure(background="#d9d9d9")
-        self.Label7.configure(disabledforeground="#a3a3a3")
-        self.Label7.configure(foreground="#000000")
-        self.Label7.configure(text='''Hz''')
-
-        self.Label9 = tk.Label(self.Frame1)
-        self.Label9.place(relx=0.816, rely=0.417, height=21, width=20)
-        self.Label9.configure(background="#d9d9d9")
-        self.Label9.configure(disabledforeground="#a3a3a3")
-        self.Label9.configure(foreground="#000000")
-        self.Label9.configure(text='''Hz''')
-
-        self.Label10 = tk.Label(self.Frame1)
-        self.Label10.place(relx=0.816, rely=0.1605, height=21, width=11)
-        self.Label10.configure(background="#d9d9d9")
-        self.Label10.configure(disabledforeground="#a3a3a3")
-        self.Label10.configure(foreground="#000000")
-        self.Label10.configure(text='''s''')
-        self.Label10.configure(width=11)
-
-        self.Label11 = tk.Label(self.Frame1)
-        self.Label11.place(relx=0.816, rely=0.075, height=21, width=11)
-        self.Label11.configure(background="#d9d9d9")
-        self.Label11.configure(disabledforeground="#a3a3a3")
-        self.Label11.configure(foreground="#000000")
-        self.Label11.configure(text='''s''')
-
-        self.Label12 = tk.Label(self.Frame1)
-        self.Label12.place(relx=0.288, rely=0.8445, height=21, width=27)
-        self.Label12.configure(background="#d9d9d9")
-        self.Label12.configure(disabledforeground="#a3a3a3")
-        self.Label12.configure(foreground="#000000")
-        self.Label12.configure(text='''TYP''')
-
-        self.Label13 = tk.Label(self.Frame1)
-        self.Label13.place(relx=0.16, rely=0.5025, height=21, width=187)
-        self.Label13.configure(background="#d9d9d9")
-        self.Label13.configure(disabledforeground="#a3a3a3")
-        self.Label13.configure(foreground="#000000")
-        self.Label13.configure(text='''WSPÓŁCZYNNIK WYPEŁNIENIA''')
-
-        self.Label14 = tk.Label(self.Frame1)
-        self.Label14.place(relx=0.288, rely=0.930, height=21, width=30)
-        self.Label14.configure(background="#d9d9d9")
-        self.Label14.configure(disabledforeground="#a3a3a3")
-        self.Label14.configure(foreground="#000000")
-        self.Label14.configure(text='''SZUM''')
-
-        self.Label15 = tk.Label(self.Frame1)
-        self.Label15.place(relx=0.16, rely=0.588, height=21, width=187)
-        self.Label15.configure(background="#d9d9d9")
-        self.Label15.configure(disabledforeground="#a3a3a3")
-        self.Label15.configure(foreground="#000000")
-        self.Label15.configure(text='''MOMENT SKOKU''')
-
-        self.Label32 = tk.Label(self.Frame1)
-        self.Label32.place(relx=0.16, rely=0.6735, height=21, width=187)
-        self.Label32.configure(background="#d9d9d9")
-        self.Label32.configure(disabledforeground="#a3a3a3")
-        self.Label32.configure(foreground="#000000")
-        self.Label32.configure(text='''PRAWDOPODOBIEŃSTWO''')
-
-        self.Label33 = tk.Label(self.Frame1)
-        self.Label33.place(relx=0.16, rely=0.759, height=21, width=187)
-        self.Label33.configure(background="#d9d9d9")
-        self.Label33.configure(disabledforeground="#a3a3a3")
-        self.Label33.configure(foreground="#000000")
-        self.Label33.configure(text='''NUMER PRÓBKI SKOKU''')
-
-        # ----------------------------ENTRIES FRAME-------------------------------
-
-        self.Entry1 = tk.Entry(self.Frame1)
-        self.Entry1.place(relx=0.528, rely=0.075, height=20, relwidth=0.262)
-        self.Entry1.configure(background="#ffffff")
-        self.Entry1.configure(disabledforeground="#a3a3a3")
-        self.Entry1.configure(font="TkFixedFont")
-        self.Entry1.configure(foreground="#000000")
-        self.Entry1.configure(insertbackground="black")
-        self.Entry1.configure(textvariable=getattr(fs, which + 'Time0Entry'))
-
-        self.Entry2 = tk.Entry(self.Frame1)
-        self.Entry2.place(relx=0.528, rely=0.1605, height=20, relwidth=0.262)
-        self.Entry2.configure(background="white")
-        self.Entry2.configure(disabledforeground="#a3a3a3")
-        self.Entry2.configure(font="TkFixedFont")
-        self.Entry2.configure(foreground="#000000")
-        self.Entry2.configure(insertbackground="black")
-        self.Entry2.configure(textvariable=getattr(fs, which + 'TimeEntry'))
-
-        self.Entry3 = tk.Entry(self.Frame1)
-        self.Entry3.place(relx=0.528, rely=0.246, height=20, relwidth=0.262)
-        self.Entry3.configure(background="white")
-        self.Entry3.configure(disabledforeground="#a3a3a3")
-        self.Entry3.configure(font="TkFixedFont")
-        self.Entry3.configure(foreground="#000000")
-        self.Entry3.configure(insertbackground="black")
-        self.Entry3.configure(textvariable=getattr(fs, which + 'FrequencyEntry'))
-
-        self.Entry4 = tk.Entry(self.Frame1)
-        self.Entry4.place(relx=0.528, rely=0.3315, height=20, relwidth=0.262)
-        self.Entry4.configure(background="white")
-        self.Entry4.configure(disabledforeground="#a3a3a3")
-        self.Entry4.configure(font="TkFixedFont")
-        self.Entry4.configure(foreground="#000000")
-        self.Entry4.configure(insertbackground="black")
-        self.Entry4.configure(textvariable=getattr(fs, which + 'AmplitudeEntry'))
-
-        self.Entry5 = tk.Entry(self.Frame1)
-        self.Entry5.place(relx=0.528, rely=0.417, height=20, relwidth=0.262)
-        self.Entry5.configure(background="white")
-        self.Entry5.configure(disabledforeground="#a3a3a3")
-        self.Entry5.configure(font="TkFixedFont")
-        self.Entry5.configure(foreground="#000000")
-        self.Entry5.configure(insertbackground="black")
-        self.Entry5.configure(textvariable=getattr(fs, which + 'NOSamplesEntry'))
-
-        self.Entry6 = tk.Entry(self.Frame1)
-        self.Entry6.place(relx=0.528, rely=0.5025, height=20, relwidth=0.262)
-        self.Entry6.configure(background="white")
-        self.Entry6.configure(disabledforeground="#a3a3a3")
-        self.Entry6.configure(font="TkFixedFont")
-        self.Entry6.configure(foreground="#000000")
-        self.Entry6.configure(insertbackground="black")
-        self.Entry6.configure(textvariable=getattr(fs, which + 'InfiltratorEntry'))
-
-        self.Entry7 = tk.Entry(self.Frame1)
-        self.Entry7.place(relx=0.528, rely=0.588, height=20, relwidth=0.262)
-        self.Entry7.configure(background="white")
-        self.Entry7.configure(disabledforeground="#a3a3a3")
-        self.Entry7.configure(font="TkFixedFont")
-        self.Entry7.configure(foreground="#000000")
-        self.Entry7.configure(insertbackground="black")
-        self.Entry7.configure(textvariable=getattr(fs, which + 'JumpMomentEntry'))
-
-        self.Entry15 = tk.Entry(self.Frame1)
-        self.Entry15.place(relx=0.528, rely=0.6735, height=20, relwidth=0.262)
-        self.Entry15.configure(background="white")
-        self.Entry15.configure(disabledforeground="#a3a3a3")
-        self.Entry15.configure(font="TkFixedFont")
-        self.Entry15.configure(foreground="#000000")
-        self.Entry15.configure(insertbackground="black")
-        self.Entry15.configure(textvariable=getattr(fs, which + 'PossibilityEntry'))
-
-        self.Entry16 = tk.Entry(self.Frame1)
-        self.Entry16.place(relx=0.528, rely=0.759, height=20, relwidth=0.262)
-        self.Entry16.configure(background="white")
-        self.Entry16.configure(disabledforeground="#a3a3a3")
-        self.Entry16.configure(font="TkFixedFont")
-        self.Entry16.configure(foreground="#000000")
-        self.Entry16.configure(insertbackground="black")
-        self.Entry16.configure(textvariable=getattr(fs, which + 'JumpSampleEntry'))
-
-        # -----------------------------------------COMBOBOXES FRAME------------------------------------------
-
-        self.TCombobox1 = ttk.Combobox(self.Frame1)
-        self.TCombobox1.place(relx=0.528, rely=0.8445, height=21
-                              , relwidth=0.261)
-        self.TCombobox1.configure(width=163)
-        self.TCombobox1.configure(takefocus="")
-        self.TCombobox1.configure(textvariable=getattr(fs, which + 'TypeCombobox'))
-        self.TCombobox1.configure(
-            values=["brak", "sinus", "sinus wyprostowany jednopolowkowo", "sinus wyprostowany dwupolowkowo",
-                    "prostokatny", "prostokatny symetryczny", "trojkatny", "skok jednostkowy", "impuls jednostkowy"])
-        self.TCombobox1.current(0)
-
-        self.TCombobox2 = ttk.Combobox(self.Frame1)
-        self.TCombobox2.place(relx=0.528, rely=0.930, height=21
-                              , relwidth=0.261)
-        self.TCombobox2.configure(width=163)
-        self.TCombobox2.configure(takefocus="")
-        self.TCombobox2.configure(textvariable=getattr(fs, which + 'NoiseCombobox'))
-        self.TCombobox2.configure(
-            values=["brak", "gaussowski", "o rozkladzie jednostajnym", "impulsowy"])
-        self.TCombobox2.current(0)
-
-        # -----------------------------------------BUTTONS FRAME------------------------------------------
 
         self.Button2 = tk.Button(top)
         self.Button2.place(relx=relx+0.37, rely=rely+0.559, relheight=0.05, relwidth=0.07)
@@ -297,3 +100,370 @@ class SignalFrame:
         self.Button8.configure(width=77)
         self.Button8.configure(command=lambda: FormManager.FormManager().onSignalReadClicked(which))
 
+        self.createSignalTypeLabel(which, self.getFirstPossibleRelY())
+        self.createNoiseLabel(which, self.getFirstPossibleRelY())
+
+        self.Label2 = tk.Label(self.Frame1)
+        self.Label3 = tk.Label(self.Frame1)
+        self.Label4 = tk.Label(self.Frame1)
+        self.Label5 = tk.Label(self.Frame1)
+        self.Label6 = tk.Label(self.Frame1)
+        self.Label7 = tk.Label(self.Frame1)
+        self.Label8 = tk.Label(self.Frame1)
+        self.Label9 = tk.Label(self.Frame1)
+        self.Label10 = tk.Label(self.Frame1)
+        self.Label11 = tk.Label(self.Frame1)
+        self.Label12 = tk.Label(self.Frame1)
+        self.Label13 = tk.Label(self.Frame1)
+        self.Label14 = tk.Label(self.Frame1)
+        self.Label15 = tk.Label(self.Frame1)
+        self.Label16 = tk.Label(self.Frame1)
+        self.Label17 = tk.Label(self.Frame1)
+        self.Label18 = tk.Label(self.Frame1)
+
+        self.Entry1 = tk.Entry(self.Frame1)
+        self.Entry2 = tk.Entry(self.Frame1)
+        self.Entry3 = tk.Entry(self.Frame1)
+        self.Entry4 = tk.Entry(self.Frame1)
+        self.Entry5 = tk.Entry(self.Frame1)
+        self.Entry6 = tk.Entry(self.Frame1)
+        self.Entry7 = tk.Entry(self.Frame1)
+        self.Entry8 = tk.Entry(self.Frame1)
+        self.Entry9 = tk.Entry(self.Frame1)
+        self.Entry10 = tk.Entry(self.Frame1)
+        self.Entry11 = tk.Entry(self.Frame1)
+
+        type = getattr(fs, which + 'TypeCombobox')
+        type.trace("w", lambda name, index, mode, type=type: self.typeCallback(type, which))
+
+        noise = getattr(fs, which + 'NoiseCombobox')
+        noise.trace("w", lambda name, index, mode, noise=noise: self.noiseCallback(noise, which))
+
+    def typeCallback(self, sv, which):
+        self.setAllPossibleRelYAsFalse()
+        self.disableAllEntries()
+        self.disableAllLabels()
+
+        if sv.get() != 'brak':
+            getattr(fs, which + 'NoiseCombobox').set('brak')
+            self.createTime0Label(which, self.getFirstPossibleRelY(), self.Label2, self.Entry1, self.Label3)
+            self.createTimeLabel(which, self.getFirstPossibleRelY(), self.Label4, self.Entry2, self.Label5)
+            self.createFrequencyLabel(which, self.getFirstPossibleRelY(), self.Label6, self.Entry3, self.Label7)
+            self.createAmplitudeLabel(which, self.getFirstPossibleRelY(), self.Label8, self.Entry4)
+            self.createSamplingFrequencyLabel(which, self.getFirstPossibleRelY(), self.Label9, self.Entry5, self.Label10)
+
+        if sv.get() == 'prostokatny' or sv.get() == 'prostokatny symetryczny' or sv.get() == 'trojkatny':
+            self.createInfiltratorLabel(which, self.getFirstPossibleRelY(), self.Label11, self.Entry6)
+
+        if sv.get() == 'skok jednostkowy':
+            self.createJumpMomentLabel(which, self.getFirstPossibleRelY(), self.Label12, self.Entry7)
+
+        if sv.get() == 'impuls jednostkowy':
+            self.createJumpSampleLabel(which, self.getFirstPossibleRelY(), self.Label13, self.Entry8)
+
+        if sv.get() == 'o zmiennej czestotliwosci':
+            self.createTime1Label(which, self.getFirstPossibleRelY(), self.Label15, self.Entry10, self.Label16)
+            self.createFrequency1Label(which, self.getFirstPossibleRelY(), self.Label17, self.Entry11, self.Label18)
+
+    def noiseCallback(self, sv, which):
+        self.setAllPossibleRelYAsFalse()
+        self.disableAllEntries()
+        self.disableAllLabels()
+
+        if sv.get() != 'brak':
+            getattr(fs, which + 'TypeCombobox').set('brak')
+            self.createTime0Label(which, self.getFirstPossibleRelY(), self.Label2, self.Entry1, self.Label3)
+            self.createTimeLabel(which, self.getFirstPossibleRelY(), self.Label4, self.Entry2, self.Label5)
+            self.createFrequencyLabel(which, self.getFirstPossibleRelY(), self.Label6, self.Entry3, self.Label7)
+            self.createAmplitudeLabel(which, self.getFirstPossibleRelY(), self.Label8, self.Entry4)
+            self.createSamplingFrequencyLabel(which, self.getFirstPossibleRelY(), self.Label9, self.Entry5, self.Label10)
+
+        if sv.get() == 'impulsowy':
+            self.createPossibilityLabel(which, self.getFirstPossibleRelY(), self.Label14, self.Entry9)
+
+    def getFirstPossibleRelY(self):
+        for x in range(len(self.possibleRelY)):
+            if not self.possibleRelY[x][1]:
+                self.possibleRelY[x][1] = True
+                return self.possibleRelY[x][0]
+        return 0
+
+    def setAllPossibleRelYAsFalse(self):
+        for x in range(len(self.possibleRelY)):
+            if x != 0 and x != 1:
+                self.possibleRelY[x][1] = False
+
+    def disableAllEntries(self):
+        self.Entry1.place_forget()
+        self.Entry2.place_forget()
+        self.Entry3.place_forget()
+        self.Entry4.place_forget()
+        self.Entry5.place_forget()
+        self.Entry6.place_forget()
+        self.Entry7.place_forget()
+        self.Entry8.place_forget()
+        self.Entry9.place_forget()
+        self.Entry10.place_forget()
+        self.Entry11.place_forget()
+
+    def disableAllLabels(self):
+        self.Label2.configure(text='')
+        self.Label3.place_forget()
+        self.Label4.place_forget()
+        self.Label5.place_forget()
+        self.Label6.place_forget()
+        self.Label7.place_forget()
+        self.Label8.place_forget()
+        self.Label9.place_forget()
+        self.Label10.place_forget()
+        self.Label11.place_forget()
+        self.Label12.place_forget()
+        self.Label13.place_forget()
+        self.Label14.place_forget()
+        self.Label15.place_forget()
+        self.Label16.place_forget()
+        self.Label17.place_forget()
+        self.Label18.place_forget()
+
+
+
+    def createTime0Label(self, which, rely, Label, Entry, Label1):
+        Label.place(relx=0.192, rely=rely, height=21, width=144)
+        Label.configure(background="#d9d9d9")
+        Label.configure(disabledforeground="#a3a3a3")
+        Label.configure(foreground="#000000")
+        Label.configure(text='''CZAS POCZĄTKOWY''')
+        Label.configure(width=144)
+
+        Entry.place(relx=0.528, rely=rely, height=20, relwidth=0.262)
+        Entry.configure(background="#ffffff")
+        Entry.configure(disabledforeground="#a3a3a3")
+        Entry.configure(font="TkFixedFont")
+        Entry.configure(foreground="#000000")
+        Entry.configure(insertbackground="black")
+        Entry.configure(textvariable=getattr(fs, which + 'Time0Entry'))
+
+        Label1.place(relx=0.816, rely=rely, height=21, width=11)
+        Label1.configure(background="#d9d9d9")
+        Label1.configure(disabledforeground="#a3a3a3")
+        Label1.configure(foreground="#000000")
+        Label1.configure(text='''s''')
+
+    def createTimeLabel(self, which, rely, Label, Entry, Label1):
+        Label.place(relx=0.224, rely=rely, height=21, width=114)
+        Label.configure(background="#d9d9d9")
+        Label.configure(disabledforeground="#a3a3a3")
+        Label.configure(foreground="#000000")
+        Label.configure(text='''CZAS TRWANIA''')
+        Label.configure(width=114)
+
+        Entry.place(relx=0.528, rely=rely, height=20, relwidth=0.262)
+        Entry.configure(background="white")
+        Entry.configure(disabledforeground="#a3a3a3")
+        Entry.configure(font="TkFixedFont")
+        Entry.configure(foreground="#000000")
+        Entry.configure(insertbackground="black")
+        Entry.configure(textvariable=getattr(fs, which + 'TimeEntry'))
+
+        Label1.place(relx=0.816, rely=rely, height=21, width=11)
+        Label1.configure(background="#d9d9d9")
+        Label1.configure(disabledforeground="#a3a3a3")
+        Label1.configure(foreground="#000000")
+        Label1.configure(text='''s''')
+        Label1.configure(width=11)
+
+    def createFrequencyLabel(self, which, rely, Label, Entry, Label1):
+        Label.place(relx=0.192, rely=rely, height=21, width=154)
+        Label.configure(background="#d9d9d9")
+        Label.configure(disabledforeground="#a3a3a3")
+        Label.configure(foreground="#000000")
+        Label.configure(text='''CZĘSTOTLIWOŚĆ SYGNAŁU''')
+
+        Entry.place(relx=0.528, rely=rely, height=20, relwidth=0.262)
+        Entry.configure(background="white")
+        Entry.configure(disabledforeground="#a3a3a3")
+        Entry.configure(font="TkFixedFont")
+        Entry.configure(foreground="#000000")
+        Entry.configure(insertbackground="black")
+        Entry.configure(textvariable=getattr(fs, which + 'FrequencyEntry'))
+
+        Label1.place(relx=0.816, rely=rely, height=21, width=20)
+        Label1.configure(background="#d9d9d9")
+        Label1.configure(disabledforeground="#a3a3a3")
+        Label1.configure(foreground="#000000")
+        Label1.configure(text='''Hz''')
+
+    def createAmplitudeLabel(self, which, rely, Label, Entry):
+        Label.place(relx=0.256, rely=rely, height=21, width=72)
+        Label.configure(background="#d9d9d9")
+        Label.configure(disabledforeground="#a3a3a3")
+        Label.configure(foreground="#000000")
+        Label.configure(text='''AMPLITUDA''')
+
+        Entry.place(relx=0.528, rely=rely, height=20, relwidth=0.262)
+        Entry.configure(background="white")
+        Entry.configure(disabledforeground="#a3a3a3")
+        Entry.configure(font="TkFixedFont")
+        Entry.configure(foreground="#000000")
+        Entry.configure(insertbackground="black")
+        Entry.configure(textvariable=getattr(fs, which + 'AmplitudeEntry'))
+
+    def createSamplingFrequencyLabel(self, which, rely, Label, Entry, Label1):
+        Label.place(relx=0.16, rely=rely, height=21, width=187)
+        Label.configure(background="#d9d9d9")
+        Label.configure(disabledforeground="#a3a3a3")
+        Label.configure(foreground="#000000")
+        Label.configure(text='''CZĘSTOTLIWOŚĆ PRÓBKOWANIA''')
+
+        Entry.place(relx=0.528, rely=rely, height=20, relwidth=0.262)
+        Entry.configure(background="white")
+        Entry.configure(disabledforeground="#a3a3a3")
+        Entry.configure(font="TkFixedFont")
+        Entry.configure(foreground="#000000")
+        Entry.configure(insertbackground="black")
+        Entry.configure(textvariable=getattr(fs, which + 'NOSamplesEntry'))
+
+        Label1.place(relx=0.816, rely=rely, height=21, width=20)
+        Label1.configure(background="#d9d9d9")
+        Label1.configure(disabledforeground="#a3a3a3")
+        Label1.configure(foreground="#000000")
+        Label1.configure(text='''Hz''')
+
+    def createSignalTypeLabel(self, which, rely):
+        Label = tk.Label(self.Frame1)
+        Label.place(relx=0.288, rely=rely, height=21, width=27)
+        Label.configure(background="#d9d9d9")
+        Label.configure(disabledforeground="#a3a3a3")
+        Label.configure(foreground="#000000")
+        Label.configure(text='''TYP''')
+
+        TCombobox = ttk.Combobox(self.Frame1)
+        TCombobox.place(relx=0.528, rely=rely, height=21, relwidth=0.261)
+        TCombobox.configure(width=163)
+        TCombobox.configure(takefocus="")
+        TCombobox.configure(textvariable=getattr(fs, which + 'TypeCombobox'))
+        TCombobox.configure(
+            values=["brak", "sinus", "sinus wyprostowany jednopolowkowo", "sinus wyprostowany dwupolowkowo",
+                    "prostokatny", "prostokatny symetryczny", "trojkatny", "skok jednostkowy", "impuls jednostkowy",
+                    "o zmiennej czestotliwosci"])
+        TCombobox.current(0)
+
+    def createNoiseLabel(self, which, rely):
+        Label = tk.Label(self.Frame1)
+        Label.place(relx=0.288, rely=rely, height=21, width=30)
+        Label.configure(background="#d9d9d9")
+        Label.configure(disabledforeground="#a3a3a3")
+        Label.configure(foreground="#000000")
+        Label.configure(text='''SZUM''')
+
+        TCombobox = ttk.Combobox(self.Frame1)
+        TCombobox.place(relx=0.528, rely=rely, height=21, relwidth=0.261)
+        TCombobox.configure(width=163)
+        TCombobox.configure(takefocus="")
+        TCombobox.configure(textvariable=getattr(fs, which + 'NoiseCombobox'))
+        TCombobox.configure(
+            values=["brak", "gaussowski", "o rozkladzie jednostajnym", "impulsowy"])
+        TCombobox.current(0)
+
+    def createInfiltratorLabel(self, which, rely, Label, Entry):
+        Label.place(relx=0.16, rely=rely, height=21, width=187)
+        Label.configure(background="#d9d9d9")
+        Label.configure(disabledforeground="#a3a3a3")
+        Label.configure(foreground="#000000")
+        Label.configure(text='''WSPÓŁCZYNNIK WYPEŁNIENIA''')
+
+        Entry.place(relx=0.528, rely=rely, height=20, relwidth=0.262)
+        Entry.configure(background="white")
+        Entry.configure(disabledforeground="#a3a3a3")
+        Entry.configure(font="TkFixedFont")
+        Entry.configure(foreground="#000000")
+        Entry.configure(insertbackground="black")
+        Entry.configure(textvariable=getattr(fs, which + 'InfiltratorEntry'))
+
+    def createJumpMomentLabel(self, which, rely, Label, Entry):
+        Label.place(relx=0.16, rely=rely, height=21, width=187)
+        Label.configure(background="#d9d9d9")
+        Label.configure(disabledforeground="#a3a3a3")
+        Label.configure(foreground="#000000")
+        Label.configure(text='''MOMENT SKOKU''')
+
+        Entry.place(relx=0.528, rely=rely, height=20, relwidth=0.262)
+        Entry.configure(background="white")
+        Entry.configure(disabledforeground="#a3a3a3")
+        Entry.configure(font="TkFixedFont")
+        Entry.configure(foreground="#000000")
+        Entry.configure(insertbackground="black")
+        Entry.configure(textvariable=getattr(fs, which + 'JumpMomentEntry'))
+
+    def createPossibilityLabel(self, which, rely, Label, Entry):
+        Label.place(relx=0.16, rely=rely, height=21, width=187)
+        Label.configure(background="#d9d9d9")
+        Label.configure(disabledforeground="#a3a3a3")
+        Label.configure(foreground="#000000")
+        Label.configure(text='''PRAWDOPODOBIEŃSTWO''')
+
+        Entry.place(relx=0.528, rely=rely, height=20, relwidth=0.262)
+        Entry.configure(background="white")
+        Entry.configure(disabledforeground="#a3a3a3")
+        Entry.configure(font="TkFixedFont")
+        Entry.configure(foreground="#000000")
+        Entry.configure(insertbackground="black")
+        Entry.configure(textvariable=getattr(fs, which + 'PossibilityEntry'))
+
+    def createJumpSampleLabel(self, which, rely, Label, Entry):
+        Label.place(relx=0.16, rely=rely, height=21, width=187)
+        Label.configure(background="#d9d9d9")
+        Label.configure(disabledforeground="#a3a3a3")
+        Label.configure(foreground="#000000")
+        Label.configure(text='''NUMER PRÓBKI SKOKU''')
+
+        Entry.place(relx=0.528, rely=rely, height=20, relwidth=0.262)
+        Entry.configure(background="white")
+        Entry.configure(disabledforeground="#a3a3a3")
+        Entry.configure(font="TkFixedFont")
+        Entry.configure(foreground="#000000")
+        Entry.configure(insertbackground="black")
+        Entry.configure(textvariable=getattr(fs, which + 'JumpSampleEntry'))
+
+    def createTime1Label(self, which, rely, Label, Entry, Label1):
+        Label.place(relx=0.192, rely=rely, height=21, width=144)
+        Label.configure(background="#d9d9d9")
+        Label.configure(disabledforeground="#a3a3a3")
+        Label.configure(foreground="#000000")
+        Label.configure(text='''CZAS 1''')
+        Label.configure(width=144)
+
+        Entry.place(relx=0.528, rely=rely, height=20, relwidth=0.262)
+        Entry.configure(background="#ffffff")
+        Entry.configure(disabledforeground="#a3a3a3")
+        Entry.configure(font="TkFixedFont")
+        Entry.configure(foreground="#000000")
+        Entry.configure(insertbackground="black")
+        Entry.configure(textvariable=getattr(fs, which + 'Time1Entry'))
+
+        Label1.place(relx=0.816, rely=rely, height=21, width=11)
+        Label1.configure(background="#d9d9d9")
+        Label1.configure(disabledforeground="#a3a3a3")
+        Label1.configure(foreground="#000000")
+        Label1.configure(text='''s''')
+
+    def createFrequency1Label(self, which, rely, Label, Entry, Label1):
+        Label.place(relx=0.192, rely=rely, height=21, width=154)
+        Label.configure(background="#d9d9d9")
+        Label.configure(disabledforeground="#a3a3a3")
+        Label.configure(foreground="#000000")
+        Label.configure(text='''CZĘSTOTLIWOŚĆ W CZASIE 1''')
+
+        Entry.place(relx=0.528, rely=rely, height=20, relwidth=0.262)
+        Entry.configure(background="white")
+        Entry.configure(disabledforeground="#a3a3a3")
+        Entry.configure(font="TkFixedFont")
+        Entry.configure(foreground="#000000")
+        Entry.configure(insertbackground="black")
+        Entry.configure(textvariable=getattr(fs, which + 'Freq1Entry'))
+
+        Label1.place(relx=0.816, rely=rely, height=21, width=20)
+        Label1.configure(background="#d9d9d9")
+        Label1.configure(disabledforeground="#a3a3a3")
+        Label1.configure(foreground="#000000")
+        Label1.configure(text='''Hz''')

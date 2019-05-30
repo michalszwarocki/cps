@@ -18,6 +18,8 @@ def save(fileName, configuration, signal):
     signalTypeBytes = struct.pack('%ds' % len(configuration.signalType), bytes(configuration.signalType, 'utf-8'))
     noiseLengthBytes = struct.pack('i', len(configuration.noise))
     noiseBytes = struct.pack('%ds' % len(configuration.noise), bytes(configuration.noise, 'utf-8'))
+    t1Bytes = struct.pack('f', configuration.time1)
+    f1Bytes = struct.pack('f', configuration.freq1)
     signalBytes = struct.pack('%sf' % len(signal), *signal)
     newFile.write(t0Bytes)
     newFile.write(timeBytes)
@@ -32,6 +34,8 @@ def save(fileName, configuration, signal):
     newFile.write(signalTypeBytes)
     newFile.write(noiseLengthBytes)
     newFile.write(noiseBytes)
+    newFile.write(t1Bytes)
+    newFile.write(f1Bytes)
     newFile.write(signalBytes)
 
 
@@ -50,8 +54,10 @@ def read(filename):
     signalType = bytes.decode(struct.unpack('%ds' % signalTypeLength, newFile.read(signalTypeLength))[0])
     noiseLength = struct.unpack('i', newFile.read(4))[0]
     noise = bytes.decode(struct.unpack('%ds' % noiseLength, newFile.read(noiseLength))[0])
+    time1 = struct.unpack('f', newFile.read(4))[0]
+    freq1 = struct.unpack('f', newFile.read(4))[0]
     signal = struct.unpack('f'*numberOfSamples*int(time), newFile.read(4*numberOfSamples*int(time)))
 
-    configuration = config.Configuration(time0, time, frequency, amplitude, numberOfSamples, infiltrator, jumpMoment, possibility, jumpSample, signalType, noise)
+    configuration = config.Configuration(time0, time, frequency, amplitude, numberOfSamples, infiltrator, jumpMoment, possibility, jumpSample, signalType, noise, time1, freq1)
     configuration.setPoints(signal)
     return configuration

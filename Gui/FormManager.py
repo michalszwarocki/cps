@@ -25,8 +25,10 @@ class FormManager:
         jumpSampl = int(getattr(fs, which + 'JumpSampleEntry').get())
         type = getattr(fs, which + 'TypeCombobox').get()
         noise = getattr(fs, which + 'NoiseCombobox').get()
+        time1 = float(getattr(fs, which + 'Time1Entry').get())
+        freq1 = float(getattr(fs, which + 'Freq1Entry').get())
         points = fs.points
-        config = configuration.Configuration(t0, time, freq, ampli, samples, infil, jumpMoment, poss, jumpSampl, type, noise)
+        config = configuration.Configuration(t0, time, freq, ampli, samples, infil, jumpMoment, poss, jumpSampl, type, noise, time1, freq1)
         config.setPoints(points)
         return config
 
@@ -90,6 +92,8 @@ class FormManager:
             getattr(fs, which + 'JumpSampleEntry').set(configuration.jumpSample)
             getattr(fs, which + 'TypeCombobox').set(configuration.signalType)
             getattr(fs, which + 'NoiseCombobox').set(configuration.noise)
+            getattr(fs, which + 'Time1Entry').set(configuration.time1)
+            getattr(fs, which + 'Freq1Entry').set(configuration.freq1)
             fs.points = configuration.points
 
         except FileNotFoundError:
@@ -103,7 +107,6 @@ class FormManager:
         secondSignal = sts.SignalTypeSelector(configSecondSignal).getSignal()
 
         signal = ots.OperationTypeSelector(firstSignal, secondSignal, operation).getOperationResult()
-
         self.setSignalAvarageValues(signal)
         self.drawPlot(None, firstSignal.getTime(), signal)
 

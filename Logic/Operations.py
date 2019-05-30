@@ -138,7 +138,7 @@ def convolve(signal1, signal2):
                     firstTime += 1
                 else:
                     values[n] += firstValues[k] * secondValues[n - k]
-    timeline = np.linspace(0, signal1.time, len(values))
+    timeline = np.linspace(0, signal1.time + signal2.time, len(values))
     return [timeline, values]
 
 
@@ -158,17 +158,17 @@ def correlate(signal1, signal2):
                     firstTime += 1
                 else:
                     values[n] += firstValues[k] * sec[n - k]
-    timeline = np.linspace(0, signal1.time, len(values))
+    timeline = np.linspace(0, signal1.time + signal2.time, len(values))
     return [timeline, values]
 
 
-def low_filter(M, K, window="null"):
+def low_filter(M, fo, fs, window="null"):
     impulseResponseValues = []
     for n in range(M):
         if n == (M - 1) / 2:
-            impulseResponseValues.append(2.0 / K)
+            impulseResponseValues.append(2.0 *fo / fs)
         else:
-            impulseResponseValues.append(np.sin(2.0 * np.pi * (n - (M - 1.0) / 2.0) / K) / (np.pi * (n - (M - 1.0) / 2.0)))
+            impulseResponseValues.append(np.sin(2.0 * np.pi * (n - (M - 1.0) / 2.0) *fo/ fs) / (np.pi * (n - (M - 1.0) / 2.0)))
 
     if window is "blackman":
         impulseResponseValues = Window.getBlackmanWindow(impulseResponseValues, M)
@@ -182,9 +182,9 @@ def low_filter(M, K, window="null"):
     return signal
 
 
-def high_filter(M, K, window="null"):
+def high_filter(M, fo, fs, window="null"):
     impulseResponseValues = []
-    signal = low_filter(M, K, window)
+    signal = low_filter(M, fo, fs, window)
 
     for n in range(len(signal.getSignalForOperation())):
         impulseResponseValues.append(signal.getSignalForOperation()[n]*((-1)**n))
@@ -193,9 +193,9 @@ def high_filter(M, K, window="null"):
     return signal
 
 
-def low_high_filter(M, K, window="null"):
+def low_high_filter(M, fo, fs, window="null"):
     impulseResponseValues = []
-    signal = low_filter(M, K, window)
+    signal = low_filter(M, fo, fs, window)
 
     for n in range(len(signal.getSignalForOperation())):
         impulseResponseValues.append(signal.getSignalForOperation()[n]*2*np.sin(np.pi*n/2))

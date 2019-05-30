@@ -28,6 +28,8 @@ class SignalTypeSelector:
             self.signal.setImpulse(config.jumpSample)
         elif config.signalType == 'wynik operacji':
             self.signal.setAsOperation(config.points)
+        elif config.signalType == 'o zmiennej czestotliwosci':
+            self.signal.setChirp(config.time1, config.freq1)
 
     def setNoise(self, config):
         if config.noise == 'gaussowski':

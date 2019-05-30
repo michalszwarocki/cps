@@ -16,9 +16,11 @@ import numpy as np
 
 def set_Tk_var():
     global firstTime0Entry, firstTimeEntry, firstFrequencyEntry, firstAmplitudeEntry, firstNOSamplesEntry, \
-        firstInfiltratorEntry, firstJumpMomentEntry, firstPossibilityEntry, firstJumpSampleEntry
+        firstInfiltratorEntry, firstJumpMomentEntry, firstPossibilityEntry, firstJumpSampleEntry, firstTime1Entry, \
+        firstFreq1Entry
     global secondTime0Entry, secondTimeEntry, secondFrequencyEntry, secondAmplitudeEntry, secondNOSamplesEntry, \
-        secondInfiltratorEntry, secondJumpMomentEntry, secondPossibilityEntry, secondJumpSampleEntry
+        secondInfiltratorEntry, secondJumpMomentEntry, secondPossibilityEntry, secondJumpSampleEntry, secondTime1Entry, \
+        secondFreq1Entry
     global firstTypeCombobox, firstNoiseCombobox, secondTypeCombobox, secondNoiseCombobox, operationCombobox
     global text1Label, text2Label, text3Label, text4Label, text5Label
     global points
@@ -35,6 +37,8 @@ def set_Tk_var():
     firstJumpMomentEntry = tk.StringVar()
     firstPossibilityEntry = tk.StringVar()
     firstJumpSampleEntry = tk.StringVar()
+    firstTime1Entry = tk.StringVar()
+    firstFreq1Entry = tk.StringVar()
 
     secondTime0Entry = tk.StringVar()
     secondTimeEntry = tk.StringVar()
@@ -45,6 +49,8 @@ def set_Tk_var():
     secondJumpMomentEntry = tk.StringVar()
     secondPossibilityEntry = tk.StringVar()
     secondJumpSampleEntry = tk.StringVar()
+    secondTime1Entry = tk.StringVar()
+    secondFreq1Entry = tk.StringVar()
 
     firstTypeCombobox = tk.StringVar()
     firstNoiseCombobox = tk.StringVar()
@@ -80,6 +86,8 @@ def set_Tk_var():
     firstJumpMomentEntry.set('0.5')
     firstPossibilityEntry.set('0.5')
     firstJumpSampleEntry.set('50')
+    firstTime1Entry.set('0.5')
+    firstFreq1Entry.set('5')
 
     secondTime0Entry.set('0')
     secondTimeEntry.set('1')
@@ -90,6 +98,8 @@ def set_Tk_var():
     secondJumpMomentEntry.set('1')
     secondPossibilityEntry.set('0.5')
     secondJumpSampleEntry.set('0')
+    secondTime1Entry.set('0.5')
+    secondFreq1Entry.set('5')
 
     text1Label.set('')
     text2Label.set('')

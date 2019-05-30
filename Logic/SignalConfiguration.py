@@ -14,8 +14,10 @@ class Configuration:
     signalType: str
     noise: str
     points: np.array
+    time1: float
+    freq1: float
 
-    def __init__(self, t0, time, freq, ampl, samples, infil, jumpMom, possib, jumpSamp, type, noise):
+    def __init__(self, t0, time, freq, ampl, samples, infil, jumpMom, possib, jumpSamp, type, noise, time1, freq1):
         self.time0 = t0
         self.time = time
         self.frequency = freq
@@ -27,6 +29,8 @@ class Configuration:
         self.jumpSample = jumpSamp
         self.signalType = type
         self.noise = noise
+        self.time1 = time1
+        self.freq1 = freq1
 
     def setPoints(self, signal):
         self.points = np.array(signal)
