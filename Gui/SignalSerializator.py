@@ -56,7 +56,7 @@ def read(filename):
     noise = bytes.decode(struct.unpack('%ds' % noiseLength, newFile.read(noiseLength))[0])
     time1 = struct.unpack('f', newFile.read(4))[0]
     freq1 = struct.unpack('f', newFile.read(4))[0]
-    signal = struct.unpack('f'*numberOfSamples*int(time), newFile.read(4*numberOfSamples*int(time)))
+    signal = struct.unpack('f'*(numberOfSamples*int(time)+1), newFile.read(4*(numberOfSamples*int(time)+1)))
 
     configuration = config.Configuration(time0, time, frequency, amplitude, numberOfSamples, infiltrator, jumpMoment, possibility, jumpSample, signalType, noise, time1, freq1)
     configuration.setPoints(signal)

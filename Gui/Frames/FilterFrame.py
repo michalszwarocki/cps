@@ -83,9 +83,13 @@ class FilterFrame:
         self.Label4 = tk.Label(self.Frame1)
         self.Label5 = tk.Label(self.Frame1)
         self.Label6 = tk.Label(self.Frame1)
+        self.Label7 = tk.Label(self.Frame1)
+        self.Label8 = tk.Label(self.Frame1)
 
         self.Entry1 = tk.Entry(self.Frame1)
         self.Entry2 = tk.Entry(self.Frame1)
+        self.Entry3 = tk.Entry(self.Frame1)
+        self.Entry4 = tk.Entry(self.Frame1)
 
         self.TCombobox1 = ttk.Combobox(self.Frame1)
         self.TCombobox2 = ttk.Combobox(self.Frame1)
@@ -108,6 +112,10 @@ class FilterFrame:
             self.createMValueLabel(self.getFirstPossibleRelY(), self.Label4, self.Entry1)
             self.createFoLabel(self.getFirstPossibleRelY(), self.Label5, self.Entry2, self.Label6)
 
+        if sv.get() == 'radar':
+            self.createDistanceValueLabel(self.getFirstPossibleRelY(), self.Label7, self.Entry3)
+            self.createSpeedLabel(self.getFirstPossibleRelY(), self.Label8, self.Entry4)
+
 
     def getFirstPossibleRelY(self):
         for x in range(len(self.possibleRelY)):
@@ -124,6 +132,8 @@ class FilterFrame:
     def disableAllEntries(self):
         self.Entry1.place_forget()
         self.Entry2.place_forget()
+        self.Entry3.place_forget()
+        self.Entry4.place_forget()
 
 
     def disableAllLabels(self):
@@ -132,6 +142,8 @@ class FilterFrame:
         self.Label4.place_forget()
         self.Label5.place_forget()
         self.Label6.place_forget()
+        self.Label7.place_forget()
+        self.Label8.place_forget()
 
     def disableAllComboboxes(self):
         self.TCombobox1.place_forget()
@@ -218,3 +230,35 @@ class FilterFrame:
         Label1.configure(disabledforeground="#a3a3a3")
         Label1.configure(foreground="#000000")
         Label1.configure(text='''Hz''')
+
+    def createDistanceValueLabel(self, rely, Label, Entry):
+        Label.place(relx=0.085, rely=rely, height=21, width=75)
+        Label.configure(background="#d9d9d9")
+        Label.configure(disabledforeground="#a3a3a3")
+        Label.configure(foreground="#000000")
+        Label.configure(text='''ODLEGŁOŚĆ''')
+        Label.configure(width=114)
+
+        Entry.place(relx=0.23, rely=rely, height=20, relwidth=0.2)
+        Entry.configure(background="white")
+        Entry.configure(disabledforeground="#a3a3a3")
+        Entry.configure(font="TkFixedFont")
+        Entry.configure(foreground="#000000")
+        Entry.configure(insertbackground="black")
+        Entry.configure(textvariable=fs.distanceValueEntry)
+
+    def createSpeedLabel(self, rely, Label, Entry):
+        Label.place(relx=0.09, rely=rely, height=21, width=70)
+        Label.configure(background="#d9d9d9")
+        Label.configure(disabledforeground="#a3a3a3")
+        Label.configure(foreground="#000000")
+        Label.configure(text='''PRĘDKOŚĆ''')
+        Label.configure(width=114)
+
+        Entry.place(relx=0.23, rely=rely, height=20, relwidth=0.2)
+        Entry.configure(background="white")
+        Entry.configure(disabledforeground="#a3a3a3")
+        Entry.configure(font="TkFixedFont")
+        Entry.configure(foreground="#000000")
+        Entry.configure(insertbackground="black")
+        Entry.configure(textvariable=fs.speedEntry)

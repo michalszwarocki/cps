@@ -141,7 +141,8 @@ class SignalFrame:
         if sv.get() != 'brak':
             self.disableAllEntries()
             self.disableAllLabels()
-            getattr(fs, which + 'NoiseCombobox').set('brak')
+            if sv.get() != 'wynik operacji':
+                getattr(fs, which + 'NoiseCombobox').set('brak')
             self.createTime0Label(which, self.getFirstPossibleRelY(), self.Label2, self.Entry1, self.Label3)
             self.createTimeLabel(which, self.getFirstPossibleRelY(), self.Label4, self.Entry2, self.Label5)
             self.createFrequencyLabel(which, self.getFirstPossibleRelY(), self.Label6, self.Entry3, self.Label7)
@@ -169,7 +170,8 @@ class SignalFrame:
         if cv.get() != 'brak':
             self.disableAllEntries()
             self.disableAllLabels()
-            getattr(fs, which + 'TypeCombobox').set('brak')
+            if cv.get() != 'wynik operacji':
+                getattr(fs, which + 'TypeCombobox').set('brak')
             self.createTime0Label(which, self.getFirstPossibleRelY(), self.Label2, self.Entry1, self.Label3)
             self.createTimeLabel(which, self.getFirstPossibleRelY(), self.Label4, self.Entry2, self.Label5)
             self.createFrequencyLabel(which, self.getFirstPossibleRelY(), self.Label6, self.Entry3, self.Label7)

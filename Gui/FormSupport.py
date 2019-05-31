@@ -29,7 +29,7 @@ def set_Tk_var():
     global mseLabel, snrLabel, psnrLabel, mdLabel, enobLabel
     global samplingPeriodEntry, quantizationBitsEntry, nOSamplesEntry, actionCombobox
 
-    global mValueEntry, foEntry
+    global mValueEntry, foEntry, distanceValueEntry, speedEntry, realDistance, achievedDistance
 
     firstTime0Entry = tk.StringVar()
     firstTimeEntry = tk.StringVar()
@@ -85,6 +85,10 @@ def set_Tk_var():
 
     mValueEntry = tk.StringVar()
     foEntry = tk.StringVar()
+    distanceValueEntry = tk.StringVar()
+    speedEntry = tk.StringVar()
+    realDistance = tk.StringVar()
+    achievedDistance = tk.StringVar()
 
     firstTime0Entry.set('0')
     firstTimeEntry.set('1')
@@ -128,6 +132,10 @@ def set_Tk_var():
 
     mValueEntry.set('65')
     foEntry.set('5')
+    distanceValueEntry.set('1000')
+    speedEntry.set('20')
+    realDistance.set('0')
+    achievedDistance.set('0')
 
 
 def init(top, gui, *args, **kwargs):

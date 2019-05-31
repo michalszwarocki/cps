@@ -21,6 +21,7 @@ import Gui.Frames.SignalMetricFrame as sigMetFrame
 import Gui.Frames.MetricsFrame as metFrame
 import Gui.Frames.SamplingFrame as sampFrame
 import Gui.Frames.FilterFrame as filterFrame
+import Gui.Frames.RadarMetricsFrame as radarFrame
 
 
 def start_Gui():
@@ -94,6 +95,7 @@ class Toplevel1:
         self.Frame12 = sigFrame.SignalFrame('first', 0.03, 0.031, self.Frame11)
         self.Frame13 = sigFrame.SignalFrame('second', 0.52, 0.031, self.Frame11)
         self.Frame14 = filterFrame.FilterFrame(0.35, 0.68, self.Frame11)
+        self.Frame15 = radarFrame.RadarMetricsFrame(0.05, 0.68, self.Frame11)
 
         self.TabControl1.add(self.Frame1, text="SYGNAŁY I OPERACJE")
         self.TabControl1.add(self.Frame6, text="PRÓBKOWANIE I KWANTYZACJA")

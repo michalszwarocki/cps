@@ -135,7 +135,6 @@ class FormManager:
         config = self.readOperationConfiguration()
         firstSignal = sts.SignalTypeSelector(configFirstSignal).getSignal()
         secondSignal = sts.SignalTypeSelector(configSecondSignal).getSignal()
-
         signal = ots.OperationTypeSelector(firstSignal, secondSignal, config).getOperationResult()
         configFirstSignal.signalType = 'wynik operacji'
         configFirstSignal.noise = 'wynik operacji'
@@ -156,6 +155,9 @@ class FormManager:
         operationSelector = ots.OperationTypeSelector(firstSignal, secondSignal, config)
         result = operationSelector.getOperationResult()
 
+        if config.operation == 'radar':
+            self.setRadarValues()
+
         self.drawPlotForOperation(None, operationSelector.getFirstSignal(), operationSelector.getSecondSignal(), result[0], result[1])
 
     def setSignalAvarageValues(self, signal):
@@ -164,6 +166,10 @@ class FormManager:
         fs.text3Label.set(round(np.average(np.square(signal)), 3))
         fs.text4Label.set(round(np.var(signal), 3))
         fs.text5Label.set(round(np.sqrt(np.mean(np.square(signal))), 3))
+
+    def setRadarValues(self, real, result):
+        fs.realDistance.set(round(real, 3))
+        fs.achievedDistance.set(round(result, 3))
 
     def setMetricsValues(self, originalSignal, receivedSignal, samplingConfig):
         fs.mseLabel.set(round(met.meanSquaredError(originalSignal, receivedSignal), 3))
