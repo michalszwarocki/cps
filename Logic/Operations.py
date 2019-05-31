@@ -216,3 +216,24 @@ def filtering(signal, filterType, window, M, fo):
     filteredSignal = convolve(signal, fil)
 
     return filteredSignal, fil
+
+def radar(signal, speed, distance):
+    time = distance/speed
+    delayed_signal = signal
+    signal.singalPoints = signal.getSignalForOperation()
+    delayed_signal.singalPoints = delayed_signal.getSignalForOperation()
+    delayed_signal.delay(time * 2)
+    time2, signal2 = correlate(signal, delayed_signal)
+    t_max = time2[np.argmax(signal2)]
+    calc_dist = ((time2[int(len(time2)/2)] - t_max) * speed)
+    return calc_dist
+
+def radar2(signal, delayed_signal, speed, distance):
+    time = distance / speed
+    signal.singalPoints = signal.getSignalForOperation()
+    # delayed_signal.singalPoints = delayed_signal.getSignalForOperation()
+    # delayed_signal.delay(time * 2)
+    time2, signal2 = correlate(signal, delayed_signal)
+    t_max = time2[np.argmax(signal2)]
+    calc_dist = ((time2[-1] - t_max) * speed)
+    return calc_dist

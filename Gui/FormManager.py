@@ -28,7 +28,12 @@ class FormManager:
         noise = getattr(fs, which + 'NoiseCombobox').get()
         time1 = float(getattr(fs, which + 'Time1Entry').get())
         freq1 = float(getattr(fs, which + 'Freq1Entry').get())
-        points = fs.points
+        points = np.array
+        if which == 'first':
+            points = fs.firstPoints
+        elif which == 'second':
+            points = fs.secondPoints
+
         config = configuration.Configuration(t0, time, freq, ampli, samples, infil, jumpMoment, poss, jumpSampl, type, noise, time1, freq1)
         config.setPoints(points)
         return config
@@ -47,7 +52,9 @@ class FormManager:
         windowType = fs.windowCombobox.get()
         mValue = int(fs.mValueEntry.get())
         foValue = float(fs.foEntry.get())
-        config = operConfig.OperationConfiguration(operation, filterType, windowType, mValue, foValue)
+        speed = float(fs.speedEntry.get())
+        distance = float(fs.distanceValueEntry.get())
+        config = operConfig.OperationConfiguration(operation, filterType, windowType, mValue, foValue, speed, distance)
         return config
 
     def readFilterOperationConfiguration(self):
@@ -56,13 +63,14 @@ class FormManager:
         windowType = fs.windowCombobox.get()
         mValue = int(fs.mValueEntry.get())
         foValue = float(fs.foEntry.get())
-        config = operConfig.OperationConfiguration(operation, filterType, windowType, mValue, foValue)
+        speed = float(fs.speedEntry.get())
+        distance = float(fs.distanceValueEntry.get())
+        config = operConfig.OperationConfiguration(operation, filterType, windowType, mValue, foValue, speed, distance)
         return config
 
     def onSignalDrawClicked(self, which):
         config = self.readSignalConfiguration(which)
         signal = sts.SignalTypeSelector(config).getSignal()
-
         self.setSignalAvarageValues(signal.getSignalForOperation())
         self.drawPlot(config, signal.getTime(), signal.getSignalForOperation())
 
@@ -113,7 +121,10 @@ class FormManager:
             getattr(fs, which + 'NoiseCombobox').set(configuration.noise)
             getattr(fs, which + 'Time1Entry').set(configuration.time1)
             getattr(fs, which + 'Freq1Entry').set(configuration.freq1)
-            fs.points = configuration.points
+            if which == 'first':
+                fs.firstPoints = configuration.points
+            elif which == 'second':
+                fs.secondPoints = configuration.points
 
         except FileNotFoundError:
             print("Nie wybrano pliku!!")
@@ -155,17 +166,19 @@ class FormManager:
         operationSelector = ots.OperationTypeSelector(firstSignal, secondSignal, config)
         result = operationSelector.getOperationResult()
 
+        if config.operation != 'radar':
+            self.drawPlotForOperation(None, operationSelector.getFirstSignal(), operationSelector.getSecondSignal(),
+                                      result[0], result[1])
+
         if config.operation == 'radar':
-            self.setRadarValues()
+            self.setRadarValues(config.distance, result)
 
-        self.drawPlotForOperation(None, operationSelector.getFirstSignal(), operationSelector.getSecondSignal(), result[0], result[1])
-
-    def setSignalAvarageValues(self, signal):
-        fs.text1Label.set(round(np.mean(signal), 3))
-        fs.text2Label.set(round(np.mean(np.abs(signal)), 3))
-        fs.text3Label.set(round(np.average(np.square(signal)), 3))
-        fs.text4Label.set(round(np.var(signal), 3))
-        fs.text5Label.set(round(np.sqrt(np.mean(np.square(signal))), 3))
+    def setSignalAvarageValues(self, sig):
+        fs.text1Label.set(round(np.mean(sig), 3))
+        fs.text2Label.set(round(np.mean(np.abs(sig)), 3))
+        fs.text3Label.set(round(np.average(np.square(sig)), 3))
+        fs.text4Label.set(round(np.var(sig), 3))
+        fs.text5Label.set(round(np.sqrt(np.mean(np.square(sig))), 3))
 
     def setRadarValues(self, real, result):
         fs.realDistance.set(round(real, 3))

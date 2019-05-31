@@ -100,6 +100,12 @@ class Signal:
         return self.getSignal()
 
 
+    def delay(self, time):
+        self.timeline = np.linspace(self.time0, self.time0 + self.time + time, (self.time0 + self.time + time) * self.sample + 1)
+        new_signal = np.zeros((len(self.timeline),))
+        new_signal[-len(self.singalPoints):] = self.singalPoints
+        self.singalPoints = new_signal
+
 def chirpSignal(a, ans):
     if type(a) is np.ndarray:
         return [chirpSignal(element, ans) for element in a]

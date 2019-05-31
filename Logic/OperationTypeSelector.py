@@ -26,6 +26,9 @@ class OperationTypeSelector:
             result, filter = opr.filtering(firstSignal, config.filterType, config.windowType, config.mValue, config.foValue)
             self.secondSignal = filter
             return result
+        elif config.operation == 'radar':
+            result = opr.radar2(firstSignal, secondSignal, config.speed, config.distance)
+            return result
 
     def getOperationResult(self):
         return self.operationResult
