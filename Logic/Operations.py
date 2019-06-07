@@ -235,5 +235,5 @@ def radar2(signal, delayed_signal, speed, distance):
     # delayed_signal.delay(time * 2)
     time2, signal2 = correlate(signal, delayed_signal)
     t_max = time2[np.argmax(signal2)]
-    calc_dist = ((time2[-1] - t_max) * speed)
+    calc_dist = ((time2[int(len(time2)/2)] - t_max) * speed)
     return calc_dist
