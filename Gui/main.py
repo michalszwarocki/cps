@@ -154,8 +154,8 @@ def testbench():
     '''
     samplefreq = 128                                # sampling rate
     samplinginterval = 1.0/samplefreq               # sampling interval
-    time = np.arange(0, 100, samplinginterval)        # time vector
-    frequency = 16                                  # frequency of the signal
+    time = np.arange(0, 8, samplinginterval)        # time vector
+    frequency = 10                                  # frequency of the signal
     signal = lambda t: 2 * np.sin(np.pi * t) + np.sin(2 * np.pi * t) + 5 * np.sin(4 * np.pi * t)
     yarray = np.sin(2 * np.pi * frequency * time)   # 10 hz sine wave signal
     yarray = signal(time)
