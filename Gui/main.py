@@ -54,6 +54,8 @@ from scipy import signal
 #
 # plt.show()
 
+Hdb6 = [0.47046721, 1.14111692, 0.650365, -0.19093442, -0.12083221, 0.0498175]
+
 def bracewell_buneman(xarray, length, log2length):
     '''
     bracewell-buneman bit reversal function
@@ -141,7 +143,7 @@ def test(time, yarray, samplefreq):
     markerline, stemlines, baseline = plt.stem(freq, y3array, '--')
     plt.xlabel('freq (Hz)')
     plt.ylabel('|Y(freq)|')
-    plt.ylim((0.0, 0.55))
+    # plt.ylim((0.0, 0.55))
     plt.setp(markerline, 'markerfacecolor', 'b')
     plt.setp(baseline, 'color', 'b', 'linewidth', 2)
     plt.show()
