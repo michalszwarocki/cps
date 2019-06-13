@@ -229,11 +229,18 @@ def radar(signal, speed, distance):
     return calc_dist
 
 def radar2(signal, delayed_signal, speed, distance):
-    time = distance / speed
+    time = 2 * distance / speed
     signal.singalPoints = signal.getSignalForOperation()
     # delayed_signal.singalPoints = delayed_signal.getSignalForOperation()
     # delayed_signal.delay(time * 2)
     time2, signal2 = correlate(signal, delayed_signal)
     t_max = time2[np.argmax(signal2)]
-    calc_dist = ((time2[int(len(time2)/2)] - t_max) * speed)
+    print(time2[int(len(time2)/2)])
+    print(t_max)
+    temp = signal.timeline[int(len(signal.timeline)/2)]
+    print(temp)
+    calc_dist = np.abs(((temp - t_max) * speed/2))
     return calc_dist
+
+def fourier():
+    x = Signal.Signal(0, 1, 16, 1, 16).setCustomSignal()

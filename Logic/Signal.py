@@ -79,6 +79,10 @@ class Signal:
                                         self.amp - (((t % okres) - infil * okres) / (okres * (1 - infil))) * self.amp)
         return self
 
+    def setCustomSignal(self):
+        self.signalFunction = lambda t: 2 * np.sin(np.pi*t) + np.sin(2*np.pi*t) + 5 * np.sin(4*np.pi*t)
+        return self
+
     def setImpulse(self, n = 0):
         temp = self.timeline * False
         temp[n] = True
