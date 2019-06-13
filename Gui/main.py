@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import scipy.integrate as integ
 from scipy import signal
+import time as timer
 
 # Form.start_Gui()
 
@@ -167,16 +168,21 @@ def compute_dft_real_pair(inreal, inimag):
     return (outreal, outimag)
 
 
-samplefreq = 128                                # sampling rate
+start = timer.time()
+samplefreq = 200                                # sampling rate
 samplinginterval = 1.0/samplefreq               # sampling interval
-time = np.arange(0, 8, samplinginterval)        # time vector
+time = np.arange(0, 20, samplinginterval)        # time vector
 frequency = 10                                  # frequency of the signal
 signal = lambda t: 2 * np.sin(np.pi * t) + np.sin(2 * np.pi * t) + 5 * np.sin(4 * np.pi * t)
-yarray = np.sin(2 * np.pi * frequency * time)   # 10 hz sine wave signal
+# yarray = np.sin(2 * np.pi * frequency * time)   # 10 hz sine wave signal
 yarray = signal(time)
 a, b = compute_dft_real_pair(yarray, np.zeros(len(yarray)))
 plt.plot(a)
 plt.show()
 plt.plot(b)
 plt.show()
+print("PIERWSZE", timer.time() - start)
+start = timer.time()
 test(time, yarray, samplefreq)                 # send sine to test
+print("drugie", timer.time() - start)
+
