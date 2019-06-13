@@ -150,19 +150,33 @@ def test(time, yarray, samplefreq):
     return None
 
 
-def testbench():
-    '''
-    no inputs, no outputs, calls test function.
-    '''
-    samplefreq = 128                                # sampling rate
-    samplinginterval = 1.0/samplefreq               # sampling interval
-    time = np.arange(0, 8, samplinginterval)        # time vector
-    frequency = 10                                  # frequency of the signal
-    signal = lambda t: 2 * np.sin(np.pi * t) + np.sin(2 * np.pi * t) + 5 * np.sin(4 * np.pi * t)
-    yarray = np.sin(2 * np.pi * frequency * time)   # 10 hz sine wave signal
-    yarray = signal(time)
-    test(time, yarray, samplefreq)                 # send sine to test
-    return None
+def compute_dft_real_pair(inreal, inimag):
+    assert len(inreal) == len(inimag)
+    n = len(inreal)
+    outreal = []
+    outimag = []
+    for k in range(n):  # For each output element
+        sumreal = 0.0
+        sumimag = 0.0
+        for t in range(n):  # For each input element
+            angle = 2 * np.pi * t * k / n
+            sumreal +=  inreal[t] * np.cos(angle) + inimag[t] * np.sin(angle)
+            sumimag += -inreal[t] * np.sin(angle) + inimag[t] * np.cos(angle)
+        outreal.append(sumreal)
+        outimag.append(sumimag)
+    return (outreal, outimag)
 
 
-testbench()
+samplefreq = 128                                # sampling rate
+samplinginterval = 1.0/samplefreq               # sampling interval
+time = np.arange(0, 8, samplinginterval)        # time vector
+frequency = 10                                  # frequency of the signal
+signal = lambda t: 2 * np.sin(np.pi * t) + np.sin(2 * np.pi * t) + 5 * np.sin(4 * np.pi * t)
+yarray = np.sin(2 * np.pi * frequency * time)   # 10 hz sine wave signal
+yarray = signal(time)
+a, b = compute_dft_real_pair(yarray, np.zeros(len(yarray)))
+plt.plot(a)
+plt.show()
+plt.plot(b)
+plt.show()
+test(time, yarray, samplefreq)                 # send sine to test
