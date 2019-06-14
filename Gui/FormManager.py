@@ -282,3 +282,11 @@ class FormManager:
             plt.subplot(2, 1, 2)
             plt.plot(signal.imagPoints)
             plt.show()
+        elif config.plotType == '|complex|(freq) + complex(freq)':
+            modulo = []
+            for k in range(len(signal.singalPoints)):
+                modulo.append(np.sqrt(signal.singalPoints[k]**2 + signal.imagPoints[k]**2))
+            plt.subplot(2, 1, 1)
+            plt.plot(modulo)
+            plt.subplot(2, 1, 2)
+            plt.show()
