@@ -138,7 +138,7 @@ class SignalFrame:
     def typeCallback(self, sv, which):
         self.setAllPossibleRelYAsFalse()
 
-        if sv.get() != 'brak':
+        if sv.get() != 'brak' and sv.get() != 'S2':
             self.disableAllEntries()
             self.disableAllLabels()
             if sv.get() != 'wynik operacji':
@@ -147,6 +147,16 @@ class SignalFrame:
             self.createTimeLabel(which, self.getFirstPossibleRelY(), self.Label4, self.Entry2, self.Label5)
             self.createFrequencyLabel(which, self.getFirstPossibleRelY(), self.Label6, self.Entry3, self.Label7)
             self.createAmplitudeLabel(which, self.getFirstPossibleRelY(), self.Label8, self.Entry4)
+            self.createSamplingFrequencyLabel(which, self.getFirstPossibleRelY(), self.Label9, self.Entry5,
+                                              self.Label10)
+
+        if sv.get() == 'S2':
+            self.disableAllEntries()
+            self.disableAllLabels()
+            if sv.get() != 'wynik operacji':
+                getattr(fs, which + 'NoiseCombobox').set('brak')
+            self.createTime0Label(which, self.getFirstPossibleRelY(), self.Label2, self.Entry1, self.Label3)
+            self.createTimeLabel(which, self.getFirstPossibleRelY(), self.Label4, self.Entry2, self.Label5)
             self.createSamplingFrequencyLabel(which, self.getFirstPossibleRelY(), self.Label9, self.Entry5,
                                               self.Label10)
 
@@ -344,7 +354,7 @@ class SignalFrame:
         TCombobox.configure(
             values=["brak", "sinus", "sinus wyprostowany jednopolowkowo", "sinus wyprostowany dwupolowkowo",
                     "prostokatny", "prostokatny symetryczny", "trojkatny", "skok jednostkowy", "impuls jednostkowy",
-                    "o zmiennej czestotliwosci"])
+                    "o zmiennej czestotliwosci", "S2"])
         TCombobox.current(0)
 
     def createNoiseLabel(self, which, rely):

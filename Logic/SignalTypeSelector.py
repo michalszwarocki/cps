@@ -30,6 +30,8 @@ class SignalTypeSelector:
             self.signal.setAsOperation(config.points)
         elif config.signalType == 'o zmiennej czestotliwosci':
             self.signal.setChirp(config.time1, config.freq1)
+        elif config.signalType == 'S2':
+            self.signal.setCustomSignal()
 
     def setNoise(self, config):
         if config.noise == 'gaussowski':

@@ -18,6 +18,7 @@ class Signal:
         self.one_period = np.linspace(time0, time0 + 1 / freq, 1 / freq * sample)
         self.signalFunction = lambda t: t * 0
         self.singalPoints = np.array([])
+        self.imagPoints = np.array([])
 
     def getSignal(self, time=None, one_period=False):
         if time is None:
@@ -99,6 +100,8 @@ class Signal:
         self.singalPoints = points
 
     def getSignalForOperation(self):
+        if self.imagPoints.size != 0:
+            return self.singalPoints, self.imagPoints
         if self.singalPoints.size != 0:
             return self.singalPoints
         return self.getSignal()

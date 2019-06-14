@@ -5,7 +5,9 @@ import matplotlib.pyplot as plt
 import Logic.SignalConfiguration as configuration
 import Logic.SamplingConfiguration as sampConfig
 import Logic.OperationConfiguration as operConfig
+import Logic.TransformationConfiguration as transformConfig
 import Logic.ActionTypeSelector as ats
+import Logic.TransformationTypeSelector as tts
 import Logic.Metrics as met
 import numpy as np
 import Gui.SignalSerializator as serial
@@ -92,6 +94,22 @@ class FormManager:
         self.setMetricsValues(originalSignalToMetrics, receivedSignal, samplingConfig)
         self.drawPlotForSampling(signalConfig, originalTimeline, originalSignal, receivedTimeline, receivedSignal,
                       samplingX,  samplingY)
+
+    def readTransformConfiguration(self):
+        transformationType = fs.transformationCombobox.get()
+        plotType = fs.plotCombobox.get()
+        config = transformConfig.TransformationConfiguration(transformationType, plotType)
+        return config
+
+    def onTransformationDrawClicked(self):
+        signalConfig = self.readSignalConfiguration('first')
+        transformConfig = self.readTransformConfiguration()
+        signal = sts.SignalTypeSelector(signalConfig).getSignal()
+        selectedTransform = tts.TransformationTypeSelector(signal, transformConfig, signalConfig)
+
+        transformedSignal = selectedTransform.getResultSignal()
+
+        self.drawPlotForTransformation(transformConfig, transformedSignal)
 
     def onSignalSaveClicked(self, which):
         config = self.readSignalConfiguration(which)
@@ -251,3 +269,11 @@ class FormManager:
             plt.plot(originalX, originalY, '-', markersize=0.9)
         plt.plot(receivedX, receivedY, '-', markersize=0.9)
         plt.show()
+
+    def drawPlotForTransformation(self, config, signal):
+        if config.plotType == 'real(freq) + imag(freq)':
+            plt.subplot(2, 1, 1)
+            plt.plot(signal.singalPoints)
+            plt.subplot(2, 1, 2)
+            plt.plot(signal.imagPoints)
+            plt.show()

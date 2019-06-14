@@ -217,6 +217,7 @@ def filtering(signal, filterType, window, M, fo):
 
     return filteredSignal, fil
 
+
 def radar(signal, speed, distance):
     time = distance/speed
     delayed_signal = signal
@@ -227,6 +228,7 @@ def radar(signal, speed, distance):
     t_max = time2[np.argmax(signal2)]
     calc_dist = ((time2[int(len(time2)/2)] - t_max) * speed)
     return calc_dist
+
 
 def radar2(signal, delayed_signal, speed, distance):
     time = 2 * distance / speed
@@ -240,7 +242,59 @@ def radar2(signal, delayed_signal, speed, distance):
     temp = signal.timeline[int(len(signal.timeline)/2)]
     print(temp)
     calc_dist = np.abs(((temp - t_max) * speed/2))
-    return calc_dist
 
-def fourier():
-    x = Signal.Signal(0, 1, 16, 1, 16).setCustomSignal()
+
+def compute_dft(inreal, inimag):
+    assert len(inreal) == len(inimag)
+    n = len(inreal)
+    outreal = []
+    outimag = []
+    for k in range(n):  # For each output element
+        sumreal = 0.0
+        sumimag = 0.0
+        for t in range(n):  # For each input element
+            angle = 2 * np.pi * t * k / n
+            sumreal += inreal[t] * np.cos(angle) + inimag[t] * np.sin(angle)
+            sumimag += -inreal[t] * np.sin(angle) + inimag[t] * np.cos(angle)
+        outreal.append(sumreal)
+        outimag.append(sumimag)
+    return outreal, outimag
+
+
+def compute_fft(inreal, inimag):
+    N = len(inreal)
+
+    if N == 1:
+        return [inreal[0]], [inimag[0]]
+
+    if N % 2 != 0:
+        return None, None
+
+    evenReal = []
+    evenImag = []
+    for k in range(int(N/2)):
+        evenReal.append(inreal[2 * k])
+        evenImag.append(inimag[2 * k])
+
+    qReal, qImag = compute_fft(evenReal, evenImag)
+
+    oddReal = []
+    oddImag = []
+    for k in range(int(N / 2)):
+        oddReal.append(inreal[2 * k +1])
+        oddImag.append(inimag[2 * k +1])
+
+    rReal, rImag = compute_fft(oddReal, oddImag)
+
+    yReal = [None] * N
+    yImag = [None] * N
+    for k in range(int(N / 2)):
+        kth = -2 * k * np.pi / N
+        wkReal = np.cos(kth)
+        wkImag = np.sin(kth)
+
+        yReal[k] = (wkReal * rReal[k] - wkImag * rImag[k]) + qReal[k]
+        yImag[k] = (wkReal * rImag[k] + wkImag * rReal[k]) + qImag[k]
+        yReal[k+ int(N/2)] = qReal[k] - (wkReal * rReal[k] - wkImag * rImag[k])
+        yImag[k+ int(N/2)] = qImag[k] - (wkReal * rImag[k] + wkImag * rReal[k])
+    return yReal, yImag
