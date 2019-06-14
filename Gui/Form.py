@@ -23,6 +23,7 @@ import Gui.Frames.SamplingFrame as sampFrame
 import Gui.Frames.FilterFrame as filterFrame
 import Gui.Frames.RadarMetricsFrame as radarFrame
 import Gui.Frames.TransformationFrame as transformFrame
+import Gui.Frames.TimeFrame as timeFrame
 
 
 def start_Gui():
@@ -101,6 +102,7 @@ class Toplevel1:
         self.Frame16 = ttk.Frame(self.TabControl1)
         self.Frame17 = sigFrame.SignalFrame('first', 0.03, 0.031, self.Frame16)
         self.Frame18 = transformFrame.TransformationFrame(0.52, 0.031, self.Frame16)
+        self.Frame19 = timeFrame.TimeFrame(0.03, 0.68, self.Frame16)
 
         self.TabControl1.add(self.Frame1, text="SYGNAŁY I OPERACJE")
         self.TabControl1.add(self.Frame6, text="PRÓBKOWANIE I KWANTYZACJA")

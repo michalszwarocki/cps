@@ -1,5 +1,6 @@
 import Logic.Operations as opr
 import numpy as np
+import time as timer
 
 from Logic import Signal
 
@@ -8,20 +9,27 @@ class TransformationTypeSelector:
     realOutput = None
     imagOutput = None
     newSignal = None
+    duration = None
 
     def __init__(self, signal, transformationConfiguration, signalConfig):
         self.setType(signal, transformationConfiguration, signalConfig)
 
     def setType(self, signal, transformationConfiguration, signalConfig):
-        values = opr.sampling(signal, 0.066666)
+        values = opr.sampling(signal, 1/(transformationConfiguration.samplingFrequency))
 
         if transformationConfiguration.transformationType == 'dft':
+            start = timer.time()
             self.realOutput, self.imagOutput = opr.compute_dft(values[1],
                                                                np.zeros(len(values[1])))
+            end = timer.time()
+            self.duration = end - start
 
         if transformationConfiguration.transformationType == 'fft':
+            start = timer.time()
             self.realOutput, self.imagOutput = opr.compute_fft(values[1],
                                                                np.zeros(len(values[1])))
+            end = timer.time()
+            self.duration = end - start
 
         self.newSignal = Signal.Signal(signalConfig.time0, signalConfig.time, signalConfig.frequency,
                                     signalConfig.amplitude, signalConfig.numberOfSamples)
@@ -31,4 +39,7 @@ class TransformationTypeSelector:
 
     def getResultSignal(self):
         return self.newSignal
+
+    def getDuration(self):
+        return self.duration
 

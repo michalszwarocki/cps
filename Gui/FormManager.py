@@ -98,7 +98,8 @@ class FormManager:
     def readTransformConfiguration(self):
         transformationType = fs.transformationCombobox.get()
         plotType = fs.plotCombobox.get()
-        config = transformConfig.TransformationConfiguration(transformationType, plotType)
+        samplingFrequency = float(fs.samplingFrequencyTrans.get())
+        config = transformConfig.TransformationConfiguration(transformationType, plotType, samplingFrequency)
         return config
 
     def onTransformationDrawClicked(self):
@@ -108,6 +109,10 @@ class FormManager:
         selectedTransform = tts.TransformationTypeSelector(signal, transformConfig, signalConfig)
 
         transformedSignal = selectedTransform.getResultSignal()
+
+        duration = selectedTransform.getDuration()
+
+        fs.durationTimeTrans.set(round(duration, 5))
 
         self.drawPlotForTransformation(transformConfig, transformedSignal)
 

@@ -39,9 +39,16 @@ class TransformationFrame:
         self.Label1.configure(foreground="#000000")
         self.Label1.configure(text='''TRANSFORMACJE''')
 
+        self.Label2 = tk.Label(self.Frame1)
+        self.Label2.place(relx=0.22, rely=0.25, height=21, width=130)
+        self.Label2.configure(background="#d9d9d9")
+        self.Label2.configure(disabledforeground="#a3a3a3")
+        self.Label2.configure(foreground="#000000")
+        self.Label2.configure(text='''CZĘSTOTLIWOŚĆ PRÓBKOWANIA''')
+        self.Label2.configure(width=114)
 
         self.Label3 = tk.Label(self.Frame1)
-        self.Label3.place(relx=0.22, rely=0.4, height=21, width=130)
+        self.Label3.place(relx=0.22, rely=0.5, height=21, width=130)
         self.Label3.configure(background="#d9d9d9")
         self.Label3.configure(disabledforeground="#a3a3a3")
         self.Label3.configure(foreground="#000000")
@@ -49,7 +56,7 @@ class TransformationFrame:
         self.Label3.configure(width=114)
 
         self.Label4 = tk.Label(self.Frame1)
-        self.Label4.place(relx=0.1, rely=0.6, height=21, width=250)
+        self.Label4.place(relx=0.1, rely=0.75, height=21, width=250)
         self.Label4.configure(background="#d9d9d9")
         self.Label4.configure(disabledforeground="#a3a3a3")
         self.Label4.configure(foreground="#000000")
@@ -57,9 +64,18 @@ class TransformationFrame:
 
 
         # -----------------------------------------COMBOBOXES FRAME------------------------------------------
+        self.Entry1 = tk.Entry(self.Frame1)
+        self.Entry1.place(relx=0.528, rely=0.25, height=21, relwidth=0.261)
+        self.Entry1.configure(background="#ffffff")
+        self.Entry1.configure(disabledforeground="#a3a3a3")
+        self.Entry1.configure(font="TkFixedFont")
+        self.Entry1.configure(foreground="#000000")
+        self.Entry1.configure(insertbackground="black")
+        self.Entry1.configure(textvariable=fs.samplingFrequencyTrans)
+
 
         self.TCombobox1 = ttk.Combobox(self.Frame1)
-        self.TCombobox1.place(relx=0.528, rely=0.4, height=21
+        self.TCombobox1.place(relx=0.528, rely=0.5, height=21
                               , relwidth=0.261)
         self.TCombobox1.configure(width=163)
         self.TCombobox1.configure(takefocus="")
@@ -70,7 +86,7 @@ class TransformationFrame:
 
 
         self.TCombobox1 = ttk.Combobox(self.Frame1)
-        self.TCombobox1.place(relx=0.528, rely=0.6, height=21
+        self.TCombobox1.place(relx=0.528, rely=0.75, height=21
                               , relwidth=0.261)
         self.TCombobox1.configure(width=163)
         self.TCombobox1.configure(takefocus="")

@@ -28,7 +28,7 @@ def divideTwoSignals(firstSignal, secondSignal):
 
 
 def sampling(signal, period):
-    timeSamples = np.linspace(signal.time0, signal.time0 + signal.time, signal.time * 1.0/period + 1)
+    timeSamples = np.linspace(signal.time0, signal.time0 + signal.time, signal.time * 1.0/period)
     amplitudeSamples = signal.signalFunction(timeSamples)
     samples = [timeSamples, amplitudeSamples]
     return samples
@@ -263,7 +263,6 @@ def compute_dft(inreal, inimag):
 
 def compute_fft(inreal, inimag):
     N = len(inreal)
-
     if N == 1:
         return [inreal[0]], [inimag[0]]
 

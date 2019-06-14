@@ -31,7 +31,7 @@ def set_Tk_var():
 
     global mValueEntry, foEntry, distanceValueEntry, speedEntry, realDistance, achievedDistance
 
-    global transformationCombobox, plotCombobox
+    global transformationCombobox, plotCombobox, durationTimeTrans, samplingFrequencyTrans
 
     firstTime0Entry = tk.StringVar()
     firstTimeEntry = tk.StringVar()
@@ -95,6 +95,8 @@ def set_Tk_var():
 
     transformationCombobox = tk.StringVar()
     plotCombobox = tk.StringVar()
+    durationTimeTrans = tk.StringVar()
+    samplingFrequencyTrans = tk.StringVar()
 
     firstTime0Entry.set('0')
     firstTimeEntry.set('1')
@@ -142,6 +144,9 @@ def set_Tk_var():
     speedEntry.set('20')
     realDistance.set('0')
     achievedDistance.set('0')
+
+    durationTimeTrans.set('0')
+    samplingFrequencyTrans.set('16')
 
 
 def init(top, gui, *args, **kwargs):
