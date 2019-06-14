@@ -125,7 +125,10 @@ def fohInterpolateArray(array, samplesTimeline, samplesAmplitudes, howMany):
 
 def convolve(signal1, signal2):
     firstValues = signal1.getSignalForOperation()
-    secondValues = signal2.getSignalForOperation()
+    if(type(signal2) == type(Signal)):
+        secondValues = signal2.getSignalForOperation()
+    else:
+        secondValues = signal2
 
     length = len(firstValues) + len(secondValues) - 1
     values = []
@@ -297,3 +300,26 @@ def compute_fft(inreal, inimag):
         yReal[k+ int(N/2)] = qReal[k] - (wkReal * rReal[k] - wkImag * rImag[k])
         yImag[k+ int(N/2)] = qImag[k] - (wkReal * rImag[k] + wkImag * rReal[k])
     return yReal, yImag
+
+
+Hdb6 = [0.47046721, 1.14111692, 0.650365, -0.19093442, -0.12083221, 0.0498175]
+Gdb6 = [0.47046721, -1.14111692, 0.650365, 0.19093442, -0.12083221, -0.0498175]
+
+
+def computeWaveletTransform(signal):
+    hSamples = convolve(signal, Hdb6)
+    gSamples = convolve(signal, Gdb6)
+    hHalf = []
+    gHalf = []
+    for i in range(len(hSamples)):
+        if(i % 2 == 0):
+            hHalf.append(hSamples[i])
+        else:
+            gHalf.append(gSamples[i])
+    return hHalf, gHalf
+
+
+def computeWaveletBackwardTransform(real, imag):
+    return
+
+
