@@ -40,7 +40,7 @@ class TransformationFrame:
         self.Label1.configure(text='''TRANSFORMACJE''')
 
         self.Label2 = tk.Label(self.Frame1)
-        self.Label2.place(relx=0.22, rely=0.25, height=21, width=130)
+        self.Label2.place(relx=0.14, rely=0.25, height=21, width=210)
         self.Label2.configure(background="#d9d9d9")
         self.Label2.configure(disabledforeground="#a3a3a3")
         self.Label2.configure(foreground="#000000")
