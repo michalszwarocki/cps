@@ -36,8 +36,12 @@ class FormManager:
         elif which == 'second':
             points = fs.secondPoints
 
+        imagPoints = np.array
+        imagPoints = fs.imagPoints
+
         config = configuration.Configuration(t0, time, freq, ampli, samples, infil, jumpMoment, poss, jumpSampl, type, noise, time1, freq1)
         config.setPoints(points)
+        config.setImagPoints(imagPoints)
         return config
 
     def readSamplingConfiguration(self):
@@ -74,7 +78,10 @@ class FormManager:
         config = self.readSignalConfiguration(which)
         signal = sts.SignalTypeSelector(config).getSignal()
         self.setSignalAvarageValues(signal.getSignalForOperation())
-        self.drawPlot(config, signal.getTime(), signal.getSignalForOperation())
+        if config.signalType == 'zespolony':
+            self.drawPlotForTransformation(None, signal)
+        else:
+            self.drawPlot(config, signal.getTime(), signal.getSignalForOperation())
 
     def onActionDrawClicked(self):
         signalConfig = self.readSignalConfiguration('first')
@@ -116,13 +123,27 @@ class FormManager:
 
         self.drawPlotForTransformation(transformConfig, transformedSignal)
 
+    def onTransformationSaveClicked(self):
+        signalConfig = self.readSignalConfiguration('first')
+        signal = sts.SignalTypeSelector(signalConfig).getSignal()
+        config = self.readTransformConfiguration()
+        signal = tts.TransformationTypeSelector(signal, config, signalConfig).getResultSignal()
+        signalConfig.signalType = 'zespolony'
+        signalConfig.noise = 'zespolony'
+
+        try:
+            fileName = asksaveasfilename()
+            serial.save(fileName, signalConfig, signal.singalPoints, signal.imagPoints)
+        except FileNotFoundError:
+            print("Nie zapisano pliku!!")
+
     def onSignalSaveClicked(self, which):
         config = self.readSignalConfiguration(which)
         signal = sts.SignalTypeSelector(config).getSignal()
 
         try:
             fileName = asksaveasfilename()
-            serial.save(fileName, config, signal.getSignal())
+            serial.save(fileName, config, signal.getSignal(), signal.imagPoints)
         except FileNotFoundError:
             print("Nie zapisano pliku!!")
 
@@ -148,6 +169,8 @@ class FormManager:
                 fs.firstPoints = configuration.points
             elif which == 'second':
                 fs.secondPoints = configuration.points
+
+            fs.imagPoints = configuration.imagPoints
 
         except FileNotFoundError:
             print("Nie wybrano pliku!!")
@@ -175,7 +198,7 @@ class FormManager:
 
         try:
             fileName = asksaveasfilename()
-            serial.save(fileName, configFirstSignal, signal)
+            serial.save(fileName, configFirstSignal, signal, firstSignal.imagPoints)
         except FileNotFoundError:
             print("Nie zapisano pliku!!")
 
@@ -276,17 +299,27 @@ class FormManager:
         plt.show()
 
     def drawPlotForTransformation(self, config, signal):
-        if config.plotType == 'real(freq) + imag(freq)':
+        if config is None:
             plt.subplot(2, 1, 1)
-            plt.plot(signal.singalPoints)
+            plt.plot(signal.singalPoints, 'o')
             plt.subplot(2, 1, 2)
-            plt.plot(signal.imagPoints)
+            plt.plot(signal.imagPoints, 'o')
+            plt.show()
+        elif config.plotType == 'real(freq) + imag(freq)':
+            plt.subplot(2, 1, 1)
+            plt.plot(signal.singalPoints, 'o')
+            plt.subplot(2, 1, 2)
+            plt.plot(signal.imagPoints, 'o')
             plt.show()
         elif config.plotType == '|complex|(freq) + complex(freq)':
             modulo = []
+            arg = []
             for k in range(len(signal.singalPoints)):
                 modulo.append(np.sqrt(signal.singalPoints[k]**2 + signal.imagPoints[k]**2))
+                comp = complex(signal.singalPoints[k], signal.imagPoints[k])
+                arg.append(np.angle(comp))
             plt.subplot(2, 1, 1)
-            plt.plot(modulo)
+            plt.plot(modulo, 'o')
             plt.subplot(2, 1, 2)
+            plt.plot(arg, 'o')
             plt.show()

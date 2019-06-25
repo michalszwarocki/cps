@@ -16,6 +16,7 @@ class Configuration:
     points: np.array
     time1: float
     freq1: float
+    imagPoints: np.array
 
     def __init__(self, t0, time, freq, ampl, samples, infil, jumpMom, possib, jumpSamp, type, noise, time1, freq1):
         self.time0 = t0
@@ -34,5 +35,8 @@ class Configuration:
 
     def setPoints(self, signal):
         self.points = np.array(signal)
+
+    def setImagPoints(self, imagPoints):
+        self.imagPoints = np.array(imagPoints)
 
 

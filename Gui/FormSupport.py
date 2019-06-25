@@ -24,7 +24,7 @@ def set_Tk_var():
     global firstTypeCombobox, firstNoiseCombobox, secondTypeCombobox, secondNoiseCombobox, operationCombobox, \
         filterOperationCombobox, filterTypeCombobox, windowCombobox
     global text1Label, text2Label, text3Label, text4Label, text5Label
-    global firstPoints, secondPoints
+    global firstPoints, secondPoints, imagPoints
 
     global mseLabel, snrLabel, psnrLabel, mdLabel, enobLabel
     global samplingPeriodEntry, quantizationBitsEntry, nOSamplesEntry, actionCombobox
@@ -68,6 +68,7 @@ def set_Tk_var():
 
     firstPoints = np.array
     secondPoints = np.array
+    imagPoints = np.array
 
     text1Label = tk.StringVar()
     text2Label = tk.StringVar()

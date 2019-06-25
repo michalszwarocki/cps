@@ -32,6 +32,9 @@ class SignalTypeSelector:
             self.signal.setChirp(config.time1, config.freq1)
         elif config.signalType == 'S2':
             self.signal.setCustomSignal()
+        elif config.signalType == 'zespolony':
+            self.signal.setAsOperation(config.points)
+            self.signal.imagPoints = config.imagPoints
 
     def setNoise(self, config):
         if config.noise == 'gaussowski':

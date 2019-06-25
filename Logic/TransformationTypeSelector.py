@@ -31,6 +31,12 @@ class TransformationTypeSelector:
             end = timer.time()
             self.duration = end - start
 
+        if transformationConfiguration.transformationType == 'dwtDb6':
+            start = timer.time()
+            self.realOutput, self.imagOutput = opr.computeWaveletTransform(signal)
+            end = timer.time()
+            self.duration = end - start
+
         self.newSignal = Signal.Signal(signalConfig.time0, signalConfig.time, signalConfig.frequency,
                                     signalConfig.amplitude, signalConfig.numberOfSamples)
 

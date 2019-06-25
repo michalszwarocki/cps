@@ -100,8 +100,6 @@ class Signal:
         self.singalPoints = points
 
     def getSignalForOperation(self):
-        if self.imagPoints.size != 0:
-            return self.singalPoints, self.imagPoints
         if self.singalPoints.size != 0:
             return self.singalPoints
         return self.getSignal()

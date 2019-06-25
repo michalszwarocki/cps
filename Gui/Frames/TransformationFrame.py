@@ -111,3 +111,17 @@ class TransformationFrame:
         self.Button2.configure(width=77)
         self.Button2.configure(command=lambda: FormManager.FormManager().onTransformationDrawClicked())
 
+        self.Button3 = tk.Button(top)
+        self.Button3.place(relx=relx + 0.29, rely=rely + 0.559, relheight=0.05, relwidth=0.07)
+        self.Button3.configure(activebackground="#ececec")
+        self.Button3.configure(activeforeground="#000000")
+        self.Button3.configure(background="#d9d9d9")
+        self.Button3.configure(disabledforeground="#a3a3a3")
+        self.Button3.configure(foreground="#000000")
+        self.Button3.configure(highlightbackground="#d9d9d9")
+        self.Button3.configure(highlightcolor="black")
+        self.Button3.configure(pady="0")
+        self.Button3.configure(text='''Zapisz''')
+        self.Button3.configure(width=77)
+        self.Button3.configure(command=lambda: FormManager.FormManager().onTransformationSaveClicked())
+

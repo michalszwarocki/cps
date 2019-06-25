@@ -141,7 +141,10 @@ def convolve(signal1, signal2):
                     firstTime += 1
                 else:
                     values[n] += firstValues[k] * secondValues[n - k]
-    timeline = np.linspace(0, signal1.time + signal2.time, len(values))
+    if (type(signal2) == type(Signal)):
+        timeline = np.linspace(0, signal1.time + signal2.time, len(values))
+    else:
+        timeline = np.linspace(0, signal1.time + len(signal2), len(values))
     return [timeline, values]
 
 
