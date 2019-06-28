@@ -303,7 +303,7 @@ def compute_inversedft(inreal, inimag):
     for k in range(n):
         resultReal.append(outreal[k]/n)
         resultImag.append(outimag[k]/n)
-    return resultReal, resultImag
+    return resultReal, np.zeros(len(resultImag))
 
 
 def compute_fft(inreal, inimag):
@@ -370,7 +370,7 @@ def compute_inversefft(inreal, inimag):
         dividedByNInreal.append(conjugateYInreal[k]/N)
         dividedByNInimag.append(conjugateYInimag[k]/N)
 
-    return dividedByNInreal, dividedByNInimag
+    return dividedByNInreal, np.zeros(len(dividedByNInimag))
 
 
 Hdb6 = [0.47046721, 1.14111692, 0.650365, -0.19093442, -0.12083221, 0.0498175]
@@ -425,5 +425,3 @@ def computeWaveletInverseTransform(inreal, inimag):
     result = result[:N]
     resultImag = np.zeros(len(result))
     return result, resultImag
-
-
