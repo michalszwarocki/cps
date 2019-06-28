@@ -81,7 +81,7 @@ class TransformationFrame:
         self.TCombobox1.configure(takefocus="")
         self.TCombobox1.configure(textvariable=fs.transformationCombobox)
         self.TCombobox1.configure(
-            values=["dft", "fft", "dwtDb6"])
+            values=["dft", "fft", "dwtDb6", "inverseDft", "inverseFft", "inverseDwtDb6"])
         self.TCombobox1.current(0)
 
 

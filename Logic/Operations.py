@@ -148,6 +148,21 @@ def convolve(signal1, signal2):
     return [timeline, values]
 
 
+def convolve2(firstPoints, secondPoints):
+    length = len(firstPoints) + len(secondPoints) - 1
+    values = []
+    for n in range(length):
+        firstTime = 0
+        for k in range(len(firstPoints)):
+            if 0 <= n-k < len(secondPoints):
+                if firstTime == 0:
+                    values.append(firstPoints[k] * secondPoints[n-k])
+                    firstTime += 1
+                else:
+                    values[n] += firstPoints[k] * secondPoints[n - k]
+    return values
+
+
 def correlate(signal1, signal2):
     firstValues = signal1.getSignalForOperation()
     secondValues = signal2.getSignalForOperation()
@@ -267,6 +282,23 @@ def compute_dft(inreal, inimag):
     return outreal, outimag
 
 
+def compute_inversedft(inreal, inimag):
+    assert len(inreal) == len(inimag)
+    n = len(inreal)
+    outreal = []
+    outimag = []
+    for k in range(n):  # For each output element
+        sumreal = 0.0
+        sumimag = 0.0
+        for t in range(n):  # For each input element
+            angle = 2 * np.pi * t * k / n
+            sumreal += inreal[t] * np.cos(angle) - inimag[t] * np.sin(angle)
+            sumimag += -inreal[t] * np.sin(angle) + inimag[t] * np.cos(angle)
+        outreal.append(sumreal)
+        outimag.append(sumimag)
+    return outreal, outimag
+
+
 def compute_fft(inreal, inimag):
     N = len(inreal)
     if N == 1:
@@ -306,19 +338,23 @@ def compute_fft(inreal, inimag):
 
 
 Hdb6 = [0.47046721, 1.14111692, 0.650365, -0.19093442, -0.12083221, 0.0498175]
-Gdb6 = [0.47046721, -1.14111692, 0.650365, 0.19093442, -0.12083221, -0.0498175]
+Gdb6 = [0.0498175, 0.12083221, -0.19093442, -0.650365, 1.14111692, -0.47046721]
 
 
-def computeWaveletTransform(signal):
-    hSamples = convolve(signal, Hdb6)
-    gSamples = convolve(signal, Gdb6)
+def computeWaveletTransform(inreal, inimag):
+    hSamples = convolve2(inreal, Hdb6)
+    gSamples = convolve2(inreal, Gdb6)
     hHalf = []
     gHalf = []
+
     for i in range(len(hSamples)):
-        if(i % 2 == 0):
+        if i % 2 == 0:
             hHalf.append(hSamples[i])
         else:
             gHalf.append(gSamples[i])
+
+    print(len(hHalf))
+    print(len(gHalf))
     return hHalf, gHalf
 
 
