@@ -296,7 +296,13 @@ def compute_inversedft(inreal, inimag):
             sumimag += -inreal[t] * np.sin(angle) + inimag[t] * np.cos(angle)
         outreal.append(sumreal)
         outimag.append(sumimag)
-    return outreal, outimag
+
+    resultReal = []
+    resultImag = []
+    for k in range(n):
+        resultReal.append(outreal[k]/n)
+        resultImag.append(outimag[k]/n)
+    return resultReal, resultImag
 
 
 def compute_fft(inreal, inimag):
@@ -335,6 +341,35 @@ def compute_fft(inreal, inimag):
         yReal[k+ int(N/2)] = qReal[k] - (wkReal * rReal[k] - wkImag * rImag[k])
         yImag[k+ int(N/2)] = qImag[k] - (wkReal * rImag[k] + wkImag * rReal[k])
     return yReal, yImag
+
+
+def compute_inversefft(inreal, inimag):
+    N = len(inreal)
+    if N == 1:
+        return [inreal[0]], [inimag[0]]
+
+    conjugateInreal = inreal
+    conjugateInimag = []
+
+    for k in range(N):
+        conjugateInimag.append(inimag[k] * (-1))
+
+    yReal, yImag = compute_fft(conjugateInreal, conjugateInimag)
+
+    conjugateYInreal = yReal
+    conjugateYInimag = []
+
+    for k in range(N):
+        conjugateYInimag.append(yImag[k] * (-1))
+
+    dividedByNInreal = []
+    dividedByNInimag = []
+
+    for k in range(N):
+        dividedByNInreal.append(conjugateYInreal[k]/N)
+        dividedByNInimag.append(conjugateYInimag[k]/N)
+
+    return dividedByNInreal, dividedByNInimag
 
 
 Hdb6 = [0.47046721, 1.14111692, 0.650365, -0.19093442, -0.12083221, 0.0498175]

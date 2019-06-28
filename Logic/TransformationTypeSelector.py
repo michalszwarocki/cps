@@ -45,6 +45,13 @@ class TransformationTypeSelector:
             end = timer.time()
             self.duration = end - start
 
+        if transformationConfiguration.transformationType == 'inverseFft':
+            start = timer.time()
+            self.realOutput, self.imagOutput = opr.compute_inversefft(signal.singalPoints,
+                                                              signal.imagPoints)
+            end = timer.time()
+            self.duration = end - start
+
         self.newSignal = Signal.Signal(signalConfig.time0, signalConfig.time, signalConfig.frequency,
                                     signalConfig.amplitude, signalConfig.numberOfSamples)
 
