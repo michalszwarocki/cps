@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from Logic import Window
 from Logic import Signal
+import pywt
 
 
 def addTwoSignals(firstSignal, secondSignal):
@@ -375,8 +376,11 @@ def compute_inversefft(inreal, inimag):
 Hdb6 = [0.47046721, 1.14111692, 0.650365, -0.19093442, -0.12083221, 0.0498175]
 Gdb6 = [0.0498175, 0.12083221, -0.19093442, -0.650365, 1.14111692, -0.47046721]
 
+Ddb6 = [0.0498175, -0.12083221, -0.19093442, 0.650365, 1.14111692, 0.47046721]
+Rdb6 = [-0.47046721, 1.14111692, -0.650365, -0.19093442, 0.12083221, 0.0498175]
 
-def computeWaveletTransform(inreal, inimag):
+
+def computeWaveletTransform(inreal):
     hSamples = convolve2(inreal, Hdb6)
     gSamples = convolve2(inreal, Gdb6)
     hHalf = []
@@ -388,12 +392,38 @@ def computeWaveletTransform(inreal, inimag):
         else:
             gHalf.append(gSamples[i])
 
-    print(len(hHalf))
-    print(len(gHalf))
+    if len(hHalf) > len(gHalf):
+        gHalf.append(0)
+
+    if len(gHalf) > len(hHalf):
+        hHalf.append(0)
+
     return hHalf, gHalf
 
 
-def computeWaveletBackwardTransform(real, imag):
-    return
+def computeWaveletInverseTransform(inreal, inimag):
+    N = len(inreal) + len(inimag)
+
+    dAll = []
+    rAll = []
+
+    which = 0
+
+    for i in range(N):
+        if i % 2 == 0:
+            dAll.append(inreal[which])
+            rAll.append(0)
+        else:
+            dAll.append(0.0)
+            rAll.append(inimag[which])
+            which = which+1
+
+    dSamples = convolve2(dAll, Ddb6)
+    rSamples = convolve2(rAll, Rdb6)
+
+    result = dSamples + rSamples
+    result = result[:N]
+    resultImag = np.zeros(len(result))
+    return result, resultImag
 
 

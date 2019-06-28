@@ -33,8 +33,7 @@ class TransformationTypeSelector:
 
         if transformationConfiguration.transformationType == 'dwtDb6':
             start = timer.time()
-            self.realOutput, self.imagOutput = opr.computeWaveletTransform(values[1],
-                                                               np.zeros(len(values[1])))
+            self.realOutput, self.imagOutput = opr.computeWaveletTransform(values[1])
             end = timer.time()
             self.duration = end - start
 
@@ -48,6 +47,13 @@ class TransformationTypeSelector:
         if transformationConfiguration.transformationType == 'inverseFft':
             start = timer.time()
             self.realOutput, self.imagOutput = opr.compute_inversefft(signal.singalPoints,
+                                                              signal.imagPoints)
+            end = timer.time()
+            self.duration = end - start
+
+        if transformationConfiguration.transformationType == 'inverseDwtDb6':
+            start = timer.time()
+            self.realOutput, self.imagOutput = opr.computeWaveletInverseTransform(signal.singalPoints,
                                                               signal.imagPoints)
             end = timer.time()
             self.duration = end - start
